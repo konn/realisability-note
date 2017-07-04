@@ -1,15 +1,14 @@
-%#!luajitlatex -src-specials 05-examples.tex
+%#!luajitlatex -src-specials 05-model-of-threads.tex
 
 \documentclass[realisability.tex]{subfiles}
 
 \begin{document}
-\section{実現可能性モデルの具体例}
+\section{具体例：スレッドモデル}
 以下では，まず標準的な実現可能性モデルについて考える：
 \begin{definition}
  $\mathcal{A}$が$\Pi_0$をスタック定数，$\Lambda_0 (\supseteq \set{\B, \C, \K, \W, \I, \cc})$を原子項とする\emph{標準実現可能性代数}$\defs$ $\Lambda$は$\Set{\conti_\pi | \pi \in \Pi} \cup \Lambda_0$の元を原子コンビネータとする$\CL$-項の全体，$\Pi$の元は$\xi_i \in \Lambda\;(i < n)$と$\pi_0 \in \Pi_0$により$\xi_0 \push \dots \push \xi_{n-1} \push \pi_0$の形のみであり，$\redsto$はKrivine機械の簡約規則に対応し，$\Lambda \cons \Pi = \Lambda \times \Pi$, $\PT \defeq \Set{ \theta \in \Lambda | \theta \text{ に } \conti_\pi \text{ の形の項が現れない}}$．
 \end{definition}
 
-\subsection{スレッドモデル------$\R$の整列性が破れているモデル}
 \emph{スレッドモデル}(\emph{model of threads})はKrivine~\cite{Krivine:2012hl}が定義した一番簡単な斉一的な実現可能性代数である：
 
 \begin{definition}
@@ -56,7 +55,7 @@
 
 そこで，一旦$\gimel n$や$\Pow(\NN)$の構造に関する一般論をやっておく．
 
-\subsubsection{$\gimel \mathbf{2}$のBoole構造と$\gimel \mathbf{n}$}
+\subsection{$\gimel \mathbf{2}$のBoole構造と$\gimel \mathbf{n}$}
 以下では，von Neumann順序数もどきの表現を使って分析をする．
 特に，$k < n$なる$s^k 0$の形の数項全体に太字の表記を用いる．
 \begin{notation}
@@ -244,7 +243,7 @@ $\mathbf{n}$は，期待通り自然数の構造を反映した性質を持っ�
 \end{lemma}
 
 
-\subsection{実現可能性モデルと強制法の反復}
+\subsection{スレッドモデルにおける議論}
 \end{document}
 
 % Local Variables:
