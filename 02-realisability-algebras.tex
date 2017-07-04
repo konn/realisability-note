@@ -102,7 +102,7 @@
  但し$\tau$は項，$x, y$は変数を表し，$(\Gen)$で$y$は$M: \varphi$を導く前提と$\forall x \varphi$に自由変数として現れない．
 \end{definition}
 さて，以下実現可能性代数$\mathcal{R}$を一つ固定する．
-このとき，集合論の宇宙$V$から得られる実現可能性モデル$V^{\mathcal{R}}$は二値モデルではなく，
+このとき，集合論の宇宙$V$から得られる実現可能性モデル$V^{(\mathcal{R})}$は二値モデルではなく，
 論理式$\varphi$に対してその\emph{真理値}$|\varphi| \subseteq \Lambda$と\emph{虚偽値}$\left\|\varphi\right\| \subseteq \Pi$が与えられている形となる．
 また，得られるモデルは第一義的には$\ZF$ではなくその保存拡大である$\ZF_\varepsilon$のモデルとなる．
 直観的には，強い所属関係$\varepsilon$は，同値な名称を同一視せずに，ある名前として見たときに所属するか？という意味で強い所属関係になっている．
@@ -186,7 +186,7 @@ $\ZF_{\varepsilon}$は$\ZF$の保存拡大になっている．
 特に，集合$a$の所属確率を定めるのではなく，$a$の\emph{補集合}の所属関係の\emph{虚偽値}によって非所属関係を定める方法を採る．
 
 \begin{definition}[実現可能性モデル]
- 集合論の宇宙$V$と実現可能性代数$\mathcal{R} = (\Lambda, \Pi, \Lambda \ast \Pi, \pole, \dots)$に対し，\emph{実現可能性モデル}$V^{\mathcal{R}}$の構造を定めたい．
+ 集合論の宇宙$V$と実現可能性代数$\mathcal{R} = (\Lambda, \Pi, \Lambda \ast \Pi, \pole, \dots)$に対し，\emph{実現可能性モデル}$V^{(\mathcal{R})}$の構造を定めたい．
 
  論理式$\varphi$の構成に関する帰納法とランクに関する帰納法により，$|\varphi| \subseteq \Lambda$, $\|\varphi\| \subseteq \Pi$を次のように定める：
  \begin{gather*}
@@ -202,22 +202,22 @@ $\ZF_{\varepsilon}$は$\ZF$の保存拡大になっている．
  \end{gather*}
  但し，$\xi \Vdash \varphi \defs \xi \in |\varphi|$とする．
 
- $\ZF_{\varepsilon}$の論理式$\varphi$に対して，関係$V^{\mathcal{R}} \models \varphi$を次で定める：
+ $\ZF_{\varepsilon}$の論理式$\varphi$に対して，関係$V^{(\mathcal{R})} \models \varphi$を次で定める：
  \[
-  V^{\mathcal{R}} \models \varphi \defs \exists \xi \in \PT\: \xi \Vdash \varphi \mathrel{}(\iff \PT \cap |\varphi| \neq \emptyset).
+  V^{(\mathcal{R})} \models \varphi \defs \exists \xi \in \PT\: \xi \Vdash \varphi \mathrel{}(\iff \PT \cap |\varphi| \neq \emptyset).
  \]
- この時，$\varphi$は$V^{\mathcal{R}}$で\emph{実現される}(\emph{realised})と言う．
+ この時，$\varphi$は$V^{(\mathcal{R})}$で\emph{実現される}(\emph{realised})と言う．
 \end{definition}
 
 \begin{remark}{全称量化子の解釈と否定命題について}
  量化子の解釈では，全称変数は基礎モデルの集合だけを亘っている．
  この状況を見ると，結局新しい元は付加されていないのではないか？という気がしてしまう．
  しかし，ここで重要なのは，$\xi \Vdash \forall x \: \varphi(x)$を示すには，$\xi$が\emph{どんな$x$についても一様に}$\varphi(x)$を実現する必要がある，という事である．
- つまり，任意の$x \in V$について個別に$V^{\mathcal{R}} \models \varphi(x)$が実現されているからといって，$V^{\mathcal{R}} \models \forall x\: \varphi(x)$が成り立つとは限らないという事である．
- 対偶を取って考えれば，$V^{\mathcal{R}}$において存在命題$\exists x \: \varphi(x)$が実現されていても\emph{$\varphi(x)$を満たす$x$が具体的に取れるとは限らない}という事である．
- 即ち，$V^{\mathcal{R}}$はフルモデルではない．
+ つまり，任意の$x \in V$について個別に$V^{(\mathcal{R})} \models \varphi(x)$が実現されているからといって，$V^{(\mathcal{R})} \models \forall x\: \varphi(x)$が成り立つとは限らないという事である．
+ 対偶を取って考えれば，$V^{(\mathcal{R})}$において存在命題$\exists x \: \varphi(x)$が実現されていても\emph{$\varphi(x)$を満たす$x$が具体的に取れるとは限らない}という事である．
+ 即ち，$V^{(\mathcal{R})}$はフルモデルではない．
 
- また，ここでは記号を$\models$を使っているが，これは強制法でいえば「$\mathds{1}$が強制する」と同じ条件であり，$V^{\mathcal{R}} \not\models \varphi$は$V^{\mathcal{R}} \models \neg \varphi$を意味しないことにも気を付ける必要がある．
+ また，ここでは記号を$\models$を使っているが，これは強制法でいえば「$\mathds{1}$が強制する」と同じ条件であり，$V^{(\mathcal{R})} \not\models \varphi$は$V^{(\mathcal{R})} \models \neg \varphi$を意味しないことにも気を付ける必要がある．
 \end{remark}
 
 前述の通り，実現可能性モデルでは虚偽値を基本に置き，すべて否定形で定義している事がわかる．
@@ -296,7 +296,7 @@ $\ZF_{\varepsilon}$は$\ZF$の保存拡大になっている．
  示すべきことは$\eta \Vdash \varphi$と$\pi \in \|\forall x\: \psi[x]\|$に対し$\xi \cons \eta \push \pi \in \pole$だが，このとき定義より$a \in V$で$\pi \in \|\psi[a]\|$となるものが取れるので良い． \qed
 \end{proof}
 
-こうして，古典論理におけるトートロジーが全て$V^{\mathcal{R}}$で実現されていることがわかった．
+こうして，古典論理におけるトートロジーが全て$V^{(\mathcal{R})}$で実現されていることがわかった．
 しかし，偽なる命題まで実現されては困るので，その為に「良い」実現可能性代数を定義する：
 
 \begin{definition}
@@ -304,17 +304,17 @@ $\ZF_{\varepsilon}$は$\ZF$の保存拡大になっている．
 \end{definition}
 
 \begin{remark}
- $V^{\mathcal{R}} \not\models \perp \iff$実現可能性代数が斉一的．
+ $V^{(\mathcal{R})} \not\models \perp \iff$実現可能性代数が斉一的．
 \end{remark}
 
 以下，実現可能性代数は全て斉一的なもののみ考える．
 
 \subsection{$\ZF_{\varepsilon}$が実現されている事}
-以後，$\ZF_{\varepsilon}$の公理が$V^{\mathcal{R}}$で実現されている事をみていく．
+以後，$\ZF_{\varepsilon}$の公理が$V^{(\mathcal{R})}$で実現されている事をみていく．
 
 まず，これまでの議論を踏まえて同値性証明を楽するための定義をしておく：
 \begin{definition}
- 論理式$\varphi$と$\psi$が（$V^{\mathcal{R}}$で）\emph{交換可能}$\defs$ $\xi, \xi' \in \PT$があって$\xi \Vdash \varphi \to \psi$かつ$\xi' \Vdash \psi \to \varphi$.
+ 論理式$\varphi$と$\psi$が（$V^{(\mathcal{R})}$で）\emph{交換可能}$\defs$ $\xi, \xi' \in \PT$があって$\xi \Vdash \varphi \to \psi$かつ$\xi' \Vdash \psi \to \varphi$.
 \end{definition}
 
 基本的には，各種集合の存在公理については強制法の時と同じように名称を弄ってでっちあげればよい．
@@ -331,7 +331,7 @@ $\ZF_{\varepsilon}$は$\ZF$の保存拡大になっている．
  \[
   \Y \Vdash \forall \vec{z} \: [ \forall x \: \left[\forall y \: (\varphi[y, \vec{z}] \to y \strnin x) \to \neg \varphi[x, \vec{z}]\right] \to \forall x \: \neg \varphi[x, \vec{z}] ].
  \]
- 特に，$V^{\mathcal{R}}$で基礎の公理が実現されている．
+ 特に，$V^{(\mathcal{R})}$で基礎の公理が実現されている．
 \end{lemma}
 \begin{proof}
  これが示せれば，実現可能性モデルが古典論理のトートロジーと演繹で閉じている事から，$\varphi$の代わりに$\neg \neg \varphi$を考えることで基礎の公理が得られる．
@@ -359,7 +359,7 @@ $\ZF_{\varepsilon}$は$\ZF$の保存拡大になっている．
 \end{proof}
 
 \begin{theorem}
- $V^{\mathcal{R}} \models \ZF_\epsilon$.
+ $V^{(\mathcal{R})} \models \ZF_\epsilon$.
 \end{theorem}
 
 \subsection{関数・述語記号の持ち上げ}
@@ -381,22 +381,22 @@ $\ZF_{\varepsilon}$には二種類の所属関係があるので，二種類の�
 $x \neq y$だが$x \simeq y$となるような$x, y$があった場合，$f$が非外延的関数であったとしても，$f(x) \not\simeq f(y)$である可能性があり，この場合$f$は外延的関数では有り得ない．
 また，$f$が外延的関数であったとしても，$(x, y), (x, y') \strin f$で$y \simeq y'$だが$y \neq y'$であるような物があるかもしれない．
 この場合，$f$は非外延的な関数ではないことになる．
-あとで見るように，$V^{\mathcal{R}}$では「非外延的」な選択公理が成立し得るが，これにより与えられる選択関数が外延的同値性と両立するとは限らないため，$V^{\mathcal{R}}$を$\ZF$のモデルとして見た時に必ずしも$\AC$は成立しなくなっている．
+あとで見るように，$V^{(\mathcal{R})}$では「非外延的」な選択公理が成立し得るが，これにより与えられる選択関数が外延的同値性と両立するとは限らないため，$V^{(\mathcal{R})}$を$\ZF$のモデルとして見た時に必ずしも$\AC$は成立しなくなっている．
 
 
-さて，$V^{\mathcal{R}}$の構造を，$V$上の定義可能なクラス関数で拡張することを考えよう．
-$V^{\mathcal{R}}$はドメインは$V$と一致しているので，$V$上で定義された関数はそのまま$V^{\mathcal{R}}$上の関数記号として解釈することが出来，$\ZFe$-関数として振る舞うことが出来る．
-つまり，$V \models \forall \vec{x} \: \exists! y \: \varphi[\vec{x}, y]$なる論理式$\varphi$によって定義された論理式は，$V^{\mathcal{R}}$においても何らかの関数に対応していることになる．
+さて，$V^{(\mathcal{R})}$の構造を，$V$上の定義可能なクラス関数で拡張することを考えよう．
+$V^{(\mathcal{R})}$はドメインは$V$と一致しているので，$V$上で定義された関数はそのまま$V^{(\mathcal{R})}$上の関数記号として解釈することが出来，$\ZFe$-関数として振る舞うことが出来る．
+つまり，$V \models \forall \vec{x} \: \exists! y \: \varphi[\vec{x}, y]$なる論理式$\varphi$によって定義された論理式は，$V^{(\mathcal{R})}$においても何らかの関数に対応していることになる．
 また，述語や論理式についても，特性関数を使えば同様に$V$に持ち上げることが出来る．
 こうした関数記号を使った$\ZF_\varepsilon$の論理式についても，定義を展開して書き直せば$\ZF_\varepsilon$の収集・内包公理の内側で使えることがわかる．
 
 一方，そうした関数記号は必ずしも外延的関数であるとは限らないため，$\ZF$の公理としての（つまり，${\notin}, {\subseteq}$で書かれた）内包・収集公理の内側で使うには外延的同値性とも両立することを示す必要がある．
 
-以下，持ち上げられた定義可能関数が$V^{\mathcal{R}}$においてどんな振る舞いをするかを調べていく．
+以下，持ち上げられた定義可能関数が$V^{(\mathcal{R})}$においてどんな振る舞いをするかを調べていく．
 実は，各$a \in V$に対し強制法における$\check{a}$に類似の役割をする$\gimel a$という演算子があり，$V$における$f: A_1 \times \dots \times A_n \to B$は$f: \gimel A_1 \times \dots \times \gimel A_n \to \gimel B$に持ち上がる，という事がわかる．
 但し，これら$\gimel(a)$は$\check{a}$と異なり，$V$から見て非標準的な元を含むことも後ほど明らかになる．
 
-さて，これらをしっかり議論するためには，まずは$V^{\mathcal{R}}$における強い等号の解釈を与えておく必要がある．
+さて，これらをしっかり議論するためには，まずは$V^{(\mathcal{R})}$における強い等号の解釈を与えておく必要がある．
 そこで，$\ZF_{\varepsilon}$の論理式の定義と記号の解釈に次の節を追加する：
 
 \begin{definition}
@@ -409,7 +409,7 @@ $V^{\mathcal{R}}$はドメインは$V$と一致しているので，$V$上で定
   \quoted{\tau = \upsilon} \deffml \quoted{\tau \neq \upsilon \to \bot}.
  \]
 
- 実現可能性モデル$V^{\mathcal{R}}$における論理式の虚偽値の定義に次を追加する：
+ 実現可能性モデル$V^{(\mathcal{R})}$における論理式の虚偽値の定義に次を追加する：
  \[
   \| t = u \hookrightarrow \varphi \|
    \defeq
@@ -463,9 +463,9 @@ $V^{\mathcal{R}}$はドメインは$V$と一致しているので，$V$上で定
  $t \neq u$の時は$\eta \Vdash \top \to \bot$であり，$\xi \Vdash \top$かつ$\pi \in \|\bot\|$より明らか． \qed
 \end{proof}
 
-また，基礎モデルにおける等号公理から，$V^{\mathcal{R}}$における等号公理も直ちに従う：
+また，基礎モデルにおける等号公理から，$V^{(\mathcal{R})}$における等号公理も直ちに従う：
 
-\begin{lemma}[$V^{\mathcal{R}}$における等号公理]
+\begin{lemma}[$V^{(\mathcal{R})}$における等号公理]
  \[
   \I \Vdash \forall x \: (x = x),
             \forall x \: \forall y\: (x = y \hookrightarrow y = x),
@@ -487,8 +487,8 @@ $V^{\mathcal{R}}$はドメインは$V$と一致しているので，$V$上で定
  やるだけ． \qed
 \end{proof}
 
-以上で$V^{\mathcal{R}}$に素性のよい等号が導入出来た．
-特に，関係の特性関数を使って議論することで，$V$における関係記号を$V^{\mathcal{R}}$に持ち上げることが出来る．
+以上で$V^{(\mathcal{R})}$に素性のよい等号が導入出来た．
+特に，関係の特性関数を使って議論することで，$V$における関係記号を$V^{(\mathcal{R})}$に持ち上げることが出来る．
 
 \begin{definition}
  $\ZF$の論理式$\varphi[\vec{x}]$について，写像$V \ni \vec{x} \mapsto \braket{\varphi[\vec{x}]} < 2$を次で定める：
@@ -511,12 +511,12 @@ $V^{\mathcal{R}}$はドメインは$V$と一致しているので，$V$上で定
  基礎の公理の実現とほぼ同じ． \qed
 \end{proof}
 
-以上を踏まえると，$V^{\mathcal{R}}$における関数記号の解釈が，$V$における解釈の拡張になっている事もわかる：
+以上を踏まえると，$V^{(\mathcal{R})}$における関数記号の解釈が，$V$における解釈の拡張になっている事もわかる：
 \begin{lemma}\label{lem:func-abs}
  $\mathcal{R}$を斉一的とする．
  $\vec{x}, y \in V$, $f$：定義可能関数記号とすると，
  \[
-  V \models f(\vec{x}) = y \iff V^{\mathcal{R}} \models f(\vec{x}) = y.
+  V \models f(\vec{x}) = y \iff V^{(\mathcal{R})} \models f(\vec{x}) = y.
  \]
 \end{lemma}
 \begin{proof}
@@ -550,7 +550,7 @@ $V$の集合$a \in V$は単項述語だと思えるので，上の言葉を使�
  \]
 \end{remark}
 
-さて，等号公理と$V^{\mathcal{R}}$における$=$の定義から，特に次の形の絶対性が手に入る：
+さて，等号公理と$V^{(\mathcal{R})}$における$=$の定義から，特に次の形の絶対性が手に入る：
 
 \begin{theorem}
  $t_i, u_i, t, i$を項とする．
@@ -558,25 +558,25 @@ $V$の集合$a \in V$は単項述語だと思えるので，上の言葉を使�
 \begin{align*}
  V &\models \forall \vec{x}\: \left[t_1[\vec{x}] = u_1[\vec{x}] \to \dots \to t_n[\vec{x}] = u_n[\vec{x}] \to t[\vec{x}] = u[\vec{x}]\right]\\
  \iff 
- V^{\mathcal{R}} &\models
+ V^{(\mathcal{R})} &\models
  \forall \vec{x}\: \left[t_1[\vec{x}] = u_1[\vec{x}] \hookrightarrow \dots \hookrightarrow t_n[\vec{x}] = u_n[\vec{x}] \hookrightarrow t[\vec{x}] = u[\vec{x}]\right].
 \end{align*}
 \end{theorem}
 \begin{corollary}
- $A$が$V$において等式的な代数なら，$\gimel A$は$V^{\mathcal{R}}$の意味で同じ代数の構造が入る．
+ $A$が$V$において等式的な代数なら，$\gimel A$は$V^{(\mathcal{R})}$の意味で同じ代数の構造が入る．
 \end{corollary}
 
 特に上で$t_i[x] \equiv x \in A_i$, $u_i[x] = 1$, $t[x] = x \in B$, $u[x] = 1$とおけば次を得る：
 
 \begin{theorem}
  $V$で定義された関数記号$f: A_1 \times \dots \times A_n \to B$について，
- $V^{\mathcal{R}} \models f: \gimel A_1 \times \dots \times \gimel A_n \to \gimel B$.
+ $V^{(\mathcal{R})} \models f: \gimel A_1 \times \dots \times \gimel A_n \to \gimel B$.
 
- 特に，$\ZF$-論理式$\varphi[\vec{x}]$および$a \in V^{\mathcal{R}}$に対して，$\braket{ \varphi[\vec{a}]} \strin \gimel 2$.
+ 特に，$\ZF$-論理式$\varphi[\vec{x}]$および$a \in V^{(\mathcal{R})}$に対して，$\braket{ \varphi[\vec{a}]} \strin \gimel 2$.
  また，$\gimel 2$には$2$上の自明なBoole代数演算を持ち上げる形でBoole代数の構造が入る．
 \end{theorem}
 
-\subsection{Boole代数$\gimel 2$の構造と$V^{\mathcal{R}}$における作用}
+\subsection{Boole代数$\gimel 2$の構造と$V^{(\mathcal{R})}$における作用}
 Boole代数$\gimel 2$は実現可能性モデルにおいて重要な役割を果たす．
 特に，もし$\gimel 2$が非自明なら，超準的な元，特に互いに相異なるアトムが付加されていることをまずは見る．
 
@@ -585,7 +585,7 @@ Boole代数$\gimel 2$は実現可能性モデルにおいて重要な役割を�
  \[
   0 \cdot x \defeq \emptyset, \qquad 1 \cdot x \defeq x
  \]
- この時，写像$(\alpha, x) \mapsto \alpha \cdot x$は$V^{\mathcal{R}}$上において$\gimel 2 \times V^{\mathcal{R}}$上に延長されていることに気を付ける．
+ この時，写像$(\alpha, x) \mapsto \alpha \cdot x$は$V^{(\mathcal{R})}$上において$\gimel 2 \times V^{(\mathcal{R})}$上に延長されていることに気を付ける．
 \end{definition}
 
 \begin{lemma}\label{lem:nontriv-adds-atom}
@@ -629,7 +629,7 @@ Boole代数$\gimel 2$は実現可能性モデルにおいて重要な役割を�
   \item $\emptyset \in E \in V$に対し，$\comb{I} \Vdash \forall \alpha \strin \gimel 2 \: \forall x \:[ \braket{x \in E} \geq \alpha \hookrightarrow \alpha \cdot x \in \gimel E ]$.
   \item $x \in E \in V$なら$\mathcal{I} \Vdash x \in \gimel E$.
  \end{itemize}
- 特に任意の$x \in E$に対して$V^{\mathcal{R}} \models \forall \alpha \strin \gimel 2 \: \alpha \cdot x \in \gimel E$.
+ 特に任意の$x \in E$に対して$V^{(\mathcal{R})} \models \forall \alpha \strin \gimel 2 \: \alpha \cdot x \in \gimel E$.
 \end{lemma}
 
 ではどんな時に$\gimel 2$が非自明になるのか？
@@ -640,7 +640,7 @@ Boole代数$\gimel 2$は実現可能性モデルにおいて重要な役割を�
  \[
   \forall \pi \in \Pi \: \omega_0 \conti_\pi \Vdash \bot \text{ or } \omega_1 \conti_\pi \Vdash \bot.
  \]
- この時，$\gimel 2$は$V^{\mathcal{R}}$で非自明となっている．
+ この時，$\gimel 2$は$V^{(\mathcal{R})}$で非自明となっている．
  特に，$\theta \defeq \abs{f}{\cc (\abs{k}{f(\omega_1 \conti)(\omega_0 \conti)})}$とおけば，
  \[
   \theta \Vdash \neg \forall x \: (x \neq 0 \to x \neq 1 \to x \strnin \gimel 2).
@@ -661,15 +661,15 @@ Boole代数$\gimel 2$は実現可能性モデルにおいて重要な役割を�
 
 \subsection{$V$を初等拡大する$\gimel 2$-値構造}
 一方，$\gimel 2$は関数$\braket{ \varphi[-] }$によって$V$の情報をコードするのにも使われている．
-特に，$V^{\mathcal{R}}$には$\ZF_{\epsilon}$-構造の他に，$\ZF$のBoole代数$\gimel 2$-値構造が入り，それはある意味で$V$の初等拡大になっている．
+特に，$V^{(\mathcal{R})}$には$\ZF_{\epsilon}$-構造の他に，$\ZF$のBoole代数$\gimel 2$-値構造が入り，それはある意味で$V$の初等拡大になっている．
 これは$V$のBoole値拡大$V^{\mathbb{B}}$が$V$の初等拡大構造を含んでいた事と非常に似通っている．
 
 まず，$\Braket{ - }$の値が自然な形で計算できる事を見る：
 \begin{lemma}\label{lem:char-homo}
  $\Braket{ - }$はメタ的に論理式の関数として見た時，Boole代数の同型のように振る舞う．即ち：
  \begin{gather*}
-  V^{\mathcal{R}} \models \braket{\bot} = 0, \quad \forall \vec{x}\: \braket{\varphi[\vec{x}] \to \psi[\vec{x}]} = - \braket{\varphi[\vec{x}]} + \braket{\psi[\vec{x}]},\\
-  V^{\mathcal{R}} \models \forall \vec{y} \: \braket{\forall x \: \varphi(x)} = \prod_{x \in V^{\mathcal{R}}} \braket{\varphi(x)}.
+  V^{(\mathcal{R})} \models \braket{\bot} = 0, \quad \forall \vec{x}\: \braket{\varphi[\vec{x}] \to \psi[\vec{x}]} = - \braket{\varphi[\vec{x}]} + \braket{\psi[\vec{x}]},\\
+  V^{(\mathcal{R})} \models \forall \vec{y} \: \braket{\forall x \: \varphi(x)} = \prod_{x \in V^{(\mathcal{R})}} \braket{\varphi(x)}.
  \end{gather*}
 \end{lemma}
 \begin{proof}
@@ -678,7 +678,7 @@ Boole代数$\gimel 2$は実現可能性モデルにおいて重要な役割を�
 
  また，基礎モデルにおいては$\Braket{ \varphi[x] \to \psi[x] } = -\Braket{\varphi[x]} + \braket{\psi[x]}$はどんな$x$についても成り立つから，等式に関する絶対性より
  \[
-  V^{\mathcal{R}} \models \forall x \: \Braket{ \varphi[x] \to \psi[x] } = -\Braket{\varphi[x]} + \braket{\psi[x]}
+  V^{(\mathcal{R})} \models \forall x \: \Braket{ \varphi[x] \to \psi[x] } = -\Braket{\varphi[x]} + \braket{\psi[x]}
  \]
  は常に成立する．
 
@@ -728,7 +728,7 @@ Boole代数$\gimel 2$は実現可能性モデルにおいて重要な役割を�
 \end{proof}
 
 \begin{corollary}
- $V^{\mathcal{R}}$は$\Braket{-}$によって$\ZF$の言語に関する$\gimel 2$-値構造$V^{\gimel^{\mathcal{R}} 2}$が入る．
+ $V^{(\mathcal{R})}$は$\Braket{-}$によって$\ZF$の言語に関する$\gimel 2$-値構造$V^{\gimel^{\mathcal{R}} 2}$が入る．
  更に，任意の$x \in V$に対して$V \models \varphi[x] \iff \Braket{\varphi[x]} = \mathds{1}$.
 \end{corollary}
 \begin{proof}
@@ -736,10 +736,10 @@ Boole代数$\gimel 2$は実現可能性モデルにおいて重要な役割を�
  Boole値等号公理も普通に分解して証明すればよい． \qed
 \end{proof}
 
-一方，強制法における$\check{V}$と同じような，$V^{\mathcal{R}}$の自然な推移的な部分モデルで$V$の初等拡大になっているようなものが取れないか？という気分が出て来る．
+一方，強制法における$\check{V}$と同じような，$V^{(\mathcal{R})}$の自然な推移的な部分モデルで$V$の初等拡大になっているようなものが取れないか？という気分が出て来る．
 ところが，これは自然な形では出来ないことがわかる：
 
-\begin{remark}[$V^{\mathcal{R}}$は単純な$V$の複製を持たない]
+\begin{remark}[$V^{(\mathcal{R})}$は単純な$V$の複製を持たない]
  $\gimel$の定義から次が明らかである：
  \[
   \braket{x \in y} = 1 \iff x \strin \gimel y.
@@ -748,8 +748,8 @@ Boole代数$\gimel 2$は実現可能性モデルにおいて重要な役割を�
  \[
   \tilde{x} \defeq \Set{ (\tilde{y}, \pi) | \pi \in \Pi }.
  \]
- このとき，$V^{\mathcal{R}} \models \forall x \: \forall E \: [\braket{x \strin E} = 1 \iff x \strin \gimel E \iff \tilde{x} \strin \tilde{E}]$となる事が容易に示せる．
- そこで$V^{\mathcal{R}}$の中で$\tilde{x}$の形の元のみを考えてやる事を考えて，
+ このとき，$V^{(\mathcal{R})} \models \forall x \: \forall E \: [\braket{x \strin E} = 1 \iff x \strin \gimel E \iff \tilde{x} \strin \tilde{E}]$となる事が容易に示せる．
+ そこで$V^{(\mathcal{R})}$の中で$\tilde{x}$の形の元のみを考えてやる事を考えて，
  \[
   \|\forall x \strnin \tilde{V} \: \varphi[x]\| \defeq
   \bigcup_{x \in V} \|\varphi[\tilde{x}]\|, \qquad
@@ -758,7 +758,7 @@ Boole代数$\gimel 2$は実現可能性モデルにおいて重要な役割を�
  \]
  により新たな定数記号$\tilde{V}$と量化子$\forall x \strin \tilde{V}$を定めてやる．
  これらはこれまでと同様の議論から似た形の論理式はすべて交換可能であることがわかる．
- また，$\tilde{V}$は$\strin$および$\in$について$V^{\mathcal{R}}$の推移的な部分クラスとなっていることが示せる．
+ また，$\tilde{V}$は$\strin$および$\in$について$V^{(\mathcal{R})}$の推移的な部分クラスとなっていることが示せる．
 
  そこで，次の相対化を考える：
  \begin{gather*}
@@ -768,8 +768,8 @@ Boole代数$\gimel 2$は実現可能性モデルにおいて重要な役割を�
   (\forall x \: \varphi(x, \vec{y}))^{\tilde{V}} \deffml
   \forall x \strin \tilde{V} \: \varphi^{\tilde{V}}(x, \vec{y})
  \end{gather*} 
- こうすれば$V \models \varphi[x] \iff V^{\mathcal{R}} \models \varphi^{\tilde{V}}[\tilde{x}]$という形で初等性が成り立ってくれるのではないか？という気がしてくる．
- しかし，これは$V^{\mathcal{R}}$が存在特性を欠いているために示すことが出来ない！
+ こうすれば$V \models \varphi[x] \iff V^{(\mathcal{R})} \models \varphi^{\tilde{V}}[\tilde{x}]$という形で初等性が成り立ってくれるのではないか？という気がしてくる．
+ しかし，これは$V^{(\mathcal{R})}$が存在特性を欠いているために示すことが出来ない！
 
  実際，$\gimel 2$が非自明なら$\tilde{V}$は実際に$V$の初等拡大になっていないことを見る．
  $x \defeq \set{\emptyset}, E \defeq \set{ x, \emptyset }$とおく．
@@ -777,22 +777,22 @@ Boole代数$\gimel 2$は実現可能性モデルにおいて重要な役割を�
  \[
   V \models \forall x \in E \: [x = \emptyset \lor \exists y \: (y \in x)]
  \]
- 一方で，$V^{\mathcal{R}}$で$\gimel 2$が非自明なので，補題~\ref{lem:nontriv-adds-atom}および~\ref{lem:g2-upwd-cl}より
+ 一方で，$V^{(\mathcal{R})}$で$\gimel 2$が非自明なので，補題~\ref{lem:nontriv-adds-atom}および~\ref{lem:g2-upwd-cl}より
  \[
-  V^{\mathcal{R}} \models \exists \alpha \strin \gimel 2 \: [\forall z\:(z \strnin \alpha \cdot x), \alpha \cdot x \neq 0 \cdot x = \emptyset, \alpha \cdot x \strin \gimel E].
+  V^{(\mathcal{R})} \models \exists \alpha \strin \gimel 2 \: [\forall z\:(z \strnin \alpha \cdot x), \alpha \cdot x \neq 0 \cdot x = \emptyset, \alpha \cdot x \strin \gimel E].
  \]
- $V^{\mathcal{R}}$は同値変形で閉じており，$\tilde{V}$が$V^{\mathcal{R}}$において$\strin$について推移的であることから：
+ $V^{(\mathcal{R})}$は同値変形で閉じており，$\tilde{V}$が$V^{(\mathcal{R})}$において$\strin$について推移的であることから：
  \[
-  V^{\mathcal{R}} \models \exists x \strin \tilde{E}\:[x \neq \emptyset, \nexists y \:(y \strin x)].
+  V^{(\mathcal{R})} \models \exists x \strin \tilde{E}\:[x \neq \emptyset, \nexists y \:(y \strin x)].
  \]
  したがって$V \not\prec \tilde{V}$.
 \end{remark}
 
 Krivine~\cite{Krivine:2014yu}では，$\gimel 2$の超フィルター$\mathcal{D}$が常に付加されていることが示されている．
-そこで$\mathcal{D}$によって$V^{\gimel^{\mathcal{R}} 2}$を割れば，$V^{\mathcal{R}}$の中で二値モデル$M \defeq V^{\gimel^{\mathcal{R}} 2}/D$が得られる．
+そこで$\mathcal{D}$によって$V^{\gimel^{\mathcal{R}} 2}$を割れば，$V^{(\mathcal{R})}$の中で二値モデル$M \defeq V^{\gimel^{\mathcal{R}} 2}/D$が得られる．
 特に，$\mathcal{D}$は$\Braket{x \in \trcl(\set{y})} \geq \alpha$が整礎となるような$\alpha$の全体として定義出来る．
 すると，この二値モデルは整礎でset-likeになっているので，Mostwski崩壊によってある推移クラスと同型になっている．
-この時，$M$は$V^{\mathcal{R}}$の$\in$-順序数を全て持ち，上の結果から$V \models \varphi \iff V^{\mathcal{R}} \models (M \models \varphi)$が成り立つ．
+この時，$M$は$V^{(\mathcal{R})}$の$\in$-順序数を全て持ち，上の結果から$V \models \varphi \iff V^{(\mathcal{R})} \models (M \models \varphi)$が成り立つ．
 \end{document}
 
 % Local Variables:

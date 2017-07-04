@@ -2,7 +2,7 @@
 
 \documentclass[realisability.tex]{subfiles}
 \begin{document}
-\section{$V^{\mathcal{R}}$における自然数と従属選択公理}
+\section{$V^{(\mathcal{R})}$における自然数と従属選択公理}
 \subsection{実現可能性モデルにおける自然数の表現}
 実現可能性モデルでは，扱い易いようvon Neumann順序数とは異なる自然数のコードを採用する：
 
@@ -19,10 +19,10 @@
 \end{definition}
 \begin{remark}
  $\|a \strnin s(b)\| = \|b \neq a\|$かつ$\|a \strin s(b)\| = \|a = b\|$.
- とくに$\|x \strnin s(x)\| = \Pi$であり，等号公理から$V^{\mathcal{R}} \models \forall a \: \forall x \: \forall y \: [x \strin s(a) \to y \strin s(b) \to x = y]$.
+ とくに$\|x \strnin s(x)\| = \Pi$であり，等号公理から$V^{(\mathcal{R})} \models \forall a \: \forall x \: \forall y \: [x \strin s(a) \to y \strin s(b) \to x = y]$.
 \end{remark}
 
-この集合が$V^{\mathcal{R}}$で見ると$\in$の意味でも$\strin$の意味でも自然数全体となっていることを以下では見ていく．
+この集合が$V^{(\mathcal{R})}$で見ると$\in$の意味でも$\strin$の意味でも自然数全体となっていることを以下では見ていく．
 特に，$\NN$が$0$を含み$s$で閉じた最小の集合である事を示せば良く，つまり数学的帰納法の図式が$\NN$について実現されている事を見ればよいことになる．
 
 その前にまず，こうして導入した$s, 0$が外延的同値性$\simeq$と両立することを確かめる：
@@ -31,10 +31,10 @@
  \begin{enumerate}
   \item \label{item:sx-strong-inj}$\comb{I} \Vdash \forall x \: \forall y \: (s(x) = s(y) \hookrightarrow x = y)$,
   \item \label{item:sa-strong-distinct}$\abs{x}{x\comb{I}} \Vdash \forall x \: (s(x) \not\simeq 0)$,
-  \item \label{item:s-compat-ext}$V^{\mathcal{R}} \models \forall x\: \forall y \: [x \simeq y \leftrightarrow s(x) \simeq s(y)]$,
+  \item \label{item:s-compat-ext}$V^{(\mathcal{R})} \models \forall x\: \forall y \: [x \simeq y \leftrightarrow s(x) \simeq s(y)]$,
   \item \label{item:N-weak-close-s} $\abs{g x}{g(\sigma x)} \Vdash \forall y \: (s(y) \strnin \NN \to y \strnin \NN) $,
-  \item \label{item:N-strong-close-s}$V^{\mathcal{R}} \models \forall x \: (s(x) \notin \NN \to x \notin \NN)$.
-  \item \label{item:nat-ext-to-int}$V^{\mathcal{R}} \models \forall n, m \strin \NN\:[n \simeq m \to n = m]$.
+  \item \label{item:N-strong-close-s}$V^{(\mathcal{R})} \models \forall x \: (s(x) \notin \NN \to x \notin \NN)$.
+  \item \label{item:nat-ext-to-int}$V^{(\mathcal{R})} \models \forall n, m \strin \NN\:[n \simeq m \to n = m]$.
  \end{enumerate}
 \end{lemma}
 \begin{proof}
@@ -51,7 +51,7 @@
  $\|z \strnin s(x)\| = \| z \neq x \|$なので，任意の$z \in V$に対して$\eta \Vdash (\forall z \: (z \notin \emptyset \to z \strnin s(x))) \iff \eta \Vdash \top \to z \neq x$となる．
  特に$z = x$に取れば，$\eta \Vdash \top \to \bot$を得，$\comb{I} \Vdash \top$より$\eta \I \cons \pi \in \pole$を得る．
 
- \ref{item:s-compat-ext}について：演繹について閉じているので，$V^{\mathcal{R}}$の中で議論する．
+ \ref{item:s-compat-ext}について：演繹について閉じているので，$V^{(\mathcal{R})}$の中で議論する．
  任意の$a, b$について：
  \[ s(a) \subseteq s(b)
  \iff \forall x\: (x \notin s(b) \to x \strnin s(a))
@@ -59,7 +59,7 @@
  \iff a \in s(b).
  \]
  いま，$a \simeq b$なら$a \simeq b \strin s(b)$より${\in}$の公理から$a \in s(b)$が得られる．
- また，逆に$a \in s(b)$なら$z \strin s(b)$で$a \simeq z$となるものが取れるが，上の注意より$s(b)$は$V^{\mathcal{R}}$において$b$のみしか元を持たないので$a \simeq b$.
+ また，逆に$a \in s(b)$なら$z \strin s(b)$で$a \simeq z$となるものが取れるが，上の注意より$s(b)$は$V^{(\mathcal{R})}$において$b$のみしか元を持たないので$a \simeq b$.
 
  \ref{item:N-weak-close-s}：やるだけ．
 
@@ -107,9 +107,9 @@ $\NN$に関する量化子の虚偽値の計算を簡単にするため，次の
 \begin{corollary}
  任意の$\ZF$-論理式$\varphi[z, \vec{x}]$に対し，次が成立：
  \[
-  V^{\mathcal{R}} \models \forall \vec{x}\: \forall n \in \NN \:(\forall y\: (\varphi[\vec{x}, y] \to \varphi[\vec{x}, s(y)]) \to \varphi[\vec{x}, 0] \to \varphi[\vec{x}, n]).
+  V^{(\mathcal{R})} \models \forall \vec{x}\: \forall n \in \NN \:(\forall y\: (\varphi[\vec{x}, y] \to \varphi[\vec{x}, s(y)]) \to \varphi[\vec{x}, 0] \to \varphi[\vec{x}, n]).
  \]
- 特に$V^{\mathcal{R}}$を$\ZF$のモデルとみたとき，$\NN$は自然数全体の集合と同型．
+ 特に$V^{(\mathcal{R})}$を$\ZF$のモデルとみたとき，$\NN$は自然数全体の集合と同型．
 \end{corollary}
 \begin{proof}
  上の補題~\ref{lem:ZFe-ind-nat}および，$\ZF$-論理式が$\simeq$と両立するという補題\ref{lem:ZF-conservative-lem}の\ref{item:ZF-fml-cong}より直ちに従う. \qed
@@ -157,7 +157,7 @@ $\NN$に関する量化子の虚偽値の計算を簡単にするため，次の
 \begin{lemma}\label{lem:nat-func-strong}
  $\ZF_{\varepsilon}$のモデルにおいて，自然数上定義された関数は外延的にも関数となる．
  \[
- V^{\mathcal{R}} \models \forall x \: \forall f : \NN \to V^{\mathcal{R}}\:
+ V^{(\mathcal{R})} \models \forall x \: \forall f : \NN \to V^{(\mathcal{R})}\:
  \forall n, m \in \NN \: [n \simeq m \to f(n) = f(m)].
  \]
 \end{lemma}
@@ -169,7 +169,7 @@ $\NN$に関する量化子の虚偽値の計算を簡単にするため，次の
 \begin{lemma}\label{lem:recursives-defined}
  \begin{enumerate}
   \item $F: \N^k \to \N$が部分再帰関数なら$V^{\R} \models F: \NN^k \to \NN$,
-  \item $F: \N^k \to 2$が部分再帰関数なら$V^{\mathcal{R}} \models F: \NN^k \to \set{0, 1}$.
+  \item $F: \N^k \to 2$が部分再帰関数なら$V^{(\mathcal{R})} \models F: \NN^k \to \set{0, 1}$.
  \end{enumerate}
 \end{lemma}
 
@@ -177,13 +177,13 @@ $\NN$に関する量化子の虚偽値の計算を簡単にするため，次の
 
 \begin{lemma}[$\NN$における自然な順序]\label{lem:nat-ord-in-NN}
  ${<}$を$V$における$\N$上の自然な順序とする．
- この時$V^{\mathcal{R}}$において$x <^{\mathcal{R}} y \defs \braket{x < y} = \mathds{1}$で定義される二項関係$<^{\mathcal{R}}$は$V^{\mathcal{R}}$で整列順序となり，特に$V^{\mathcal{R}}$における$\NN$上の自然な順序に一致する.
+ この時$V^{(\mathcal{R})}$において$x <^{\mathcal{R}} y \defs \braket{x < y} = \mathds{1}$で定義される二項関係$<^{\mathcal{R}}$は$V^{(\mathcal{R})}$で整列順序となり，特に$V^{(\mathcal{R})}$における$\NN$上の自然な順序に一致する.
 \end{lemma}
 \begin{proof}
  推移律や非反射律は明らかに$\I$が実現している．
  また，$<$は整列順序であるので，整礎関係の絶対性\ref{lem:wf-pres}より$<^\mathcal{R}$も整礎である．
 
- 自然数の順序のグラフは再帰的なので，上の補題から，$V^{\mathcal{R}} \models \forall x\: \forall y\: \braket{x < y} = 0 \text{ or } 1$.
+ 自然数の順序のグラフは再帰的なので，上の補題から，$V^{(\mathcal{R})} \models \forall x\: \forall y\: \braket{x < y} = 0 \text{ or } 1$.
  そこで次の式が実現される事を確かめればよいが，これはルーチンワーク：
  \[
   \forall x, y, z \strin \NN\: [x = y + z \hookrightarrow \braket{x < y} \neq 1],\quad
@@ -208,7 +208,7 @@ $\NN$に関する量化子の虚偽値の計算を簡単にするため，次の
  \end{enumerate}
  特に，集合を値域とする弱いSkolem関数が常に取れる：
  \[
- V^{\mathcal{R}} \models \forall X\: \forall Y \: \exists f: \finseq{X} \times \gimel \kappa \strto Y\; \forall \vec{x} \in \finseq{X} \:\forall y \strin Y \: 
+ V^{(\mathcal{R})} \models \forall X\: \forall Y \: \exists f: \finseq{X} \times \gimel \kappa \strto Y\; \forall \vec{x} \in \finseq{X} \:\forall y \strin Y \: 
   \left[\varphi[\vec{x}, y] \to \exists \alpha \strin \gimel \kappa \: \varphi[\vec{x}, f(\vec{x}, \alpha)]\right].
  \]
 \end{lemma}
@@ -241,7 +241,7 @@ $\NN$に関する量化子の虚偽値の計算を簡単にするため，次の
  \end{enumerate}
  特に，集合を値域とする弱いSkolem関数が常に取れる：
  \[
- V^{\mathcal{R}} \models \forall X\: \forall Y \: \exists f: \finseq{X} \times \gimel \kappa \strto Y\; \forall \vec{x} \in \finseq{X} \:\forall y \strin Y \: 
+ V^{(\mathcal{R})} \models \forall X\: \forall Y \: \exists f: \finseq{X} \times \gimel \kappa \strto Y\; \forall \vec{x} \in \finseq{X} \:\forall y \strin Y \: 
   \left[\varphi[\vec{x}, y] \to \exists \alpha \strin \gimel \kappa \: \varphi[\vec{x}, f(\vec{x}, \alpha)]\right].
  \]
 \end{lemma}
@@ -251,18 +251,18 @@ $\NN$に関する量化子の虚偽値の計算を簡単にするため，次の
 \begin{theorem}[Non-extensional Axiom of Choice, $\NEAC$]
  $\kappa \defeq |\mathcal{R}|$とする．この時：
  \[
-  V^{\mathcal{R}} \models \gimel \kappa: \text{整列可能} \implies \uwave{\forall z \: \exists F : \text{写像} \: [ F \sqsubseteq z \land \forall x \: \forall y\: \exists y'\: [(x, y) \in z \to (x, y') \in F] ]}.
+  V^{(\mathcal{R})} \models \gimel \kappa: \text{整列可能} \implies \uwave{\forall z \: \exists F : \text{写像} \: [ F \sqsubseteq z \land \forall x \: \forall y\: \exists y'\: [(x, y) \in z \to (x, y') \in F] ]}.
  \]
  波下線部の命題を\emph{非外延的選択公理}（$\NEAC$）と呼ぶ．
- 特に，$\kappa = \aleph_0$なら無条件に$V^{\mathcal{R}} \models \NEAC$.
+ 特に，$\kappa = \aleph_0$なら無条件に$V^{(\mathcal{R})} \models \NEAC$.
 \end{theorem}
 \begin{proof}
- $V^{\mathcal{R}}$をあたかもモデルであるかのように扱って示そう．
+ $V^{(\mathcal{R})}$をあたかもモデルであるかのように扱って示そう．
  そこで$<_{\gimel \kappa}$を$\gimel \kappa$上の整列順序とする．
- 集合$z \in V^{\mathcal{R}}$を任意にとって，$\varphi(z, x, y) \deffml (x, y) \strin z$とおく．
+ 集合$z \in V^{(\mathcal{R})}$を任意にとって，$\varphi(z, x, y) \deffml (x, y) \strin z$とおく．
  この時，上の補題~\ref{lem:weak-skolem-gen}の「特に」部分を$\varphi$と$X = \dom(z), Y = \ran(z)$に適用すれば，$f: \dom(z) \times \gimel \kappa \to \ran(z)$で，
  \[
-  V^{\mathcal{R}} \models \forall x \in \dom(z) \: \forall y \in \ran(z) \:[(x,y) \strin z \to \exists \alpha \in \gimel \kappa\:(x, f(x, \alpha)) \strin z]
+  V^{(\mathcal{R})} \models \forall x \in \dom(z) \: \forall y \in \ran(z) \:[(x,y) \strin z \to \exists \alpha \in \gimel \kappa\:(x, f(x, \alpha)) \strin z]
  \]
  を満たすものが取れる．そこで，
  \[
@@ -299,8 +299,8 @@ $\NN$に関する量化子の虚偽値の計算を簡単にするため，次の
 
 \begin{corollary}\label{cor:dc-suff-cond}
  $\kappa = |\mathcal{R}|$とおけば，
- $V^{\mathcal{R}} \models \quoted{\gimel\kappa : \text{整列可能} \implies \DC}$.
- 特に$|\mathcal{R}| = \aleph_0$なら$V^{\mathcal{R}} \models \DC$.
+ $V^{(\mathcal{R})} \models \quoted{\gimel\kappa : \text{整列可能} \implies \DC}$.
+ 特に$|\mathcal{R}| = \aleph_0$なら$V^{(\mathcal{R})} \models \DC$.
 \end{corollary}
 
 \subsection{非外延的選択公理の特徴付け}
@@ -331,7 +331,7 @@ $\ZF$での通常の議論と同様に，次の議論が成り立つ：
  通常，これは$x$に対する$\sim$-同値類を$[x]_{\sim}$と書くことにすれば，求める完全代表系$A^*$は$A_0 \defeq \Set{[x]_{\sim} | x \in A}$に対する選択関数の像を取ることで得られる．
  しかし，ここでは「完全性」に暗黙裡に集合の外延的同値性を使っている．
  即ち，$x \sim y$なら$[x] = [y]$となることがこの証明のキモだったが，$\ZFe$の公理系だけから内包公理の与える集合が外延性を満たすことは従わない．
- 実際，$V^{\mathcal{R}}$における内包公理を実現する名称の構成法は同値関係についてこうした互換性が成り立たない．
+ 実際，$V^{(\mathcal{R})}$における内包公理を実現する名称の構成法は同値関係についてこうした互換性が成り立たない．
 \end{remark}
 \end{document}
 

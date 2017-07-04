@@ -35,13 +35,13 @@
 \end{proof}
 スレッド代数の濃度は可算なので補題\ref{cor:dc-suff-cond}より従属選択公理が成り立つ：
 \begin{lemma}
- $V^{\mathcal{T}} \models \DC$.
+ $V^{(\mathcal{T})} \models \DC$.
 \end{lemma}
 本小節の目標は次の独立性証明である：
 
 \begin{theorem}[Krivine]\label{thm:patho-sets-of-reals}
  \[
-  V^{\mathcal{T}}
+  V^{(\mathcal{T})}
    \models \ZF + \DC
     \begin{aligned}[t]
      &+\exists \Set{ \mathcal{X}_n \subseteq \Pow(\NN) | n < \omega } \:
@@ -61,12 +61,12 @@
 \begin{notation}
  $\mathbf{n} \defeq \set{0, s0, \dots, s^{n-1} 0}$.
 
- $V$における関数$s^n 0 \mapsto \mathbf{n}$および$s^n 0 \mapsto \gimel \mathbf{n}$は$V^{\mathcal{R}}$では$\gimel \mathbb{N}$上定義されている事に注意する．
+ $V$における関数$s^n 0 \mapsto \mathbf{n}$および$s^n 0 \mapsto \gimel \mathbf{n}$は$V^{(\mathcal{R})}$では$\gimel \mathbb{N}$上定義されている事に注意する．
 \end{notation}
 
 $\mathbf{n}$は，期待通り自然数の構造を反映した性質を持っていることがわかる：
 \begin{lemma}\label{lem:gimel-n-props}
- 次の論理式が$V^{\mathcal{R}}$で成立：
+ 次の論理式が$V^{(\mathcal{R})}$で成立：
  \begin{enumerate}
   \item \label{item:lt-elem}$\forall m \strin \gimel \N\: \forall n \strin \gimel \N\: \left[ \braket{m < n} = 1 \iff m \strin \gimel\mathbf{n}\right]$,
   \item \label{item:lt-str-subs}$\forall m \strin \gimel \N\: \forall n \strin \gimel \N\: \left[ \braket{m < n} = 1 \to \gimel \mathbf{m} \sqsubseteq \gimel \mathbf{n}\right]$,
@@ -81,7 +81,7 @@ $\mathbf{n}$は，期待通り自然数の構造を反映した性質を持っ�
 \end{proof}
 この$\gimel\mathbf{n}$たちが，実は上の命題の$\mathcal{X}_n$たちと同じ役割を果す．
 \begin{lemma}\label{lem:natural-bij-prod}
- $V^{\mathcal{R}}$において，写像$(x, y) \mapsto my + x$は$\gimel \mathbf{m} \times \gimel \mathbf{n} \to \gimel(\mathbf{mn})$への全単射となっている．
+ $V^{(\mathcal{R})}$において，写像$(x, y) \mapsto my + x$は$\gimel \mathbf{m} \times \gimel \mathbf{n} \to \gimel(\mathbf{mn})$への全単射となっている．
  特に，次の論理式が$\I$で実現されている：
  \begin{enumerate}
   \item $\forall m, n \strin \gimel \N\: \forall x \strin \gimel \mathbf{m}\: \forall y \strin \gimel \mathbf{n}\: (my + x) \strin \gimel \mathbf{mn}$,
@@ -104,7 +104,7 @@ $\mathbf{n}$は，期待通り自然数の構造を反映した性質を持っ�
   \end{cases}
  \]
 \end{definition}
-これを用いると，$V^{\mathcal{R}}$における$\gimel 2$の可算稠密集合が得られる：
+これを用いると，$V^{(\mathcal{R})}$における$\gimel 2$の可算稠密集合が得られる：
 \begin{lemma}
  $\theta \defeq \abs{xy}{\varsigma y x x}$とおくと$\theta \Vdash \forall x \strin \gimel 2\:[x \neq 0 \to \exists n \strin \NN\:(0 \neq \Delta(n) \leq x)]$.
 \end{lemma}
@@ -135,7 +135,7 @@ $\mathbf{n}$は，期待通り自然数の構造を反映した性質を持っ�
 これを使うと，$\gimel 2$から$\Pow(\NN)$への$\ZF$の意味での単射が得られていることがわかる：
 
 \begin{lemma}\label{lem:D-base-ext-inj}
- $V^{\mathcal{R}}$において対応$\gimel 2 \strni x \mapsto D_x \defeq \Set{n \in \NN | 0 \neq \Delta(n) \leq x}$は$\gimel2$から$\Pow(\R)$への外延的埋め込みを与える．
+ $V^{(\mathcal{R})}$において対応$\gimel 2 \strni x \mapsto D_x \defeq \Set{n \in \NN | 0 \neq \Delta(n) \leq x}$は$\gimel2$から$\Pow(\R)$への外延的埋め込みを与える．
 \end{lemma}
 \begin{proof}
  相異なる$x, y \strin \gimel 2$を取る．
@@ -163,7 +163,7 @@ $\mathbf{n}$は，期待通り自然数の構造を反映した性質を持っ�
  \]
  そこで適当な$x > 0$を取れば，$0 < x \cdot y < x$となる$y$が存在する．
  ここでもし$x \cdot (- y) = 0$とすると$x \cdot y = x$となり結論に反するから，$x \cdot y$および$x \cdot (- y)$は共に非零で互いに両立しない$x$未満の元になっている．
- よって上の結論が示されれば$\gimel 2$は$V^{\mathcal{R}}$でアトムを持たない事がわかる．
+ よって上の結論が示されれば$\gimel 2$は$V^{(\mathcal{R})}$でアトムを持たない事がわかる．
 
  以下主張を示していく．
  定義に従って$x, y$にそれぞれ$0, 1$を代入して考えれば，結局以下が言えれば良いことがわかる：
@@ -197,17 +197,17 @@ $\mathbf{n}$は，期待通り自然数の構造を反映した性質を持っ�
 
 まず，$\gimel \mathbf{2^n}$は$\Pow(\NN)$に外延的な意味でも単射で埋め込むことが出来る：
 \begin{lemma}
- $V^{\mathcal{R}} \models \forall n \strin \NN \: \gimel(\mathbf{2^n}) \eembto \Pow(\R)$.
+ $V^{(\mathcal{R})} \models \forall n \strin \NN \: \gimel(\mathbf{2^n}) \eembto \Pow(\R)$.
 \end{lemma}
 \begin{proof}
  まず補題\ref{lem:natural-bij-prod}を$n \strin \NN$についての帰納法で繰り返し適用すれば，$\gimel(\mathbf{2^n})$と$(\gimel \mathbf{2})^n$の間に自然な全単射が存在することがわかる．
  すると，$(\gimel\mathbf{2})^n \strni (b_1, \dots, b_n) \mapsto D_{b_1} \times \dots \times D_{b_n} \sqsubseteq \Pow(\NN^n)$.
  補題\ref{lem:D-base-ext-inj}の議論より$D_{b_1} \times \dots \times D_{b_n} \simeq D_{b'_1} \times \dots \times D_{b'_n}$なら$b_1 = b'_1, \dots, b_n = b'_n$が言えるので，この対応による行き先は外延的に相異なる．
- $\NN^n$と$\NN$の間の再帰的な全単射は補題\ref{lem:recursives-defined}より自然に$V^{\mathcal{R}}$の$\NN$にも持ち上がり，特にこれらは外延的全単射になっているので，補題\ref{lem:compos-ext-emb}より所望の結果が得られる． \qed
+ $\NN^n$と$\NN$の間の再帰的な全単射は補題\ref{lem:recursives-defined}より自然に$V^{(\mathcal{R})}$の$\NN$にも持ち上がり，特にこれらは外延的全単射になっているので，補題\ref{lem:compos-ext-emb}より所望の結果が得られる． \qed
 \end{proof}
 
 \begin{corollary}\label{cor:gimels-ext-embeds}
- $V^{\mathcal{R}} \models \forall n \strin \NN\: \gimel\mathbf{n} \eembto \Pow(\R)$.
+ $V^{(\mathcal{R})} \models \forall n \strin \NN\: \gimel\mathbf{n} \eembto \Pow(\R)$.
 \end{corollary}
 \begin{proof}
  $n < 2^m$なる$m$を取れば，補題\ref{lem:gimel-n-props}の\ref{item:lt-str-subs}より$\gimel\mathbf{n} \sqsubseteq \gimel (\mathbf{2^m}) \eembto \Pow(\R)$.
@@ -231,7 +231,7 @@ $\mathbf{n}$は，期待通り自然数の構造を反映した性質を持っ�
          &\to \exists y \strin \gimel\mathbf{n} \: \forall x \strin \gimel \mathbf{m} \: \neg \varphi[x,y,z]
   \end{split}\right].
  \]
- 特に$\varphi[x, y, z] \equiv (x, y) \in z$とおけば，$V^{\mathcal{R}}$において$m < n$なら$\gimel \mathbf{m}$から$\gimel \mathbf{n}$への全射は存在しない．
+ 特に$\varphi[x, y, z] \equiv (x, y) \in z$とおけば，$V^{(\mathcal{R})}$において$m < n$なら$\gimel \mathbf{m}$から$\gimel \mathbf{n}$への全射は存在しない．
 \end{lemma}
 
 \begin{lemma}
@@ -239,7 +239,7 @@ $\mathbf{n}$は，期待通り自然数の構造を反映した性質を持っ�
  \[
  \theta \Vdash \forall z \left[ \forall x \strin \gimel \mathbf{2} \: \exists n \strin \NN \: ( \varphi[n, x, z]) \to \exists n\: \exists x\: \exists y\: \left(\varphi[n, x, z] \land  \varphi[n, y, z] \land x \neq y\right)  \right].
  \]
- 特に$V^{\mathcal{R}}$において$\NN$から$\gimel \mathbf{2}$への全射は存在しない．
+ 特に$V^{(\mathcal{R})}$において$\NN$から$\gimel \mathbf{2}$への全射は存在しない．
 \end{lemma}
 
 

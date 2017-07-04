@@ -1,0 +1,69 @@
+%#!luajitlatex -src-specials 06-equivalent-formulation.tex
+
+\documentclass[realisability.tex]{subfiles}
+\begin{document}
+\section{同値な定式化}
+本節では，より強制法に近い形で$\ZF$の実現可能性モデルの定式化を与える．
+\subsection{名称を用いた定式化}
+強制法では，「$\mathbb{P}$-名称」と呼ばれる特殊な項全体$V^{\mathbb{P}}$を或る種の$V$の拡張と思って議論をした．
+これまでの実現可能性モデルでは名称に制限せず，記号の解釈が異なるのみで$V^{(\mathcal{R})} = V$となっていた．
+以下では，$\ZF$のモデルを得る上では強制法と同様に「$\mathcal{R}$-名称」の全体だけを考えていれば十分であることを示す．
+
+\begin{definition}[$\mathcal{R}$-名称の全体$V^{\mathcal{R}}$]
+ $\mathcal{R} = (\Lambda, \Pi, \Lambda \star \Pi, \pole)$を実現可能性代数とする．
+ この時\emph{$\mathcal{R}$-名称}の全体$V^{\mathcal{R}}$を順序数上の帰納法により次で定める：
+ \begin{gather*}
+  V_0^{(\mathcal{R})} \defeq \emptyset, \quad V_{\alpha + 1}^{(\mathcal{R})} \defeq \Pow(V_{\alpha}^{(\mathcal{R})} \times \Pi), \quad V_\gamma^{(\mathcal{R})} \defeq \bigcup_{\alpha < \gamma} V_\alpha^{(\mathcal{R})}\; \text{if } \gamma: \text{limit},\\
+  V^{\mathcal{R}} \defeq \bigcup_{\alpha \in \On} V^{\mathcal{R}}_\alpha.
+ \end{gather*}
+\end{definition}
+
+$V^{(\mathcal{R})}$上での$\ZFe$-論理式の解釈を真似て，以下では$V^{\mathcal{R}}$上で$\ZFe$-論理式の解釈を定める：
+
+\begin{definition}[$V^{\mathcal{R}}$における論理式の解釈]
+ $\ZFe$-論理式$\varphi$に対し，$V^{(\mathcal{R})}$における虚偽値$\|\varphi\|^* \subseteq \Pi$および真理値$|\varphi|^* \subseteq \Lambda$を次で定める：
+\begin{gather*}
+  |\varphi|^* \defeq \Set{ \xi \in \Lambda | \forall \pi \in \|\varphi\|^* \: \xi \cons \pi \in \pole},\\
+  \|\bot\|^* \defeq \Pi,\qquad \|\top\|^* \defeq \emptyset, \\
+  \|a \strnin b\|^* \defeq \Set{ \pi \in \Pi | (a, \pi) \in b},\\
+  \|\varphi \to \psi\|^* \defeq \Set{ \xi \push \pi | {\xi \in |\varphi|^*, \pi \in \|\psi\|^*}},\\
+  \|\forall x \: \varphi[x, \vec{b}]\|^* \defeq \bigcup_{a \in V^{\mathcal{R}}} \| \varphi[a, \vec{b}]\|^*,\\
+  \| a \subseteq b \|^* \defeq \bigcup_{(c, \pi) \in a} \Set{ \xi \push \pi | \xi \Vdash^* c \notin b}
+  = \bigcup_{c \in \dom(a)} \|c \notin b \implies c \strnin a\|^*\\
+  \| a \notin b \|^* \defeq \bigcup_{(c, \pi) \in b} \Set{ \xi \push \xi' \push \pi | \xi \Vdash^* \quoted{a \subseteq c}, \xi' \Vdash^* \quoted{c \subseteq a}}
+   = \|\forall x \: (a \simeq x \implies a \strnin b)\|^*
+ \end{gather*}
+ 但し，$\xi \Vdash^* \varphi \defs \xi \in |\varphi|^*$とする．
+
+ $\ZF_{\varepsilon}$の論理式$\varphi$に対して，関係$V^{\mathcal{R}} \models \varphi$を次で定める：
+ \[
+  V^{\mathcal{R}} \models \varphi \defs \theta \xi \in \PT\: \theta \Vdash^* \varphi \mathrel{}(\iff \PT \cap |\varphi|^* \neq \emptyset).
+ \]
+\end{definition}
+すると，$V^{(\mathcal{R})}$の場合と同様にして，$V^{\mathcal{R}}$は古典論理のモデルであり，$\ZFe$の公理系も満たすことがわかる：
+\begin{theorem}\label{thm:name-model-ZFe}
+ $V^{\mathcal{R}} \models \ZFe$.
+\end{theorem}
+
+こうして得られた$V^{\mathcal{R}}$は，当然ながら$V^{(\mathcal{R})}$よりも少ないアトムを持つ．
+しかし，$\ZF$部分については，全く同じ理論を満たすことが示せる．
+それを正確に述べるため，$V^{(\mathcal{R})}$と$V^{\mathcal{R}}$の元の間の翻訳を次で与える：
+\begin{definition}
+ $\Phi: V^{(\mathcal{R})} \to V^{\mathcal{R}}, \Psi: V^{\mathcal{R}} \to V^{(\mathcal{R})}$をそれぞれ超限帰納法により次のように定める：
+ \begin{align*}
+  \Phi(x) &\defeq \Set{ (\Phi(y), \pi) | (y, \pi) \in x \cap (V \times \Pi)},\\
+  \Psi(\dot{x}) &\defeq \Set{ (\Psi(\dot{y}), \pi) | (\dot{y}, \pi) \in \dot{x}}.
+ \end{align*}
+\end{definition}
+$\Phi$と$\Psi$は本質的には殆んど同じだが，定義域・値域がテレコになっているので、議論の見通しを良くするために違う名前をつけた。
+次はランクに関する帰納法により直ちに従う：
+\begin{lemma}\label{lem:phi-of-psi}
+ 任意の$\dot{x} \in V^{\mathcal{R}}$に対し$\Phi(\Psi(\dot{x})) = \dot{x}$.
+\end{lemma}
+
+\end{document}
+
+% Local Variables:
+% mode: yatex
+% TeX-master: "realisability.tex"
+% End:
