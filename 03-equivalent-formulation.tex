@@ -57,7 +57,7 @@ $V^{(\mathcal{R})}$上での$\ZFe$-論理式の解釈を真似て，以下では
 \end{definition}
 $\Phi$と$\Psi$は本質的には殆んど同じだが，定義域・値域がテレコになっているので，議論の見通しを良くするために違う名前をつけた．
 次はランクに関する帰納法により直ちに従う：
-\begin{lemma}\label{lem:phi-of-psi}
+\begin{lemma}\label{lem:phi-of-psi-inv}
  任意の$\dot{x} \in V^{\mathcal{R}}$に対し$\Phi(\Psi(\dot{x})) = \dot{x}$.
 \end{lemma}
 更に，原子論理式についてはこの翻訳によって真偽値が正確に保たれることもわかる：
@@ -76,14 +76,14 @@ $\Phi$と$\Psi$は本質的には殆んど同じだが，定義域・値域が�
  $(\max(\rk(x), \rk(y)), \min(\rk(x), \rk(y)))$などなどの辞書式順序に関する帰納法． \qed
 \end{proof}
 次が直ちに従う：
-\begin{corollary}
+\begin{corollary}\label{cor:psi-of-phi-ext-eq}
  $\I \Vdash \forall x \: \left(\Psi(\Phi(x)) \subseteq x\right),
   \forall x \: \left(x \subseteq \Psi(\Phi(x)) \right)$.
 \end{corollary}
 
-これらを使うと、次のような形で$V^{\mathcal{R}}$と$V^{(\mathcal{R})}$の「同値性」が言える：
+これらを使うと，次のような形で$V^{\mathcal{R}}$と$V^{(\mathcal{R})}$の「同値性」が言える：
 \begin{theorem}
- 任意の$\ZF$-論理式$\varphi$に対し$\theta_0, \theta_1 \in \PT$が存在し、任意の$x_1, \dots, x_n \in V$、$\dot{x}_1 \dots \dot{x}_n \in V^{\mathcal{R}}$および$\xi \in \Lambda$に対し次が成り立つ：
+ 任意の$\ZF$-論理式$\varphi$に対し$\theta_0, \theta_1 \in \PT$が存在し，任意の$x_1, \dots, x_n \in V$，$\dot{x}_1 \dots \dot{x}_n \in V^{\mathcal{R}}$および$\xi \in \Lambda$に対し次が成り立つ：
  \begin{align*}
   \xi \Vdash^* \varphi[\dot{x}_1, \dots, \dot{x}_n] &\implies \theta_0 \xi \Vdash \varphi[\Psi(\dot{x}_1), \dots, \Psi(\dot{x}_n)],\\
   \xi \Vdash \varphi[x_1, \dots, x_n] &\implies \theta_1 \xi \Vdash^* \varphi[\Phi(x_1), \dots, \Phi(x_n)].
@@ -91,9 +91,24 @@ $\Phi$と$\Psi$は本質的には殆んど同じだが，定義域・値域が�
  特に任意の$\ZF$-閉論理式$\varphi$に対し$V^{(\mathcal{R})} \models \varphi \iff V^{\mathcal{R}} \models \varphi$.
 \end{theorem}
 \begin{proof}
- $\varphi$が原子論理式のときは補題\ref{lem:atomic-coinc}より$\theta_0 = \theta_1 = \I$とすれば良い。
+ $\varphi$が原子論理式のときは補題\ref{lem:atomic-coinc}より$\theta_0 = \theta_1 = \I$とすれば良い．
 
  $\varphi \to \psi$の形の時を考える．
+ 帰納法の仮定により$\theta^\varphi_i, \theta^\psi_i\;(i < 2)$を取れば，
+ このとき$\theta_0 \defeq \abs{xy}{\theta^\psi_0(x(\theta^\varphi_1 y))}$, $\theta_1 \defeq \abs{xy}{\theta^\psi_1(x(\theta^\varphi_0 y))}$が求めるものである．
+
+ 最後に$\forall x \: \varphi[x, y]$の形の論理式の場合を考える．
+ 帰納法の仮定により$\theta^\varphi_0, \theta^\varphi_1$を取っておく．
+ 以下$a,b \in V$，$\dot{a}, \dot{b} \in V^{\mathcal{R}}$とする．
+ $\xi \Vdash \forall x \: \varphi[x, b]$の時は補題\ref{lem:phi-of-psi-inv}と帰納法の仮定から$\theta^\varphi_1 \xi \Vdash^* \forall x \: \varphi[x, \Phi(x)]$となる．
+
+ 最後に$\xi \Vdash^* \forall x \: \varphi[x, \dot{b}]$の場合を考えよう．
+ すると定義と帰納法の仮定から，任意の$\dot{x} \in V^{\mathcal{R}}$に対し$\theta^\varphi_0 \xi \Vdash \varphi[\Psi(\dot{x}), \Psi(\dot{b})]$が成り立つ．
+ この事をつかって，任意の$x \in V$に対し$\theta_0 \xi \Vdash \varphi[x, \Psi(\dot{b})]$となるような$\theta_0$を見付けたい．
+ いま$\varphi$は$\ZF$-論理式で$V^{(\mathcal{R})} \models \ZFe$なので，補題\ref{lem:ZF-conservative-lem}の\ref{item:ZF-fml-cong}より$\tau \Vdash \forall x \: \forall x'\: \forall y \: [x \subseteq x' \to x' \subseteq x \to \varphi[x, y] \to \varphi[x', y]]$となるような$\tau \in \PT$が取れる．
+ また系\ref{cor:psi-of-phi-ext-eq}より$\I \Vdash \Psi(\Phi(x)) \subseteq x, x \subseteq \Psi(\Phi(x))$である．
+ そこで$\theta_0 \defeq \abs{x}{\tau\I\I(\theta^\varphi_0 x)}$と定める．
+ この時任意に$x \in V$を取れば，$\theta_0 \xi \Vdash \varphi[x, \Psi(\dot{b})]$となっている． \qed
 \end{proof}
 
 以上を踏まえ，以後は$V^{(\mathcal{R})}$の代わりに$V^{\mathcal{R}}$を用い，$\|\quad\|^*$と書く代わりに$\|\quad\|$と書いて議論をしていく事にする．
