@@ -55,12 +55,48 @@ $V^{(\mathcal{R})}$上での$\ZFe$-論理式の解釈を真似て，以下では
   \Psi(\dot{x}) &\defeq \Set{ (\Psi(\dot{y}), \pi) | (\dot{y}, \pi) \in \dot{x}}.
  \end{align*}
 \end{definition}
-$\Phi$と$\Psi$は本質的には殆んど同じだが，定義域・値域がテレコになっているので、議論の見通しを良くするために違う名前をつけた。
+$\Phi$と$\Psi$は本質的には殆んど同じだが，定義域・値域がテレコになっているので，議論の見通しを良くするために違う名前をつけた．
 次はランクに関する帰納法により直ちに従う：
 \begin{lemma}\label{lem:phi-of-psi}
  任意の$\dot{x} \in V^{\mathcal{R}}$に対し$\Phi(\Psi(\dot{x})) = \dot{x}$.
 \end{lemma}
+更に，原子論理式についてはこの翻訳によって真偽値が正確に保たれることもわかる：
+\begin{lemma}\label{lem:atomic-coinc}
+ $\dot{x}, \dot{y} \in V^{\mathcal{R}}$および$x, y \in V^{(\mathcal{R})}$に対し次が成立：
+ \begin{align*}
+  \|\dot{x} \strnin \dot{y}\|^*   &= \|\Psi(\dot{x}) \strnin \Psi(\dot{y})\|, &
+  \|\dot{x} \notin \dot{y}\|^*    &= \|\Psi(\dot{x}) \notin \Psi(\dot{y})\|, &
+  \|\dot{x} \subseteq \dot{y}\|^* &= \|\Phi(\dot{x}) \subseteq \Phi(\dot{y})\|, \\
+  \|x \strnin y\|   &= \|\Phi(x) \strnin \Phi(y)\|^*, &
+  \|x \notin y\|    &= \|\Phi(x) \notin \Phi(y)\|^*, &
+  \|x \subseteq y\| &= \|\Phi(x) \subseteq \Phi(y)\|^*.
+ \end{align*}
+\end{lemma}
+\begin{proof}
+ $(\max(\rk(x), \rk(y)), \min(\rk(x), \rk(y)))$などなどの辞書式順序に関する帰納法． \qed
+\end{proof}
+次が直ちに従う：
+\begin{corollary}
+ $\I \Vdash \forall x \: \left(\Psi(\Phi(x)) \subseteq x\right),
+  \forall x \: \left(x \subseteq \Psi(\Phi(x)) \right)$.
+\end{corollary}
 
+これらを使うと、次のような形で$V^{\mathcal{R}}$と$V^{(\mathcal{R})}$の「同値性」が言える：
+\begin{theorem}
+ 任意の$\ZF$-論理式$\varphi$に対し$\theta_0, \theta_1 \in \PT$が存在し、任意の$x_1, \dots, x_n \in V$、$\dot{x}_1 \dots \dot{x}_n \in V^{\mathcal{R}}$および$\xi \in \Lambda$に対し次が成り立つ：
+ \begin{align*}
+  \xi \Vdash^* \varphi[\dot{x}_1, \dots, \dot{x}_n] &\implies \theta_0 \xi \Vdash \varphi[\Psi(\dot{x}_1), \dots, \Psi(\dot{x}_n)],\\
+  \xi \Vdash \varphi[x_1, \dots, x_n] &\implies \theta_1 \xi \Vdash^* \varphi[\Phi(x_1), \dots, \Phi(x_n)].
+ \end{align*}
+ 特に任意の$\ZF$-閉論理式$\varphi$に対し$V^{(\mathcal{R})} \models \varphi \iff V^{\mathcal{R}} \models \varphi$.
+\end{theorem}
+\begin{proof}
+ $\varphi$が原子論理式のときは補題\ref{lem:atomic-coinc}より$\theta_0 = \theta_1 = \I$とすれば良い。
+
+ $\varphi \to \psi$の形の時を考える．
+\end{proof}
+
+以上を踏まえ，以後は$V^{(\mathcal{R})}$の代わりに$V^{\mathcal{R}}$を用い，$\|\quad\|^*$と書く代わりに$\|\quad\|$と書いて議論をしていく事にする．
 \end{document}
 
 % Local Variables:
