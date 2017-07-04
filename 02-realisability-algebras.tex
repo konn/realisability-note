@@ -39,7 +39,7 @@
 \end{definition}
 
 \begin{example}[実現可能性代数としての強制法]
- 強制法は退化した実現可能性代数と見做せる．
+ 強制法は退化した実現可能性代数と思える．
  $\mathbb{B} = (\mathbb{B}, {+}, {\cdot}, 0, \mathds{1})$をBoole代数とする\footnotemark．
  この時，以下の定義により$\mathbb{B}$には実現可能性代数の構造が入る：
  \begin{gather*}
@@ -169,7 +169,7 @@ $\ZF_{\varepsilon}$は$\ZF$の保存拡大になっている．
 
 \begin{lemma}\label{lem:ZF-conservative-lem}
  \begin{enumerate}
-  \item $\forall a\: \forall b \: [a \strin b \implies a \in b]$,　$\forall a, b, c \: [ a \in b \subseteq c \implies a \in c]$, $\forall a, b, c \: [a \subseteq b \subseteq c \implies a \subseteq c]$,
+  \item $\forall a\: \forall b \: [a \strin b \implies a \in b]$, $\forall a, b, c \: [ a \in b \subseteq c \implies a \in c]$, $\forall a, b, c \: [a \subseteq b \subseteq c \implies a \subseteq c]$,
   \item $\ZF_{\varepsilon} \vdash \quoted{{\in}: \text{set-likeな整礎関係}}$，
   \item \label{item:ZF-fml-cong}$\varphi[\vec{x}]$を$\ZF$-論理式とすると，
         $\ZF_{\varepsilon} \vdash \forall \vec{x} \: \forall \vec{y} \: [\vec{x} \simeq \vec{y} \implies \quoted{\varphi[\vec{x}] \iff \varphi[\vec{y}]}]$.
@@ -220,7 +220,7 @@ $\ZF_{\varepsilon}$は$\ZF$の保存拡大になっている．
  また，ここでは記号を$\models$を使っているが，これは強制法でいえば「$\mathds{1}$が強制する」と同じ条件であり，$V^{\mathcal{R}} \not\models \varphi$は$V^{\mathcal{R}} \models \neg \varphi$を意味しないことにも気を付ける必要がある．
 \end{remark}
 
-定義する前にも言った通り，実現可能性モデルでは虚偽値を基本に置き，すべて否定形で定義している事がわかる．
+前述の通り，実現可能性モデルでは虚偽値を基本に置き，すべて否定形で定義している事がわかる．
 
 直観的には，虚偽値は「与えられた命題の反例」となる入力の集合であり，真理値はその反例を「検証」するプログラムであると見ることが出来る．
 検証プログラムに反例を与えて停止すれば（つまり$\pole$に入らなければ），虚偽値が勝って反証が完了したことになる．

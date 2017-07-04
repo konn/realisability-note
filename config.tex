@@ -1,6 +1,6 @@
 %#!xelatex -src-specials realisability.tex
 \usepackage[hiragino-pron]{luatexja-preset}
-\usepackage{mystyle}
+\usepackage{mymacros}
 \usepackage{luatexja-otf}
 \usepackage{dsfont}
 \usepackage{stmaryrd}
@@ -13,6 +13,33 @@
 \usepackage[bookmarksnumbered,pdfproducer={LuaLaTeX},%
             luatex,psdextra,pdfusetitle,pdfencoding=auto]{hyperref}
 \usepackage[backend=biber, style=math-numeric]{biblatex}
+\usepackage{mymacros}
+\usepackage[framed,thmmarks,amsthm,thref,amsmath]{ntheorem}
+\usepackage{framed}
+\usepackage[normalem]{ulem}
+\usepackage{bm}
+\usepackage{cases}
+\usepackage{graphicx}
+\DeclareGraphicsRule{.tif}{png}{.png}{`convert #1 `dirname #1`/`basename #1 .tif`.png}
+\usepackage{picins}
+\usepackage[most]{tcolorbox}
+\usepackage{footnote}
+\renewcommand{\thefootnote}{\,*\arabic{footnote})}
+\tcbuselibrary{breakable}
+\newtcolorbox{mystdbox}[2][]{sharp corners,colframe=black,boxrule=0.5pt,colback=white,
+ pad at break*=0pt,
+ beforeafter skip=2em,left=6pt,right=6pt,top=1.5em,bottom=1.5em,breakable}
+\makesavenoteenv[mystdthmbox]{mystdbox}
+\newtcolorbox{myleftbar}[2][]{sharp corners,colframe=black,boxrule=0pt,colback=white,
+ pad at break*=0pt,leftrule=3pt,
+ beforeafter skip=2em,left=6pt,right=6pt,top=1.5em,bottom=1.5em,breakable}
+\makesavenoteenv[mythmleftbar]{myleftbar}
+
+%% Listing
+\usepackage[inline]{enumitem}
+\setlist[enumerate,1]{label=(\arabic*),font=\textup}
+\setlist[enumerate,2]{label=(\alph*),font=\textup}
+
 \addbibresource{myreference.bib}
 \newcommand{\app}{\mathbin{\boldsymbol{\cdot}}}
 \newcommand{\conti}{\mathsf{k}}
@@ -47,6 +74,8 @@
 \newcommand{\A}{\comb{A}}
 \renewcommand{\Gen}{\mathord{\textsc{Gen}}}
 \newcommand{\Subs}{\mathord{\textsc{Subs}}}
+
+
 \makeatletter
 \NewDocumentCommand\stack{O{} +m}{
  \def\kn@tmp@s{#2}
@@ -89,6 +118,69 @@
 \newcommand{\cc}{\comb{c\hspace{-1pt}c}}
 \newcommand{\subst}[1]{\left[\begin{smallmatrix}#1\end{smallmatrix}\right]}
 \newcommand{\num}[1]{\underline{#1}}
+
+% 定理
+\theoremstyle{definition}
+\theoremseparator{.}
+\theoremprework{\begin{mystdthmbox}{}}
+\theorempostwork{\end{mystdthmbox}}
+\newtheorem{theorem}{定理}[section]
+\theoremprework{\begin{mystdthmbox}{}}
+\theorempostwork{\end{mystdthmbox}}
+\newtheorem{example}{例}[section]
+\theoremprework{\begin{mystdthmbox}{}}
+\theorempostwork{\end{mystdthmbox}}
+\newtheorem{definition}{Def.}[section]
+\theoremprework{\begin{mystdthmbox}{}}
+\theorempostwork{\end{mystdthmbox}}
+\newtheorem{prop}{命題}[section]
+\theoremprework{\begin{mystdthmbox}{}}
+\theorempostwork{\end{mystdthmbox}}
+\newtheorem{corollary}{系}[section]
+\theoremprework{\begin{mystdthmbox}{}}
+\theorempostwork{\end{mystdthmbox}}
+\newtheorem{question}{問}[section]
+\theoremprework{\begin{mystdthmbox}{}}
+\theorempostwork{\end{mystdthmbox}}
+\newtheorem{problem}{問題}[section]
+\theoremprework{\begin{mystdthmbox}{}}
+\theorempostwork{\end{mystdthmbox}}
+\newtheorem{lemma}{補題}[section]
+\theoremprework{\begin{mystdthmbox}{}}
+\theorempostwork{\end{mystdthmbox}}
+\newtheorem{remark}{注意}[section]
+\theoremprework{\begin{mystdthmbox}{}}
+\theorempostwork{\end{mystdthmbox}}
+\newtheorem{fact}{Fact}[section]
+\theoremprework{\begin{mystdthmbox}{}}
+\theorempostwork{\end{mystdthmbox}}
+\newtheorem{claim}{Claim}[section]
+\theoremprework{\begin{mystdthmbox}{}}
+\theorempostwork{\end{mystdthmbox}}
+\newtheorem{subclaim}{Subclaim}[claim]
+
+\theoremstyle{nonumberplain}
+\theoremprework{\begin{mystdthmbox}{}}
+\theorempostwork{\end{mystdthmbox}}
+\newtheorem{rem*}{注意}
+\theoremprework{\begin{mystdthmbox}{}}
+\theorempostwork{\end{mystdthmbox}}
+\newtheorem{notation}{記号}
+
+\theoremstyle{nonumberplain}
+\theoremheaderfont{\itshape}
+\theoremindent .5ex
+\theorembodyfont{\upshape}
+\theoremsymbol{\ensuremath{\Box}}
+\theoremprework{\begin{mythmleftbar}}
+\theorempostwork{\end{mythmleftbar}}
+\theoremseparator{}
+\newtheorem{subproof}{Proof}
+
+%% その他記号
+\qedsymbol{\ensuremath{\Box}}
+\normalem
+
 
 \makeatletter
 \def\KVM#1{\KVM@init#1{\relax}}

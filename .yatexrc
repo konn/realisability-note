@@ -1,4 +1,5 @@
 (setq tmp-singlecmd-table '(
+("eembto")
 ("strto")
 ("NN")
 ("redsto")
@@ -15,7 +16,6 @@
 ("conti")
 ("app")
 ))
-
 (setq tmp-section-table '(
 ("KVM")
 ("comb")

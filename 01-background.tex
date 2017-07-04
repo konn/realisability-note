@@ -7,9 +7,9 @@
 
 \subsection{直観主義論理とCurry--Howard対応}
 \begin{definition}[ヒルベルト流の論理体系$\HJ$]
- 直観主義命題論理のヒルベルト流の論理体系$\HJ$とは推論規則
+ 直観主義命題論理のヒルベルト流の論理体系$\HJ$は推論規則
  \begin{prooftree}
-  \AxiomC{$M: P \to Q$}, \AxiomC{$N: P$}
+  \AxiomC{$M: P \to Q$} \AxiomC{$N: P$}
   \RightLabel{$(\mathrm{MP})$}
   \BinaryInfC{$MN: Q$}
  \end{prooftree}
@@ -77,7 +77,7 @@ $\HJ$と深い関係にあるのが，Curryによる\emph{結合子論理}です
  項$M$において，原子項に関する簡約規則が適用出来る形になっている部分項を\emph{簡約基}(\emph{redex})と呼ぶ．
 
  項$M \in \Lambda$が\emph{$\rhd$-強正規化定理を満たす}($M$ \emph{strongly normalises})とは$M$から始まる$\rhd$-無限上昇列を持たないことである．
- 特に，$M$が$\rhd_w$に関する強正規化定理を満たす時，単に$M$は強正規化定理を満たすという．
+ $M$が$\rhd_w$に関する強正規化定理を満たす時，単に$M$は強正規化定理を満たすという．
 \end{definition}
 
 結局，上の議論は$\CL$-項に対する項書き換え規則を定めていると思えます．
