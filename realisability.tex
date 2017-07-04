@@ -1,0 +1,41 @@
+\RequirePackage{luatex85}
+\documentclass[a4j]{ltjsarticle}
+\usepackage{subfiles}
+\include{config}
+\usepackage{amssymb}	% required for `\mathbb' (yatex added)
+\usepackage{graphicx}	% required for `\reflectbox' (yatex added)
+\begin{document}
+\maketitle
+
+\begin{abstract}
+ 実現可能性モデルの手法は，Curry--Howard対応を拡張する形で$\ZF$のモデルを与える方法であり，Krivine~\cite{Krivine:2011jk}によって導入された．
+ 強制法を特別な場合として含むが，$\ZFC$から開始しても$\ZF+\neg \AC$のモデルが得られるという点で強制法を真に一般化するものになっている．
+\end{abstract}
+
+\tableofcontents
+
+\subfile{01-background}
+\subfile{02-realisability-algebras}
+\subfile{03-naturals-and-dc}
+\subfile{04-note-on-extensionality}
+\subfile{05-examples}
+
+\section*{次回予告}
+\begin{itemize}
+ \item Krivine~\cite{Krivine:2012hl}で取り扱われている次の相対無矛盾性証明を行う：
+       \[
+        \ZF + \DC + \exists \Set{\mathcal{X}_n \subseteq \R | n < \omega}\:\forall n, m \: \left[\left|\mathcal{X}_{n}\right| < \left|\mathcal{X}_{n+1}\right|, \left|\mathcal{X}_{n \times m}\right| = \left|\mathcal{X}_n\right| \cdot \left|\mathcal{X}_m\right|\right].
+       \]
+ \item 余力があれば上記$D$に関する証明を完遂する．
+\end{itemize}
+\nocite{Krivine:2011uo,Krivine:2011jk,Rieg:2014ve,Hamkins:2012qv}
+\nocite{Krivine:2014yu,Krivine:2012hl,Miquel:2014sf}
+\nocite{Hindley:2008rm,functionalyy:2017qq,functionalyy:2016cr}
+\nocite{Takahashi:1991,Komori:2010,Pierce:2013,Munch-Maccagnoni:2009rz}
+\printbibliography[title=参考文献]
+\end{document}
+
+%%% Local Variables:
+%%% mode: yatex
+%%% TeX-master: t 
+%%% End:

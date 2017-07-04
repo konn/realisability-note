@@ -1,0 +1,339 @@
+%#!luajitlatex -src-specials 03-naturals-and-dc.tex
+
+\documentclass[realisability.tex]{subfiles}
+\begin{document}
+\section{$V^{\mathcal{R}}$における自然数と従属選択公理}
+\subsection{実現可能性モデルにおける自然数の表現}
+実現可能性モデルでは，扱い易いようvon Neumann順序数とは異なる自然数のコードを採用する：
+
+\begin{definition}
+ 写像$s$を$s(x) \defeq \gimel(\set{x}) = \Set{ (x, \pi) | \pi \in \Pi}$により定める．
+ $0 \defeq \emptyset$とし，自然数$n$と$s^n 0$を同一視して，基礎モデルで$\mathbb{N} \defeq \Set{ s^n 0 | n < \omega}$と置く．
+
+ この時，集合$\NN$を次で定める：
+ \[
+  \NN \defeq \Set{ (s^n 0, \num{n} \push \pi) | n < \omega, \pi \in \Pi}.
+ \]
+ ただし，ここで$\underline{n}$はChurch数項：$\underline{0} \defeq \abs{f z}{z}, \quad \underline{n+1} \defeq \sigma \, \underline{n}, \quad \sigma \defeq \abs{n f z}{n f (f z)}$.
+ この時$\underline{n} \cons \xi \push \pi \reds \xi^n \eta \cons \pi$となる．
+\end{definition}
+\begin{remark}
+ $\|a \strnin s(b)\| = \|b \neq a\|$かつ$\|a \strin s(b)\| = \|a = b\|$.
+ とくに$\|x \strnin s(x)\| = \Pi$であり，等号公理から$V^{\mathcal{R}} \models \forall a \: \forall x \: \forall y \: [x \strin s(a) \to y \strin s(b) \to x = y]$.
+\end{remark}
+
+この集合が$V^{\mathcal{R}}$で見ると$\in$の意味でも$\strin$の意味でも自然数全体となっていることを以下では見ていく．
+特に，$\NN$が$0$を含み$s$で閉じた最小の集合である事を示せば良く，つまり数学的帰納法の図式が$\NN$について実現されている事を見ればよいことになる．
+
+その前にまず，こうして導入した$s, 0$が外延的同値性$\simeq$と両立することを確かめる：
+
+\begin{lemma}\label{lem:s-0-compat}
+ \begin{enumerate}
+  \item \label{item:sx-strong-inj}$\comb{I} \Vdash \forall x \: \forall y \: (s(x) = s(y) \hookrightarrow x = y)$,
+  \item \label{item:sa-strong-distinct}$\abs{x}{x\comb{I}} \Vdash \forall x \: (s(x) \not\simeq 0)$,
+  \item \label{item:s-compat-ext}$V^{\mathcal{R}} \models \forall x\: \forall y \: [x \simeq y \leftrightarrow s(x) \simeq s(y)]$,
+  \item \label{item:N-weak-close-s} $\abs{g x}{g(\sigma x)} \Vdash \forall y \: (s(y) \strnin \NN \to y \strnin \NN) $,
+  \item \label{item:N-strong-close-s}$V^{\mathcal{R}} \models \forall x \: (s(x) \notin \NN \to x \notin \NN)$.
+  \item \label{item:nat-ext-to-int}$V^{\mathcal{R}} \models \forall n, m \strin \NN\:[n \simeq m \to n = m]$.
+ \end{enumerate}
+\end{lemma}
+\begin{proof}
+ \ref{item:sx-strong-inj}は明らか．
+ \ref{item:sa-strong-distinct}を示す．
+ 特に$\abs{x}{x \I} \Vdash s(x) \nsubseteq \emptyset$を示そう．
+ 略さずに書けば，
+ \[
+  \abs{x}{x \I} \Vdash (\forall z \: (z \notin \emptyset \to z \strnin s(x))) \to \bot
+ \]
+ を示せばよい．
+ つまり，$\eta \Vdash \forall z \: (z \notin \emptyset \to z \strnin s(x))$と$\pi \in \Pi$に対して$\abs{x}{x \I} \cons \eta \push \pi \reds \eta \I \cons \pi \in \Pi$を示せれば良い．
+ しかるに，$\|z \notin \emptyset\| = \|\forall w\: (w \simeq z \to w \strnin 0)\| = \emptyset$であり，
+ $\|z \strnin s(x)\| = \| z \neq x \|$なので，任意の$z \in V$に対して$\eta \Vdash (\forall z \: (z \notin \emptyset \to z \strnin s(x))) \iff \eta \Vdash \top \to z \neq x$となる．
+ 特に$z = x$に取れば，$\eta \Vdash \top \to \bot$を得，$\comb{I} \Vdash \top$より$\eta \I \cons \pi \in \pole$を得る．
+
+ \ref{item:s-compat-ext}について：演繹について閉じているので，$V^{\mathcal{R}}$の中で議論する．
+ 任意の$a, b$について：
+ \[ s(a) \subseteq s(b)
+ \iff \forall x\: (x \notin s(b) \to x \strnin s(a))
+ \iff \forall x\: (x \notin s(b) \to x \neq a)
+ \iff a \in s(b).
+ \]
+ いま，$a \simeq b$なら$a \simeq b \strin s(b)$より${\in}$の公理から$a \in s(b)$が得られる．
+ また，逆に$a \in s(b)$なら$z \strin s(b)$で$a \simeq z$となるものが取れるが，上の注意より$s(b)$は$V^{\mathcal{R}}$において$b$のみしか元を持たないので$a \simeq b$.
+
+ \ref{item:N-weak-close-s}：やるだけ．
+
+ 最後に~\ref{item:N-strong-close-s}について：次の同値変形から明らか：
+ \[
+       x \in \NN
+ \iff \exists y \strin \NN \: y \simeq x
+ \iff \exists y \strin \NN \: (s(x) \simeq s(y))
+ \implies s(x) \in \NN.
+ \]
+\end{proof}
+
+$\NN$に関する量化子の虚偽値の計算を簡単にするため，次の記号を導入する：
+\[
+ \|\forall x \strin \NN\: \varphi[x]\| \defeq \Set{ \underline{n} \push \pi | {\pi \in \|\varphi[s^n 0]\|}}.
+\]
+これが期待通りの振る舞いをすることはルーチンワークで示せる：
+\begin{lemma}
+ \begin{enumerate}
+  \item $\abs{xyz}{y(xz)} \Vdash \forall x \strin \NN \: \varphi[x] \to \forall x \:(\neg \varphi[x] \to x \strnin \NN)$,
+  \item $\abs{xy}{\cc \,(\abs{\conti}{x \conti y})} \Vdash \forall x \:(\neg \varphi[x] \to x \strnin \NN) \to \forall x \strin \NN \: \varphi[x]$.
+ \end{enumerate}
+\end{lemma}
+\begin{proof}
+ \begin{enumerate}
+  \item $\xi \Vdash \forall x \strin \NN\: \varphi[x]$, $x \in V$, $\eta \Vdash \neg \varphi[x]$, $\pi_0 \in \|x \strnin \NN\|$とする．
+        この時，$\NN$の定義より$n < \omega$と$\pi \in \Pi$で$x = s^n 0$かつ$\pi_0 = \underline{n} \push \pi$となるものが取れる．
+        示すべきことは，$\KVM{{\abs{xyz}{y(xz)}}{\xi}{\eta}{\num{n}}{\pi}} \in \pole$である．
+        このとき$\KVM{{\abs{xyz}{y(xz)}}{\xi}{\eta}{\num{n}}{\pi}} \reds \KVM{{\eta(\xi \num{n})}{\pi}} \redsto \KVM{{\eta}{{\xi \num{n}}}{\pi}}$であり$\eta \Vdash \varphi[s^n 0] \to \bot$なので，あとは$\xi \num{n} \Vdash \varphi[s^n 0]$が示せれば良い．
+        しかるに$\varpi \in \|\varphi[s^n 0]\|$を取れば，
+        $\KVM{{\xi \num{n}} \pi} \redsto \KVM{\xi {{\num{n}}} \varpi}$となり，定義より$\num{n} \push \varpi \in \|\forall x \strin \NN\: \phi[x]\|$なので$\KVM{\xi{{\num{n}}} \varpi} \in \pole$を得る．
+  \item 同様． \qed
+ \end{enumerate}
+\end{proof}
+
+それでは，次に掲げる$\NN$の帰納法図式を示していく．
+\begin{lemma}\label{lem:ZFe-ind-nat}
+ 任意の$\ZF_{\varepsilon}$-論理式$\varphi[z, \vec{x}]$に対し，次が成立：
+ \[
+  \I \Vdash \forall \vec{x}\: \forall n \strin \NN \:(\forall y\: (\varphi[\vec{x}, y] \to \varphi[\vec{x}, s(y)]) \to \varphi[\vec{x}, 0] \to \varphi[\vec{x}, n]).
+ \]
+\end{lemma}
+これに加え，$\NN$が${\in}$の意味でも$s$について閉じていることがわかれば，$\ZF$で見ても（つまり${\in}, {\subseteq}$だけで書き換えても）帰納法図式が成り立っていることが直ちにわかる：
+
+\begin{corollary}
+ 任意の$\ZF$-論理式$\varphi[z, \vec{x}]$に対し，次が成立：
+ \[
+  V^{\mathcal{R}} \models \forall \vec{x}\: \forall n \in \NN \:(\forall y\: (\varphi[\vec{x}, y] \to \varphi[\vec{x}, s(y)]) \to \varphi[\vec{x}, 0] \to \varphi[\vec{x}, n]).
+ \]
+ 特に$V^{\mathcal{R}}$を$\ZF$のモデルとみたとき，$\NN$は自然数全体の集合と同型．
+\end{corollary}
+\begin{proof}
+ 上の補題~\ref{lem:ZFe-ind-nat}および，$\ZF$-論理式が$\simeq$と両立するという補題\ref{lem:ZF-conservative-lem}の\ref{item:ZF-fml-cong}より直ちに従う. \qed
+\end{proof}
+あとは上の補題\ref{lem:ZFe-ind-nat}を示せばよい．
+それには次の補題を使う：
+\begin{lemma}\label{lem:ZFe-ind-nat-aux}
+ $n, k < \omega$とし，$\xi \Vdash \forall y\: (\varphi(y) \to \varphi(s y))$, $\eta \Vdash \varphi(s^k 0)$および$\pi \in \|\varphi(s^k n)\|$とする．
+ このとき$\KVM{{{\num n}} \xi \eta \pi} \in \pole$.
+\end{lemma}
+\begin{proof}
+ $n$に関する帰納法で示す．
+
+ $n = 0$の時は$\pi \in \|\varphi(s^k 0)\|$となるので，
+ \[
+  \KVM{{{\num 0}} \xi \eta \pi} \redsto \KVM{\eta \pi} \in \pole
+ \]
+ となるからOK.
+
+ $n$で成立するとして$n + 1$の場合を考えると，
+ \[
+  \KVM{{{\num{n+1}}} \xi \eta \pi} \equiv
+  \KVM{{\sigma \num{n}} \xi \eta \pi} \redsto
+  \KVM{{{\num{n}}} \xi {(\xi \eta)} \pi}
+ \]
+ このとき$(\xi\eta) \Vdash \varphi(s^{k+1} 0)$であり，$\pi \in \|\varphi(s^k(s n))\| = \|\varphi(s^{k+1} n)\|$となるから，帰納法の仮定より$\KVM{{{\num{n}}} \xi {(\xi \eta)} \pi} \in \pole$を得る． \qed
+\end{proof}
+
+\begin{proof}[Proof of Lemma \ref{lem:ZFe-ind-nat}]
+ 簡単のため以下$\vec{x}$は省略する．
+ $\varphi(n)$を$\ZF_{\varepsilon}$の論理式として次を示す：
+  \[
+  \I \Vdash \forall \vec{x}\: \forall n \strin \NN \:(\forall x\: (\varphi(x) \to \varphi(sx)) \to \varphi(0) \to \varphi(n)).
+ \]
+ そこで$n < \omega$と$\xi \Vdash \forall x \: \varphi(x) \to \varphi(s x)$，$\eta \Vdash \varphi(0)$および$\pi \in \|\varphi(s^n 0)\|$を固定し，次を示せばよい：
+ \[
+  \KVM{{\I}{{\num{n}}} \xi\eta {\pi}} \redsto
+  \KVM{{{\num{n}}} \xi \eta \pi} \in \pole.
+ \]
+ しかし，これは補題\ref{lem:ZFe-ind-nat-aux}で$k = 0$と置けば得られることである． \qed
+\end{proof}
+
+また，$\NN$が外延的同値性と相性が良いことから，$\NN$上帰納的に定義された関数は$\ZF$のモデルの中でもちゃんと関数として振る舞うことがわかる：
+
+\begin{lemma}\label{lem:nat-func-strong}
+ $\ZF_{\varepsilon}$のモデルにおいて，自然数上定義された関数は外延的にも関数となる．
+ \[
+ V^{\mathcal{R}} \models \forall x \: \forall f : \NN \to V^{\mathcal{R}}\:
+ \forall n, m \in \NN \: [n \simeq m \to f(n) = f(m)].
+ \]
+\end{lemma}
+\begin{proof}
+ 補題\ref{lem:s-0-compat}より$n \in \NN$なら$n \simeq m \strin \NN$なる$m$は一つしか存在しないので． \qed
+\end{proof}
+
+また，今回はそんなに使わないが，部分再帰関数はちゃんと$\NN$上に拡張されて定義される：
+\begin{lemma}\label{lem:recursives-defined}
+ \begin{enumerate}
+  \item $F: \N^k \to \N$が部分再帰関数なら$V^{\R} \models F: \NN^k \to \NN$,
+  \item $F: \N^k \to 2$が部分再帰関数なら$V^{\mathcal{R}} \models F: \NN^k \to \set{0, 1}$.
+ \end{enumerate}
+\end{lemma}
+
+特に，通常の$\N$上の整列順序がそのまま$\NN$上に持ち上がることを見ておこう：
+
+\begin{lemma}[$\NN$における自然な順序]\label{lem:nat-ord-in-NN}
+ ${<}$を$V$における$\N$上の自然な順序とする．
+ この時$V^{\mathcal{R}}$において$x <^{\mathcal{R}} y \defs \braket{x < y} = \mathds{1}$で定義される二項関係$<^{\mathcal{R}}$は$V^{\mathcal{R}}$で整列順序となり，特に$V^{\mathcal{R}}$における$\NN$上の自然な順序に一致する.
+\end{lemma}
+\begin{proof}
+ 推移律や非反射律は明らかに$\I$が実現している．
+ また，$<$は整列順序であるので，整礎関係の絶対性\ref{lem:wf-pres}より$<^\mathcal{R}$も整礎である．
+
+ 自然数の順序のグラフは再帰的なので，上の補題から，$V^{\mathcal{R}} \models \forall x\: \forall y\: \braket{x < y} = 0 \text{ or } 1$.
+ そこで次の式が実現される事を確かめればよいが，これはルーチンワーク：
+ \[
+  \forall x, y, z \strin \NN\: [x = y + z \hookrightarrow \braket{x < y} \neq 1],\quad
+  \forall x, y, z \strin \NN\: [y = x + z + 1 \hookrightarrow \braket{x < y} = 1].
+ \]
+\end{proof}
+
+\subsection{従属選択公理および非外延的選択公理}
+濃度に関する条件を課せば，実現可能性モデル内部では従属選択公理が実現されていることを見る．
+\begin{definition}
+ $\mathcal{R}$を実現可能性代数とする時，$|\mathcal{R}| = \left\lvert\Lambda \cup \Pi \cup \Lambda \cons \Pi\right\rvert$と表す．
+
+ 以下，適当な単射$\Lambda \times \Pi \ni (\xi, \pi) \mapsto \alpha_{\xi,\pi} \in |\mathcal{R}|$が固定されているものとする．
+\end{definition}
+
+\begin{lemma}\label{lem:weak-skolem-gen}
+ $\mathcal{C}$を$\dom(\mathcal{C})$が整列可能なクラス，$\kappa \defeq |\mathcal{R}|$, $\varphi[\vec{x}, y]$を$\ZF_{\varepsilon}$の論理式とする．
+ この時，次を満たす関数$f = f^{\mathcal{C}}_{\varphi}: V \times \kappa \to V$が定義可能：
+ \begin{enumerate}
+  \item \label{item:sk-hered}任意の$(a, \pi) \in \mathcal{C}$, $\vec{x} \in V$と$\xi \Vdash \varphi[\vec{x}, a]$に対し，$\alpha < \kappa$で$\xi \push \pi \in \|\varphi[\vec{x}, f(\vec{x}, \alpha)] \to f(\vec{x}, \alpha) \strnin \mathcal{C}\|$を満たすものが存在，
+  \item $\I \Vdash \forall \vec{x} \: \forall y \:\left[ \forall \alpha \strin \gimel \kappa\: (\varphi[\vec{x}, f(\vec{x}, \alpha)] \to f(\vec{x},\alpha) \strnin \mathcal{C}) \to \varphi[\vec{x}, y] \to y \strnin \mathcal{C} \right]$. 
+ \end{enumerate}
+ 特に，集合を値域とする弱いSkolem関数が常に取れる：
+ \[
+ V^{\mathcal{R}} \models \forall X\: \forall Y \: \exists f: \finseq{X} \times \gimel \kappa \strto Y\; \forall \vec{x} \in \finseq{X} \:\forall y \strin Y \: 
+  \left[\varphi[\vec{x}, y] \to \exists \alpha \strin \gimel \kappa \: \varphi[\vec{x}, f(\vec{x}, \alpha)]\right].
+ \]
+\end{lemma}
+\begin{proof}
+ \begin{enumerate}
+  \item $\mathcal{C}$の整列順序${<_{\mathcal{C}}}$を一つ固定する．以下が求めるものとなる：
+        \[
+         f(\vec{x}, \alpha) \defeq
+         \begin{cases}
+          \min_{<_{\mathcal{C}}} \Set{c | \alpha = \alpha_{\xi, \pi}, \xi \Vdash \quoted{\varphi[\vec{x}, c]}, (c, \pi) \in \mathcal{C}} & (\text{if } \neq \emptyset)\\
+          \min \dom(\mathcal{C}) & (\ow)
+         \end{cases}
+        \]
+        実際，$(a, \pi) \in \mathcal{C}$かつ$\xi \Vdash \varphi[\vec{x}, a]$なら$\xi \Vdash \varphi[\vec{x}, f(\vec{x}, \alpha_{\xi,\pi})]$かつ$\pi \in \|f(\vec{x}, \alpha_{\xi,\pi}) \notin \mathcal{C}\|$となる．
+  \item 示すべきことは，任意に$\vec{x} \in V, (y, \pi) \in \mathcal{C}, \xi \Vdash \forall \alpha \strin \gimel \kappa \:(\varphi(\vec{x}, f(\vec{x}, \alpha)) \to f(\vec{x}, \alpha) \strnin \mathcal{C})$および$\eta \Vdash \varphi(\vec{x}, y)$を取って，
+        \[
+         \KVM{{\I}{\xi}{\eta}{\pi}} \redsto \KVM{{\xi}{\eta}{\pi}} \in \pole
+        \]
+        である．
+        しかし前の\ref{item:sk-hered}より$\eta \push \pi \in \|\varphi(\vec{x}, f(\vec{x}, \alpha_{\xi,\pi})) \to f(\vec{x}, \alpha_{\xi,\pi}) \strnin \mathcal{C}\|$であり，$\forall$の解釈から$\xi \Vdash \varphi(\vec{x}, f(\vec{x}, \alpha_{\xi,\pi})) \to f(\vec{x}, \alpha_{\xi,\pi}) \strnin \mathcal{C}$なので良い． \qed
+ \end{enumerate}
+\end{proof}
+また，$|\mathcal{R}| = \aleph_0$の時は，よりパラメータの範囲を厳しく制限出来ることが，同様の議論によってわかる：
+\begin{lemma}\label{lem:weak-skolem-ctbl}
+ $|\mathcal{R}| = \aleph_0$で$\mathcal{C}$を$\dom(\mathcal{C})$が整列可能なクラス，$\varphi[\vec{x}, y]$を$\ZF_{\varepsilon}$の論理式とする．
+ この時，次を満たす関数$f = f^{\mathcal{C}}_{\varphi}: V \times \kappa \to V$が定義可能：
+ \begin{enumerate}
+  \item \label{item:sk-hered}任意の$(a, \pi) \in \mathcal{C}$, $\vec{x} \in V$と$\xi \Vdash \varphi[\vec{x}, a]$に対し，$n \in \mathbb{N}$で$\xi \push \pi \in \|\varphi[\vec{x}, f(\vec{x}, n)] \to f(\vec{x}, n) \strnin \mathcal{C}\|$を満たすものが存在，
+  \item $\I \Vdash \forall \vec{x} \: \forall y \:\left[ \forall k \strin \NN\: (\varphi[\vec{x}, f(\vec{x}, k)] \to f(\vec{x},k) \strnin \mathcal{C}) \to \varphi[\vec{x}, y] \to y \strnin \mathcal{C} \right]$. 
+ \end{enumerate}
+ 特に，集合を値域とする弱いSkolem関数が常に取れる：
+ \[
+ V^{\mathcal{R}} \models \forall X\: \forall Y \: \exists f: \finseq{X} \times \gimel \kappa \strto Y\; \forall \vec{x} \in \finseq{X} \:\forall y \strin Y \: 
+  \left[\varphi[\vec{x}, y] \to \exists \alpha \strin \gimel \kappa \: \varphi[\vec{x}, f(\vec{x}, \alpha)]\right].
+ \]
+\end{lemma}
+このSkolem関数は強い同値性に関する関数にはなっているが，外延的同値性と両立するとは限らない．
+ともあれ，この弱いSkolem関数を使えば，特定の条件下で非外延的な選択関数が定義可能となることがわかる：
+
+\begin{theorem}[Non-extensional Axiom of Choice, $\NEAC$]
+ $\kappa \defeq |\mathcal{R}|$とする．この時：
+ \[
+  V^{\mathcal{R}} \models \gimel \kappa: \text{整列可能} \implies \uwave{\forall z \: \exists F : \text{写像} \: [ F \sqsubseteq z \land \forall x \: \forall y\: \exists y'\: [(x, y) \in z \to (x, y') \in F] ]}.
+ \]
+ 波下線部の命題を\emph{非外延的選択公理}（$\NEAC$）と呼ぶ．
+ 特に，$\kappa = \aleph_0$なら無条件に$V^{\mathcal{R}} \models \NEAC$.
+\end{theorem}
+\begin{proof}
+ $V^{\mathcal{R}}$をあたかもモデルであるかのように扱って示そう．
+ そこで$<_{\gimel \kappa}$を$\gimel \kappa$上の整列順序とする．
+ 集合$z \in V^{\mathcal{R}}$を任意にとって，$\varphi(z, x, y) \deffml (x, y) \strin z$とおく．
+ この時，上の補題~\ref{lem:weak-skolem-gen}の「特に」部分を$\varphi$と$X = \dom(z), Y = \ran(z)$に適用すれば，$f: \dom(z) \times \gimel \kappa \to \ran(z)$で，
+ \[
+  V^{\mathcal{R}} \models \forall x \in \dom(z) \: \forall y \in \ran(z) \:[(x,y) \strin z \to \exists \alpha \in \gimel \kappa\:(x, f(x, \alpha)) \strin z]
+ \]
+ を満たすものが取れる．そこで，
+ \[
+  F \defeq \Set{ (x, f(x, \alpha)) | \alpha = \min\nolimits_{<_{\gimel \kappa}}\Set{ \alpha \strin \gimel \kappa | (x, f(x, \alpha)) \in z}}
+ \]
+ により定めれば，これが求めるものである． \qed
+\end{proof}
+
+更に，$\ZF_{\varepsilon}+\NEAC$から従属選択公理$\DC$が証明出来る：
+\begin{lemma}\label{lem:NEDC-from-NEAC}
+ $\ZF_{\varepsilon} + \NEAC \vdash \forall X \: \forall R \: \exists f : \omega \strto X [\forall x \strin X \: \exists y \strin X \: (x,y) \strin R \to \forall n < \omega \: (f(n), f(n+1)) \strin R]$.
+\end{lemma}
+\begin{proof}
+ $g \subseteq R$で$g: X \strto X$となっているものを取り，$x_0 \in X$を任意に固定する．
+ $f: \omega \to X$を次のように帰納的に定義する：
+ \[
+  f(0) \defeq x_0, \qquad f(n+1) \defeq g(f(n)).
+ \]
+ すると，任意の$n < \omega$に対して$(f(n), f(n+1)) \strin R$であり，特に$(f(n), f(n+1)) \in R$.
+ $\omega$上の非外延的関数は外延的になるので，この$f$が求めるものである． \qed
+\end{proof}
+\begin{corollary}\label{cor:DC-from-NEAC}
+ $\ZF+\NEAC \vdash \DC$.
+\end{corollary}
+\begin{proof}
+ $R$が$\ZF$の意味で極大元を持たない$X$上の二項関係だとする．
+ $R^* \defeq \Set{ (x,y) \strin X \times X | (x, y) \in R}$により$R^*$を定めれば，$R^*$は$\ZFe$の意味で極大元を持たない$X$上の二項関係となる．
+ そこで上の補題\ref{lem:NEDC-from-NEAC}を使えば，$f: \omega \strto X$で$(f(n), f(n+1)) \strin R^*$を満たすものが取れる．
+ よって補題\ref{lem:nat-func-strong}の議論のように，${\strin}$の意味で$\omega$上の関数になっていれば，${\in}$に関する関数にもなっているとしてよい．
+ すると$f: \NN \extto X$と見ることができ，$R^*$の定義より$(f(n), f(n+1)) \in R$が成り立つ． \qed
+\end{proof}
+
+\begin{corollary}\label{cor:dc-suff-cond}
+ $\kappa = |\mathcal{R}|$とおけば，
+ $V^{\mathcal{R}} \models \quoted{\gimel\kappa : \text{整列可能} \implies \DC}$.
+ 特に$|\mathcal{R}| = \aleph_0$なら$V^{\mathcal{R}} \models \DC$.
+\end{corollary}
+
+\subsection{非外延的選択公理の特徴付け}
+$\ZF$での通常の議論と同様に，次の議論が成り立つ：
+\begin{lemma}
+ $\ZFe$上で次は同値：
+ \begin{enumerate}
+  \item \label{item:NEAC} $\NEAC$,
+  \item \label{item:choice-fun} $\forall X \: \exists f: \text{function}\: \forall x \strin X \: [\exists w \: (w \strin x) \to f(x) \strin x]$.
+ \end{enumerate}
+\end{lemma}
+\begin{proof}
+ $\ref{item:NEAC} \implies \ref{item:choice-fun}$：収集公理で$z = \Set{(x, z) | z \strin x \strin X}$とおけば，$\NEAC$より関数$f \sqsubseteq z$が取れ，この時$x \strin X$が空でなければ$f(x) \strin x$となる．
+
+ $\ref{item:choice-fun} \implies \ref{item:NEAC}$：$z$が与えられたとし，$I \defeq \dom(z)$とおく（内包公理と収集公理からこれは$\dom(z)$は集合として存在する）．
+ $z_i \defeq \Set{(i, x) | (i, x) \strin z, i \strin I}$と定め，$X \defeq \Set{z_i |  i \in I}$とおく．
+ この時\ref{item:choice-fun}より関数$g$で各$i \strin I$に対し$g(z_i) \strin z_i$，すなわち$g(z_i) \in z$となるものが取れる．
+ そこで$f \defeq \ran(g)$とおけば，これが$\NEAC$が求める$z$の一様化となっている． \qed
+\end{proof}
+
+\begin{remark}
+ 通常の選択公理と同じく，$\NEAC$は次の命題とも同値になるような気がするかもしれない：
+ \begin{quote}
+  任意の集合$A$と同値関係$\sim$に対して完全代表系$A^*$が存在する．
+  即ち$\forall x, y \strin A^* \: [x \sim y \to x = y]$かつ$\forall x \strin A\: \exists y \strin A^* \: x \sim y$なる$A^* \sqsubseteq A$が存在する．
+ \end{quote}
+ しかし，期待に反してこれは$\ZFe + \NEAC$の公理系だけからは出て来ない．
+ 通常，これは$x$に対する$\sim$-同値類を$[x]_{\sim}$と書くことにすれば，求める完全代表系$A^*$は$A_0 \defeq \Set{[x]_{\sim} | x \in A}$に対する選択関数の像を取ることで得られる．
+ しかし，ここでは「完全性」に暗黙裡に集合の外延的同値性を使っている．
+ 即ち，$x \sim y$なら$[x] = [y]$となることがこの証明のキモだったが，$\ZFe$の公理系だけから内包公理の与える集合が外延性を満たすことは従わない．
+ 実際，$V^{\mathcal{R}}$における内包公理を実現する名称の構成法は同値関係についてこうした互換性が成り立たない．
+\end{remark}
+\end{document}
+
+% Local Variables:
+% mode: yatex
+% TeX-master: "03-naturals-and-dc.tex"
+% End:

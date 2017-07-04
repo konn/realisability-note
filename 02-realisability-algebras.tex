@@ -1,0 +1,801 @@
+%#!luajitlatex -src-specials realisability.tex
+
+\documentclass[realisability.tex]{subfiles}
+
+\begin{document}
+\section{実現可能性代数と実現可能性モデル}
+\subsection{実現可能性代数の定義と解釈}
+今回の主題であるKrivineの\textbf{実現可能性代数}は，上のKrivine機械を公理化したものである：
+
+\begin{definition}
+ \textbf{実現可能性代数}とは，\textbf{項}の集合$\Lambda$，\textbf{スタック}の集合$\Pi$および\textbf{プロセス}の集合$\Lambda \cons \Pi$といくつかの関係・写像から成る組$\braket{\Lambda, \Pi, \Lambda \cons \Pi, \reds, \mathord{\push}, \cons, \conti, \pole, \PT}$で，次を満たすものである：
+ \begin{enumerate}
+  \item 項の\textbf{適用}$\Lambda \times \Lambda \ni (\xi, \eta) \mapsto (\xi \eta) \in \Lambda$．
+        $\xi, \eta_i \in \Lambda$の時，
+        $\xi\eta_1 \dots \eta_n \deffml ((\xi \eta_1) \dots ) \eta_n$と略記．
+  \item $(\push) : \Lambda \times \Pi \to \Pi$ を \emph{push} と呼ぶ．
+  \item \textbf{プロセス}の作成$\cons : \Lambda \times \Pi \to \Lambda \cons \Pi$
+  \item \textbf{継続}$\conti: \Pi \to \Lambda$．$\conti_\pi \defeq \conti(\pi)$と書く．
+  \item \textbf{命令}または\textbf{原子項}と呼ばれる定数$\B, \C, \I, \K, \W, \cc \in \Lambda$,
+  \item $\reds$は\textbf{実行過程}と呼ばれる次を満たす$\Lambda \cons \Pi$上の擬順序：
+        \begin{alignat*}{3}
+         \xi\eta \cons \pi &\reds \xi \cons \eta \push \pi,\quad &
+         \B \cons \xi \push \eta \push \zeta \push \pi &\reds (\xi)(\zeta \eta) \cons \pi,\\
+         \I \cons \xi \push \pi &\reds \xi \cons \pi,\quad &
+         \W \cons \xi \push \eta \push \pi &\reds \xi \cons \eta \push \eta \push \pi,\quad&
+         \K \cons \xi \push \eta \push \pi &\reds \xi \cons \pi,\\
+         \cc \cons \xi \push \pi &\reds \xi \cons \conti_\pi \push \pi,\quad&
+         \C \cons \xi \push \eta \push \zeta \push \pi &\reds \xi \cons \zeta \push \eta \push \pi,\quad&
+         \conti_\pi \cons\; {\xi \push \varpi} &\reds \xi \cons \pi
+        \end{alignat*}  
+  \item \textbf{極}$\pole \subseteq (\Lambda \cons \Pi)$は$\reds$について下に閉じている．即ち，
+        $p' \reds p \in \pole \implies p' \in \pole$.
+
+        これは，補集合と対偶をとるとわかりやすい．
+        つまり，$\pole$に属さないプロセスは，実行過程を経ても極には到達しないという事であり，$\pole$は「発散」する計算の集合だと思える．
+  \item $\PT \subseteq \Lambda$の各元は\emph{証明的項}と呼ばれる．
+        $\PT$は適用で閉じ，$\B, \C, \K, \W, \I, \cc \in \PT$を満たす必要がある．
+ \end{enumerate}
+\end{definition}
+
+\begin{example}[実現可能性代数としての強制法]
+ 強制法は退化した実現可能性代数と見做せる．
+ $\mathbb{B} = (\mathbb{B}, {+}, {\cdot}, 0, \mathds{1})$をBoole代数とする\footnotemark．
+ この時，以下の定義により$\mathbb{B}$には実現可能性代数の構造が入る：
+ \begin{gather*}
+  \Lambda = \Pi = \Lambda \cons \Pi = \mathbb{B}, \qquad
+  \B = \C = \K = \W = \I = \cc = \mathds{1},\qquad \conti_\pi = \pi,\\
+  (p q) \defeq p \push q \defeq p \cons q \defeq p \cdot q, \qquad
+  \pole \defeq \set{0},\\
+  p \reds q \defs p \leq q.
+ \end{gather*}
+\end{example}
+\footnotetext{実際には最大元を持つ有界下半束であればよい．}
+上の例は，実現可能性代数は非可換で極大元が沢山ある強制法だという直観も与えてくれる．
+
+基礎に関わる議論をするので，下記で採用する証明体系の定義を与えておく．
+\begin{definition}
+ 一階古典述語論理の論理式は次で得られる物のみを考える：
+ \begin{enumerate}[series=fml-def]
+  \item $\perp$および$\top$は論理式である．
+  \item $\tau_1, \dots, \tau_n$が項で$R$が$n$-変数述語記号の時，$R(\vec{\tau})$も論理式である．
+  \item $\varphi, \psi$が論理式の時，$\varphi \to \psi$は論理式である．
+  \item $\varphi$が論理式，$x$が変数の時$\forall x\: \varphi$も論理式である．
+ \end{enumerate}
+ 以下の略記を用いる：
+ \begin{gather*}
+  \varphi \to \psi \to \chi \deffml \varphi \to (\psi \to \chi),\qquad
+  \neg \varphi \deffml \varphi \to \perp,\qquad
+  \varphi \lor \psi \deffml \neg A \to B,\\
+  \varphi \land \psi \deffml \neg (A \to \neg B),\qquad
+  \exists x \: \varphi \deffml \neg \forall x\: \neg \varphi
+ \end{gather*}
+ 一階古典述語論理の証明体系$\HK$は，定義~\ref{def:prop-HK}の$\HK$に次の推論規則を足したもの：
+ \begin{center}
+  \begin{tikzpicture}
+   \matrix[matrix of nodes, column sep=5mm]{
+   {\AxiomC{$M: \bot$}
+    \RightLabel{$(\Abs)$}
+    \UnaryInfC{$M: \varphi$}
+    \DisplayProof}
+   &
+   {\AxiomC{$M: \forall x\: \varphi[x]$}
+    \RightLabel{$(\Subs)$}
+    \UnaryInfC{$M: \varphi[\tau]$}
+    \DisplayProof
+   }
+   \\
+   {\AxiomC{$M: \varphi\subst{x\\y}$}
+    \RightLabel{$(\Gen)$}
+    \UnaryInfC{$M: \forall x \varphi$}
+    \DisplayProof
+   }
+   &
+   {\AxiomC{$M: \forall x\: (\varphi \to \psi)$}
+    \RightLabel{$({\rightarrow}{\forall})$, where $x \notin \FV(\varphi)$}
+    \UnaryInfC{$M: \psi \to \forall x \varphi$}
+    \DisplayProof
+   }
+   \\};
+  \end{tikzpicture}
+ \end{center} 
+ 但し$\tau$は項，$x, y$は変数を表し，$(\Gen)$で$y$は$M: \varphi$を導く前提と$\forall x \varphi$に自由変数として現れない．
+\end{definition}
+さて，以下実現可能性代数$\mathcal{R}$を一つ固定する．
+このとき，集合論の宇宙$V$から得られる実現可能性モデル$V^{\mathcal{R}}$は二値モデルではなく，
+論理式$\varphi$に対してその\emph{真理値}$|\varphi| \subseteq \Lambda$と\emph{虚偽値}$\left\|\varphi\right\| \subseteq \Pi$が与えられている形となる．
+また，得られるモデルは第一義的には$\ZF$ではなくその保存拡大である$\ZF_\varepsilon$のモデルとなる．
+直観的には，強い所属関係$\varepsilon$は，同値な名称を同一視せずに，ある名前として見たときに所属するか？という意味で強い所属関係になっている．
+
+\begin{definition}[理論$\ZF_{\varepsilon}$]
+ $\ZF_{\varepsilon}$の言語$\mathcal{L}_{\ZF_{\varepsilon}}$は二項述語記号$\set{{\notin}, {\strnin}, {\subseteq}}$から成る．
+ 以下の略記法を用いる：
+ \begin{alignat*}{3}
+  a \strin b &\deffml a \strnin b \to \perp, &\qquad&
+  a \in b &\equiv a \notin b \to \perp,\\
+  a \sqsubseteq b &\deffml \forall x \: (x \strnin b \implies x \strnin a),&&
+  a \simeq b & \deffml a \subseteq b \wedge b \subseteq a.
+ \end{alignat*}
+ $\strin$, $\in$, $\sqsubseteq$, $\simeq$はそれぞれ\emph{強い所属関係}，\emph{弱い所属関係}，\emph{強い包含関係}および\emph{弱い同値性}と呼ばれる．
+ 「弱い」の代わりに\emph{外延的}(\emph{extensional})，「強い」の代わりに\emph{内包的}(\emph{intensional})とも言う．
+ また，量化子の略記を次のように導入する：
+ \begin{align*}
+  \forall x \strin a \: \varphi[x] &\deffml \forall x \: (\neg \varphi[x] \implies x \strnin a),\\
+  \forall x \in a \: \varphi[x] &\deffml \forall x \: (\neg \varphi[x] \implies x \notin a).
+ \end{align*}
+
+
+ $\ZF_\varepsilon$の公理は次の通り：
+ \begin{description}
+  \item[外延性公理]
+   $\forall x \: \forall y \: [x \in y \iff \exists z \strin y \: (x \simeq z)], \qquad
+     \forall x \: \forall y \: [x \subseteq y \iff \forall z \strin x \: (z \in y)]$,
+  \item[基礎の公理図式] $\ZF_{\varepsilon}$-論理式$\varphi[x, \vec{y}]$に対し，
+     $\forall\vec{z} \:\left[\forall x \: \left( \forall y \strin x \: (\varphi[y, \vec{z}]) \to \varphi[x, \vec{z}] \right) \implies \forall a\: \varphi[a, \vec{z}]\right]$,
+  \item[内包公理図式]
+    $\ZF_{\varepsilon}$-論理式$\varphi[x, \vec{y}]$に対し，
+    $\forall \vec{y}\: \forall a \: \exists b \: \forall x \: \left[x \strin b \iff (x \strin a \land \varphi[x, \vec{y}])\right]$,
+  \item[対集合公理]
+    $\forall a \: \forall b \: \exists x \: (a \strin x \land b \strin x)$,
+  \item[和集合公理] 
+    $\forall a \: \exists b \: \forall x \strin a \: (x \strin b)$,
+  \item[冪集合公理] 
+    $\forall a \: \exists b \: \forall x\: \exists y \strin b \: \forall z \: \left[z \strin y \iff (z \strin a \land z \strin x) \right]$,
+  \item[収集公理]
+    $\ZF_{\varepsilon}$-論理式$\varphi[x, y, \vec{z}]$に対し，
+    $\forall \vec{z}\: \forall a \: \exists b \: \forall x \strin a \left[
+             \exists y \: \varphi[x, y, \vec{z}] \implies \exists y \strin b \: \varphi[x, y, z]\right]$,
+  \item[無限公理] 
+    $\ZF_{\varepsilon}$-論理式$\varphi[x, y, \vec{z}]$に対し，
+    \[
+     \forall \vec{z} \: \forall a \: \exists b\:
+             \left[ a \strin b \land
+                    \forall x \strin b \left(\exists y \: \varphi[x,y,\vec{z}] \implies \exists y \strin b\: \varphi[x, y, \vec{z}] \right)
+             \right].
+    \]
+ \end{description}
+\end{definition}
+\begin{remark}
+ \begin{enumerate}
+  \item 実現しやすいように，通常は公理図式でないものも公理図式として表現している．
+  \item 通常の無限公理は上の公理図式で$\varphi(x, y) \deffml y = x \cup \set{x}$とおけば得られる．
+  \item 内包公理から先は，通常の$\ZF$の公理系で${\in}$を${\strin}$で置き換えて得られる．
+ \end{enumerate}
+\end{remark}
+
+$\ZF_{\varepsilon}$は$\ZF$の保存拡大になっている．
+ここで，$\ZF$の言語は${\in}, {\subseteq}$を二項述語記号として持つとする．
+次が直ちにわかる：
+
+\begin{lemma}\label{lem:ZF-conservative-lem}
+ \begin{enumerate}
+  \item $\forall a\: \forall b \: [a \strin b \implies a \in b]$,　$\forall a, b, c \: [ a \in b \subseteq c \implies a \in c]$, $\forall a, b, c \: [a \subseteq b \subseteq c \implies a \subseteq c]$,
+  \item $\ZF_{\varepsilon} \vdash \quoted{{\in}: \text{set-likeな整礎関係}}$，
+  \item \label{item:ZF-fml-cong}$\varphi[\vec{x}]$を$\ZF$-論理式とすると，
+        $\ZF_{\varepsilon} \vdash \forall \vec{x} \: \forall \vec{y} \: [\vec{x} \simeq \vec{y} \implies \quoted{\varphi[\vec{x}] \iff \varphi[\vec{y}]}]$.
+ \end{enumerate}
+\end{lemma}
+
+これらを使えば，$\ZF_{\varepsilon}$が$\ZF$の保存拡大であることはルーチンワークで示せる．
+
+よって，$\ZF_{\varepsilon}$のモデルが得られれば，その外延部分を見てやれば$\ZF$のモデルが得られる．
+そして，$\ZF_{\varepsilon}$のモデルを得る為の方法が以下の実現可能性モデルである．
+強制法においては各論理式$\varphi$に対し完備Boole代数$\mathbb{B}$-値の真偽値$\truth{\varphi} \in \mathbb{B}$が定まっていた．
+特に，$V[G]$の各元は，帰納的に定められた$\mathbb{B}$-値所属確率の関数によって表現されていた．
+対する実現可能性モデルでは，真偽値だけでなく\emph{虚偽値}（あるいは反駁値？）が定まっており，全てを二重否定をとった形で定める．
+特に，集合$a$の所属確率を定めるのではなく，$a$の\emph{補集合}の所属関係の\emph{虚偽値}によって非所属関係を定める方法を採る．
+
+\begin{definition}[実現可能性モデル]
+ 集合論の宇宙$V$と実現可能性代数$\mathcal{R} = (\Lambda, \Pi, \Lambda \ast \Pi, \pole, \dots)$に対し，\emph{実現可能性モデル}$V^{\mathcal{R}}$の構造を定めたい．
+
+ 論理式$\varphi$の構成に関する帰納法とランクに関する帰納法により，$|\varphi| \subseteq \Lambda$, $\|\varphi\| \subseteq \Pi$を次のように定める：
+ \begin{gather*}
+  |\varphi| \defeq \Set{ \xi \in \Lambda | \forall \pi \in \|\varphi\| \: \xi \cons \pi \in \pole},\\
+  \|\bot\| \defeq \Pi,\qquad \|\top\| \defeq \emptyset, \\
+  \|a \strnin b\| \defeq \Set{ \pi \in \Pi | (a, \pi) \in b},\\
+  \|\varphi \to \psi\| \defeq \Set{ \xi \push \pi | {\xi \in |\varphi|, \pi \in \|\psi\|}},\\
+  \|\forall x \: \varphi[x, \vec{b}]\| \defeq \bigcup_{a \in V} \| \varphi[a, \vec{b}]\|,\\
+  \| a \subseteq b \| \defeq \bigcup_{(c, \pi) \in a} \Set{ \xi \push \pi | \xi \Vdash c \notin b}
+  = \bigcup_{c \in \dom(a)} \|c \notin b \implies c \strnin a\|\\
+  \| a \notin b \| \defeq \bigcup_{(c, \pi) \in b} \Set{ \xi \push \xi' \push \pi | \xi \Vdash \quoted{a \subseteq c}, \xi' \Vdash \quoted{c \subseteq a}}
+   = \|\forall x \: (a \simeq x \implies a \strnin b)\|
+ \end{gather*}
+ 但し，$\xi \Vdash \varphi \defs \xi \in |\varphi|$とする．
+
+ $\ZF_{\varepsilon}$の論理式$\varphi$に対して，関係$V^{\mathcal{R}} \models \varphi$を次で定める：
+ \[
+  V^{\mathcal{R}} \models \varphi \defs \exists \xi \in \PT\: \xi \Vdash \varphi \mathrel{}(\iff \PT \cap |\varphi| \neq \emptyset).
+ \]
+ この時，$\varphi$は$V^{\mathcal{R}}$で\emph{実現される}(\emph{realised})と言う．
+\end{definition}
+
+\begin{remark}{全称量化子の解釈と否定命題について}
+ 量化子の解釈では，全称変数は基礎モデルの集合だけを亘っている．
+ この状況を見ると，結局新しい元は付加されていないのではないか？という気がしてしまう．
+ しかし，ここで重要なのは，$\xi \Vdash \forall x \: \varphi(x)$を示すには，$\xi$が\emph{どんな$x$についても一様に}$\varphi(x)$を実現する必要がある，という事である．
+ つまり，任意の$x \in V$について個別に$V^{\mathcal{R}} \models \varphi(x)$が実現されているからといって，$V^{\mathcal{R}} \models \forall x\: \varphi(x)$が成り立つとは限らないという事である．
+ 対偶を取って考えれば，$V^{\mathcal{R}}$において存在命題$\exists x \: \varphi(x)$が実現されていても\emph{$\varphi(x)$を満たす$x$が具体的に取れるとは限らない}という事である．
+ 即ち，$V^{\mathcal{R}}$はフルモデルではない．
+
+ また，ここでは記号を$\models$を使っているが，これは強制法でいえば「$\mathds{1}$が強制する」と同じ条件であり，$V^{\mathcal{R}} \not\models \varphi$は$V^{\mathcal{R}} \models \neg \varphi$を意味しないことにも気を付ける必要がある．
+\end{remark}
+
+定義する前にも言った通り，実現可能性モデルでは虚偽値を基本に置き，すべて否定形で定義している事がわかる．
+
+直観的には，虚偽値は「与えられた命題の反例」となる入力の集合であり，真理値はその反例を「検証」するプログラムであると見ることが出来る．
+検証プログラムに反例を与えて停止すれば（つまり$\pole$に入らなければ），虚偽値が勝って反証が完了したことになる．
+一方，どの反例に対しても検証プロセスが発散するなら（つまりどう反例を選んでも$\pole$に入ってしまうなら），真理値が勝って反証は失敗したと見做せる．つまり，真理値によってその命題が真ならしめられていると思える．
+
+以下では具体的にどんな論理式が実現されているのかをひたすら調べることになる．
+
+まず，そもそも古典論理の論理式が実現されていることを見なくてはならない．
+そのための基本的な補題を並べておく．
+まず，弱頭部簡約の抽象定理~\ref{thm:abs-thm-cl}と補題~\ref{lem:CR-wh-KM}を組み合わせれば次が示せる：
+\begin{theorem}[抽象定理]\label{thm:abs-thm}
+ $\CL$-項$M$と$\xi, \eta_1, \dots, \eta_n \in \Lambda$に対して次が成立する：
+ \[
+  (\abs x M)\subst{y_1 & \dots& y_n\\ \eta_1& \dots & \eta_n } \cons \xi \cdot \pi \reds
+  M\subst{x & y_1 & \dots& y_n\\ \xi & \eta_1 & \dots &\eta_n } \cons \pi.
+ \]
+\end{theorem}
+
+また，定義を展開すれば，証明的項が演繹について閉じていることがわかる：
+\begin{lemma}[演繹定理]
+ \begin{enumerate}
+  \item $\xi \Vdash \varphi \to \psi$, $\eta \Vdash \varphi$なら$\xi\eta \Vdash \psi$.
+  \item 任意の$\eta \Vdash \varphi$に対し$\xi \eta \Vdash \psi$が成り立つなら，$\abs{x}{\xi x} \Vdash \varphi \to \psi$.
+ \end{enumerate}
+ よって$\Gamma \subseteq \Lambda$が$\B, \I \in G$を満たし，適用で閉じているなら$\Gamma$は実現可能性について$\MP$で閉じている．
+\end{lemma}
+\begin{proof}
+ \begin{enumerate}
+  \item $\pi \in \|\psi\|$を任意に取り，$\xi \eta \cons \pi \in \pole$を示せばよい．
+        特に，$\pole$が反簡約について閉じていて$\xi\eta \cons \pi \reds \xi \cons \eta \push \pi$なので，$\xi \cons \eta \push \pi \in \pole$を示せばよい．
+        しかし，定義より$\eta \push \pi \in \|\varphi \to \psi\|$であり$\xi \in \|\varphi \to \psi\|$だからめでたく$\xi \cons \eta \push \pi \in \pole$を得る．
+  \item 仮定を満たす$\xi$を取り，任意の$\pi \in \|\varphi \to \psi\|$に対して$\B\I\xi \cons \varpi \in \pole$を示す．
+        しかし，定義より$\varpi$は$\eta \Vdash \varphi$と$\pi \in \|\psi\|$により$\eta \push \pi$の形になっている．
+        すると，
+        \[
+         (\abs{x}{\xi x}) \cons \eta \push \pi
+        \rhd \xi \eta \cons \pi \in \pole.
+        \]
+        よって示せた． \qed
+ \end{enumerate}
+\end{proof}
+この定理は演繹定理と見ることが出来ると共に，強制法における含意の定義の非可換な一般化と見ることが出来る．
+実際，上の例で挙げたように，適用は下限を取る操作で$\abs{x}{p x} = \B \I p = \mathds{1} \cdot p = p$となるから，cBaの場合は$p \Vdash \varphi \to \psi \iff \forall q \leq p \: [q \Vdash \varphi \implies q \Vdash \psi]$と同値になる．
+
+\begin{lemma}[Adequecy Lemma]
+ $\varphi_i[\vec{z}], \psi[\vec{z}]$: $\ZF_\varepsilon$-論理式，$x_i$:：変数，$M$：$\CL$-項，
+ \[
+  x_1 : \varphi_1[\vec{z}], \dots x_n : \varphi_n[\vec{z}] \vdash_{\HK} M: \psi[\vec{z}]
+ \]
+ とする．
+ この時，$\vec{a} \in V$, $\xi_i \Vdash \varphi_i[\vec{a}]$なら$M\subst{x_1 & \dots & x_n\\\xi_1 & \dots & \xi_n} \Vdash \psi[\vec{a}]$.
+
+ よって古典論理のトートロジーは全て実現可能性モデルで実現されている．
+\end{lemma}
+\begin{proof}[Sketch of Proof]
+ 演繹定理があるので，あとは古典論理の公理が実現されていることがわかれば良い．
+
+ たとえば，$\cc \Vdash ((\varphi \to \psi) \to \varphi) \to \varphi$について考えてみよう．
+ まず$\varpi \in \|\psi\|$，$\xi \Vdash \phi$，$\pi \in \|\varphi\|$に対して$\conti_\pi \cons \xi \cons \varpi \reds \xi \cons \pi \in \pole$となるから，$\conti_\pi \Vdash \varphi \to \psi$となっている事に注意する．
+
+ ここで，改めて$\xi \Vdash (\varphi \to \psi) \to \varphi$および$\pi \in \|\varphi\|$を取れば，
+ \[
+  \cc \cons \xi \push \pi
+ \reds \xi \cons \conti_\pi \cons \pi
+ \]
+ となり，$\conti_\pi \cons \pi \in \|(\varphi \to \psi) \to \varphi\|$なので，結局$\cc \cons \xi \push \pi \in \pole$を得る．
+ 公理$\B, \C, \K, \W, \I$についても同様．
+
+ 推論規則$\Abs$，$\Gen$，$\Subs$および$({\rightarrow}{\forall})$についても定義から直ちに従う．
+ 例えば，$\xi \Vdash \forall x \: \varphi \to \psi[x]$とすると，定義から任意の$a \in V$に対して
+ $\xi \Vdash \varphi \to \psi[a]$となる．
+ $x \notin \FV(\varphi)$に気を付ければ，これは任意の$\eta \Vdash \varphi$および$\pi \in \|\psi[a]\|$に対し$\xi \cons \eta \push \pi \in \pole$ということである．
+ 示すべきことは$\eta \Vdash \varphi$と$\pi \in \|\forall x\: \psi[x]\|$に対し$\xi \cons \eta \push \pi \in \pole$だが，このとき定義より$a \in V$で$\pi \in \|\psi[a]\|$となるものが取れるので良い． \qed
+\end{proof}
+
+こうして，古典論理におけるトートロジーが全て$V^{\mathcal{R}}$で実現されていることがわかった．
+しかし，偽なる命題まで実現されては困るので，その為に「良い」実現可能性代数を定義する：
+
+\begin{definition}
+ 実現可能性代数$(\Lambda, \Pi, \Lambda \cons \Pi, \pole, \dots)$が\emph{斉一的}(\emph{coherent}) $\defs$任意の証明的項$\theta \in \PT$に対して$\theta \cons \pi \notin \pole$となるスタック$\pi \in \Pi$が存在する．
+\end{definition}
+
+\begin{remark}
+ $V^{\mathcal{R}} \not\models \perp \iff$実現可能性代数が斉一的．
+\end{remark}
+
+以下，実現可能性代数は全て斉一的なもののみ考える．
+
+\subsection{$\ZF_{\varepsilon}$が実現されている事}
+以後，$\ZF_{\varepsilon}$の公理が$V^{\mathcal{R}}$で実現されている事をみていく．
+
+まず，これまでの議論を踏まえて同値性証明を楽するための定義をしておく：
+\begin{definition}
+ 論理式$\varphi$と$\psi$が（$V^{\mathcal{R}}$で）\emph{交換可能}$\defs$ $\xi, \xi' \in \PT$があって$\xi \Vdash \varphi \to \psi$かつ$\xi' \Vdash \psi \to \varphi$.
+\end{definition}
+
+基本的には，各種集合の存在公理については強制法の時と同じように名称を弄ってでっちあげればよい．
+例えば，$\varphi$と$a$に対する内包公理の証拠は次で与えればよい：
+\[
+ \Set{ (x, \xi \push \pi) | (x, \pi) \in a, \xi \Vdash \neg \varphi[x]}
+\]
+
+非自明な外延性と基礎の公理について見ていこう．
+
+\begin{lemma}
+ $\comb{A} \defeq \abs{x f}{f(xxf)}$, $\Y \defeq \comb{A}\comb{A}$とおく．
+ この時任意の$\ZF_{\varepsilon}$の論理式$\varphi[x,\vec{z}]$に対し，
+ \[
+  \Y \Vdash \forall \vec{z} \: [ \forall x \: \left[\forall y \: (\varphi[y, \vec{z}] \to y \strnin x) \to \neg \varphi[x, \vec{z}]\right] \to \forall x \: \neg \varphi[x, \vec{z}] ].
+ \]
+ 特に，$V^{\mathcal{R}}$で基礎の公理が実現されている．
+\end{lemma}
+\begin{proof}
+ これが示せれば，実現可能性モデルが古典論理のトートロジーと演繹で閉じている事から，$\varphi$の代わりに$\neg \neg \varphi$を考えることで基礎の公理が得られる．
+
+ 以下，簡単のため$\vec{z}$は省略する．
+
+ $a \in V$のランクについての帰納法により，
+ 任意の$\xi \Vdash \forall x \: \left[\forall y \: (\varphi[y, \vec{z}] \to y \strnin x) \to \neg \varphi[x, \vec{z}]\right]$, $\eta \Vdash \varphi[a]$および$\pi \in \Pi$に対し，$\Y \cons \xi \push \eta \push \pi \in \pole$となる事を示す．
+
+ ここで，
+ \[
+  \Y \cons \xi \push \eta \push \pi \in \pole \reds \A \cons \A \push \xi \push \eta \push \pi
+  \reds \xi (\Y \xi) \cons \eta \push \pi \reds \xi \cons \Y \xi \push \eta \push \pi.
+ \]
+ 定義より$\eta \push \pi \in \|\neg \varphi[a]\|$なので，あとは$\forall y \: \left[\varphi[y, \vec{z}] \to y \strnin x\right]$を示せれば良い．
+ 結局，$(y, \varpi) \in a$と$\zeta \Vdash \varphi[y]$を任意に固定し，$\Y \xi \cons \zeta \push \varpi \in \pole$を示せばよい．
+ しかし，$\Y \xi \cons \zeta \push \varpi \reds \Y \cons \xi \push \zeta \push \varpi$であり，帰納法の仮定よりこれは$\pole$に属する． \qed
+\end{proof}
+
+\begin{lemma}
+ $\I$が外延性の公理を実現する．
+\end{lemma}
+\begin{proof}
+ $\|a \notin b\| = \|\forall z \: [ z \simeq a \to z \notin b]\|$に気付けばあとは定義を展開するだけ． \qed
+\end{proof}
+
+\begin{theorem}
+ $V^{\mathcal{R}} \models \ZF_\epsilon$.
+\end{theorem}
+
+\subsection{関数・述語記号の持ち上げ}
+$\ZF_{\varepsilon}$には二種類の所属関係があるので，二種類の「関数」の定義が存在する．
+つまり，強い同値性と両立する意味での関数と，弱い同値性と両立する意味での関数である．
+\begin{definition}
+ \begin{itemize}
+  \item $f$が\emph{（非外延）関数的}$\defs \forall x \: \forall y \: \forall y'\:[(x, y) \strin f \to (x, y') \strin f \to y = y']$.
+
+        特に定義域・値域を明示する場合，$f: X \strto Y$または単に$f: X \to Y$と書く．
+  \item $f$が\emph{外延関数的}$\defs \forall x \: \forall x'\: \forall y \: \forall y'\:[(x, y) \in f \to (x, y') \in f \to x \simeq x' \to y \simeq y']$.
+
+        特に定義域・値域を明示する場合，$f: X \extto Y$と書く．
+  \item $f$が\emph{強い意味の関数}，あるいは\emph{$\ZFe$-関数}$\defs f: \text{非外延関数的} \land \forall x \strin f\: \exists y\: \exists z \: x = (y, z)$.
+  \item $f$が\emph{外延的関数}，あるいは\emph{$\ZF$-関数}$\defs f: \text{外延関数的} \land \forall x \strin f\: \exists y\: \exists z \: x \simeq (y, z)$.
+ \end{itemize}
+\end{definition}
+非外延的関数も外延的関数も，どちらが強くてどちらかが弱いとは言えない．
+$x \neq y$だが$x \simeq y$となるような$x, y$があった場合，$f$が非外延的関数であったとしても，$f(x) \not\simeq f(y)$である可能性があり，この場合$f$は外延的関数では有り得ない．
+また，$f$が外延的関数であったとしても，$(x, y), (x, y') \strin f$で$y \simeq y'$だが$y \neq y'$であるような物があるかもしれない．
+この場合，$f$は非外延的な関数ではないことになる．
+あとで見るように，$V^{\mathcal{R}}$では「非外延的」な選択公理が成立し得るが，これにより与えられる選択関数が外延的同値性と両立するとは限らないため，$V^{\mathcal{R}}$を$\ZF$のモデルとして見た時に必ずしも$\AC$は成立しなくなっている．
+
+
+さて，$V^{\mathcal{R}}$の構造を，$V$上の定義可能なクラス関数で拡張することを考えよう．
+$V^{\mathcal{R}}$はドメインは$V$と一致しているので，$V$上で定義された関数はそのまま$V^{\mathcal{R}}$上の関数記号として解釈することが出来，$\ZFe$-関数として振る舞うことが出来る．
+つまり，$V \models \forall \vec{x} \: \exists! y \: \varphi[\vec{x}, y]$なる論理式$\varphi$によって定義された論理式は，$V^{\mathcal{R}}$においても何らかの関数に対応していることになる．
+また，述語や論理式についても，特性関数を使えば同様に$V$に持ち上げることが出来る．
+こうした関数記号を使った$\ZF_\varepsilon$の論理式についても，定義を展開して書き直せば$\ZF_\varepsilon$の収集・内包公理の内側で使えることがわかる．
+
+一方，そうした関数記号は必ずしも外延的関数であるとは限らないため，$\ZF$の公理としての（つまり，${\notin}, {\subseteq}$で書かれた）内包・収集公理の内側で使うには外延的同値性とも両立することを示す必要がある．
+
+以下，持ち上げられた定義可能関数が$V^{\mathcal{R}}$においてどんな振る舞いをするかを調べていく．
+実は，各$a \in V$に対し強制法における$\check{a}$に類似の役割をする$\gimel a$という演算子があり，$V$における$f: A_1 \times \dots \times A_n \to B$は$f: \gimel A_1 \times \dots \times \gimel A_n \to \gimel B$に持ち上がる，という事がわかる．
+但し，これら$\gimel(a)$は$\check{a}$と異なり，$V$から見て非標準的な元を含むことも後ほど明らかになる．
+
+さて，これらをしっかり議論するためには，まずは$V^{\mathcal{R}}$における強い等号の解釈を与えておく必要がある．
+そこで，$\ZF_{\varepsilon}$の論理式の定義と記号の解釈に次の節を追加する：
+
+\begin{definition}
+ \begin{enumerate}[resume*=fml-def]
+  \item $\tau, \sigma$が項，$\varphi$が$\ZF_{\varepsilon}$-論理式の時，$\tau = \upsilon \hookrightarrow \varphi$も$\ZF_{\varepsilon}$の論理式．
+ \end{enumerate}
+ 以下の略記を用いる：
+ \[
+  \quoted{\tau \neq \upsilon} \deffml \quoted{\tau = \upsilon \hookrightarrow \bot},\qquad
+  \quoted{\tau = \upsilon} \deffml \quoted{\tau \neq \upsilon \to \bot}.
+ \]
+
+ 実現可能性モデル$V^{\mathcal{R}}$における論理式の虚偽値の定義に次を追加する：
+ \[
+  \| t = u \hookrightarrow \varphi \|
+   \defeq
+   \begin{cases}
+    \| \varphi \| & (\text{if } t = u),\\
+    \emptyset & (\ow).
+   \end{cases}
+ \]
+\end{definition}
+
+\begin{remark}
+ \[
+  \| t \neq u\| =
+  \begin{cases}
+   \Pi = \|\bot\| & (t = u) \\
+   \emptyset = \|\top\| & (\ow)
+  \end{cases}, \qquad
+  \| t = u \| = \| (t \neq u) \to \bot \|
+  = \begin{cases}
+     \|\bot \to \bot\|& (t = u)\\
+     \|\top \to \bot\|& (\ow)
+    \end{cases}
+ \]
+\end{remark}
+
+以下は$t = u \to \varphi$と$t = u \hookrightarrow \varphi$が交換可能である事を示している：
+\begin{lemma}
+ \begin{enumerate}
+  \item $\abs{x}{x \I} \Vdash (t = u \to \varphi) \to (t = u \hookrightarrow \varphi)$,
+  \item\label{item:hook-to-ordinary}
+       $\abs{xy}{\cc (\abs{\conti}{y (\conti x)})} \Vdash (t = u \hookrightarrow \varphi) \to t = u \to \varphi$.
+ \end{enumerate}
+\end{lemma}
+\begin{proof}
+ 同値性の絡む証明と継続の取り扱いに慣れるために，~\ref{item:hook-to-ordinary}だけ示しておく（残りもやるだけ）．
+
+ $\xi \Vdash t = u \hookrightarrow \varphi$, $\eta \Vdash t = u$および$\pi \in \|\varphi\|$を固定し，$\abs{xy}{\cc (\abs{\conti}{y (\conti x)})} \cons \xi \push \eta \push \pi \in \pole$を示す．
+ \[
+  \abs{xy}{\cc (\abs{\conti}{y (\conti x)})}  \cons \xi \push \eta \push \pi
+ \reds
+  \cc \cons (\abs{\conti}{\eta (\conti \xi)}) \push \pi
+ \reds
+  \eta \cons (\conti_\pi \xi) \push \pi,
+ \]
+ より$\KVM{\eta {{(\conti_\pi \xi)}} \pi}  \in \pole$を示せば良い．
+
+ もし$t = u$なら$\|t = u \hookrightarrow \varphi\| = \|\varphi\|$となるので，$\xi \Vdash \varphi$であり，注意から$\eta \Vdash \bot \to \bot$．
+ ここで$\pi \in \|\varphi\|$より$\conti_\pi \Vdash \varphi \to \bot$となるから，演繹定理より$\conti_\pi \xi \Vdash \bot$.
+ $\pi \in \Pi = \|\bot\|$より$\xi \push \pi \in \|\bot \to \bot\|$となるので，結局$\KVM{\eta {{\conti_\pi \xi}} \pi} \in \pole$.
+
+ $t \neq u$の時は$\eta \Vdash \top \to \bot$であり，$\xi \Vdash \top$かつ$\pi \in \|\bot\|$より明らか． \qed
+\end{proof}
+
+また，基礎モデルにおける等号公理から，$V^{\mathcal{R}}$における等号公理も直ちに従う：
+
+\begin{lemma}[$V^{\mathcal{R}}$における等号公理]
+ \[
+  \I \Vdash \forall x \: (x = x),
+            \forall x \: \forall y\: (x = y \hookrightarrow y = x),
+            \forall x \: \forall y\: \forall z \: (x = y \hookrightarrow y = z \hookrightarrow x = z),
+            \forall x \: \forall y\:
+                [x = y \hookrightarrow \varphi[x] \to \varphi[y]].
+ \]
+\end{lemma}
+
+こうして導入された等号は，Leibniz同値性と一致している：
+
+\begin{lemma}
+ $\begin{aligned}
+   \I \Vdash (t = u \hookrightarrow \forall x\: (u \strnin x \to t \strnin x)),
+            (\forall x \:(u \strnin x \to t \strnin x) \to t = u ).
+ \end{aligned}$
+\end{lemma}
+\begin{proof}
+ やるだけ． \qed
+\end{proof}
+
+以上で$V^{\mathcal{R}}$に素性のよい等号が導入出来た．
+特に，関係の特性関数を使って議論することで，$V$における関係記号を$V^{\mathcal{R}}$に持ち上げることが出来る．
+
+\begin{definition}
+ $\ZF$の論理式$\varphi[\vec{x}]$について，写像$V \ni \vec{x} \mapsto \braket{\varphi[\vec{x}]} < 2$を次で定める：
+ \[
+  \braket{ \varphi[\vec{x}] } = 1 \iff \varphi[\vec{x}].
+ \]
+ 特に，$V$で定義可能な関係$R$に対して$R^{\mathcal{R}}(\vec{x})\hookrightarrow \varphi$は$\braket{R(\vec{x})} = 1 \hookrightarrow \varphi$の略記とし，$\neg R^{\mathcal{R}}(\vec{x})$や$R^{\mathcal{R}}(\vec{x})$も同様に定める．
+\end{definition}
+
+この時，有り難いことにある意味で整礎関係の絶対性が成り立つことがわかる：
+
+\begin{lemma}\label{lem:wf-pres}
+ $R$を$V$上の整礎関係とし，$\varphi[x]$を$\ZF_{\varepsilon}$の論理式とする．
+ この時：
+ \[
+  \Y \Vdash \forall x\: \left(\forall y\: (y \mathrel{R^{\mathcal{R}}} x \hookrightarrow \varphi[y]) \to \varphi[x] \right) \to \forall x \varphi[x].
+ \]
+\end{lemma}
+\begin{proof}
+ 基礎の公理の実現とほぼ同じ． \qed
+\end{proof}
+
+以上を踏まえると，$V^{\mathcal{R}}$における関数記号の解釈が，$V$における解釈の拡張になっている事もわかる：
+\begin{lemma}\label{lem:func-abs}
+ $\mathcal{R}$を斉一的とする．
+ $\vec{x}, y \in V$, $f$：定義可能関数記号とすると，
+ \[
+  V \models f(\vec{x}) = y \iff V^{\mathcal{R}} \models f(\vec{x}) = y.
+ \]
+\end{lemma}
+\begin{proof}
+ $({\implies})$は明らかなので逆を示す．
+ 特に$V^\mathcal{R} \models f(\vec{x}) = y$だが$V \models f(\vec{x}) \neq y$だったとして矛盾を導く（\emph{背理法}）．
+ そこで証明的項$\xi$で$\xi \Vdash f(\vec{x}) = y$となるものを取る．
+ 略さずに書けばこれは$\xi \Vdash \left(f(\vec{x}) = y \hookrightarrow \bot\right) \to \bot$である．
+ $f(x) \neq y$なので$\hookrightarrow$の定義から結局これは$\xi \Vdash \top \to \bot$と同値となる．
+ すると，$\xi \comb{I} \Vdash \bot$となるが，$\xi \comb{I} \in \PT$なのでこれは斉一性に反する． \qed
+\end{proof}
+
+$V$の集合$a \in V$は単項述語だと思えるので，上の言葉を使って持ち上げが定義出来る．
+実はこれが上で言及した$\gimel a$である：
+
+\begin{definition}
+ 関数$\gimel : V \to V$を$\gimel E \defeq E \times \Pi$により定める．
+
+ また，論理式$\braket{x \in E} = 1 \hookrightarrow \varphi$の代わりに$x \strin \gimel E \hookrightarrow \varphi$と略記する．
+\end{definition}
+
+\begin{remark}
+ $\|a \strnin \gimel E\| = \Set{ \pi | (a, \pi) \in \gimel E} = \Set{ \pi \in \Pi | a \in E} = \| a \strin \gimel E \hookrightarrow \bot\|$.
+
+ よって$a \strin \gimel E$の表記に曖昧性はなく，$a \strin \gimel E \hookrightarrow \varphi$と$a \strin \gimel E \to \varphi$は交換可能である．
+
+ 特に，論理式$\forall x \strin \gimel E \: \varphi$は$\forall x \: [ x \strin \gimel E \to \varphi]$の略記であると思って良い．
+ すると定義から
+ \[
+  \left\| \forall x \strin \gimel E \: \varphi[x]\right\| = \bigcup_{a \in E} \|\varphi[a]\|, \qquad
+  \left\lvert \forall x \strin \gimel E \: \varphi[x]\right\rvert = \bigcap_{a \in E} |\varphi[a]|.
+ \]
+\end{remark}
+
+さて，等号公理と$V^{\mathcal{R}}$における$=$の定義から，特に次の形の絶対性が手に入る：
+
+\begin{theorem}
+ $t_i, u_i, t, i$を項とする．
+ この時，
+\begin{align*}
+ V &\models \forall \vec{x}\: \left[t_1[\vec{x}] = u_1[\vec{x}] \to \dots \to t_n[\vec{x}] = u_n[\vec{x}] \to t[\vec{x}] = u[\vec{x}]\right]\\
+ \iff 
+ V^{\mathcal{R}} &\models
+ \forall \vec{x}\: \left[t_1[\vec{x}] = u_1[\vec{x}] \hookrightarrow \dots \hookrightarrow t_n[\vec{x}] = u_n[\vec{x}] \hookrightarrow t[\vec{x}] = u[\vec{x}]\right].
+\end{align*}
+\end{theorem}
+\begin{corollary}
+ $A$が$V$において等式的な代数なら，$\gimel A$は$V^{\mathcal{R}}$の意味で同じ代数の構造が入る．
+\end{corollary}
+
+特に上で$t_i[x] \equiv x \in A_i$, $u_i[x] = 1$, $t[x] = x \in B$, $u[x] = 1$とおけば次を得る：
+
+\begin{theorem}
+ $V$で定義された関数記号$f: A_1 \times \dots \times A_n \to B$について，
+ $V^{\mathcal{R}} \models f: \gimel A_1 \times \dots \times \gimel A_n \to \gimel B$.
+
+ 特に，$\ZF$-論理式$\varphi[\vec{x}]$および$a \in V^{\mathcal{R}}$に対して，$\braket{ \varphi[\vec{a}]} \strin \gimel 2$.
+ また，$\gimel 2$には$2$上の自明なBoole代数演算を持ち上げる形でBoole代数の構造が入る．
+\end{theorem}
+
+\subsection{Boole代数$\gimel 2$の構造と$V^{\mathcal{R}}$における作用}
+Boole代数$\gimel 2$は実現可能性モデルにおいて重要な役割を果たす．
+特に，もし$\gimel 2$が非自明なら，超準的な元，特に互いに相異なるアトムが付加されていることをまずは見る．
+
+\begin{definition}
+ 集合$x$と$i \in 2 = \set{0, 1}$に対し，$i \cdot x$を次で定める：
+ \[
+  0 \cdot x \defeq \emptyset, \qquad 1 \cdot x \defeq x
+ \]
+ この時，写像$(\alpha, x) \mapsto \alpha \cdot x$は$V^{\mathcal{R}}$上において$\gimel 2 \times V^{\mathcal{R}}$上に延長されていることに気を付ける．
+\end{definition}
+
+\begin{lemma}\label{lem:nontriv-adds-atom}
+ $\comb{I} \Vdash \forall x \: \forall \alpha \strin \gimel 2\: [ \alpha \neq 1 \to \forall z \: (z \strnin \alpha \cdot x)]$
+\end{lemma}
+\begin{proof}
+ $x \in V$と$\alpha = 0, 1$を任意に取る.
+
+ まず$\alpha = 0$の時を考える．この時，
+ \[
+    \|\alpha \neq 1 \to \forall z (z \strnin \alpha \cdot x)\|
+  = \|\top \to \forall z \: (z \strnin \emptyset)\|
+  = \|\top \to \top\|
+ \]
+ よって$\comb{I} \Vdash \top \to \top$よりOK．
+
+ $\alpha = 1$ の時，
+ \[
+    \|\alpha \neq 1 \to \forall z (z \strnin 1 \cdot x)\|
+  =
+ \begin{cases}
+  \|\bot \to \top\| & (x = \emptyset)\\
+  \|\bot \to \bot\| & (x \neq \emptyset).
+ \end{cases}
+ \]
+ $\comb{I} \Vdash \bot \to \top$かつ$\comb{I} \Vdash \bot \to \bot$なのでこの場合も良い． \qed
+\end{proof}
+
+\begin{lemma}
+ $\emptyset \neq x \in V$に対し：
+ $\comb{I} \Vdash \forall \alpha, \beta \strin \gimel 2 \: [\alpha \cdot x = \beta \cdot x \hookrightarrow \alpha = \beta]$.
+\end{lemma}
+\begin{proof}
+ $\alpha, \beta \in 2$とする．
+ 特に$\alpha = \beta$の時は定義より$\|\alpha \cdot x = \beta \cdot x \hookrightarrow \alpha = \beta\| = \|\bot \to \bot\|$となるのでOK．
+ $\alpha \neq \beta$の時は，$x \neq \emptyset$より$\alpha \cdot x \neq \beta \cdot x$なので，$\|\alpha \cdot x = \beta \cdot x \hookrightarrow \alpha = \beta\| = \|\top\|$となるのでこれも良い． \qed
+\end{proof}
+同様に次が示せる：
+\begin{lemma}\label{lem:g2-upwd-cl}
+ \begin{itemize}
+  \item $\emptyset \in E \in V$に対し，$\comb{I} \Vdash \forall \alpha \strin \gimel 2 \: \forall x \:[ \braket{x \in E} \geq \alpha \hookrightarrow \alpha \cdot x \in \gimel E ]$.
+  \item $x \in E \in V$なら$\mathcal{I} \Vdash x \in \gimel E$.
+ \end{itemize}
+ 特に任意の$x \in E$に対して$V^{\mathcal{R}} \models \forall \alpha \strin \gimel 2 \: \alpha \cdot x \in \gimel E$.
+\end{lemma}
+
+ではどんな時に$\gimel 2$が非自明になるのか？
+その十分条件を与えてくれるのが次の補題である：
+
+\begin{lemma}\label{lem:char-ba-nontriv}
+ 証明的項$\omega_0$および$\omega_1$で次を満たすものがあるとする：
+ \[
+  \forall \pi \in \Pi \: \omega_0 \conti_\pi \Vdash \bot \text{ or } \omega_1 \conti_\pi \Vdash \bot.
+ \]
+ この時，$\gimel 2$は$V^{\mathcal{R}}$で非自明となっている．
+ 特に，$\theta \defeq \abs{f}{\cc (\abs{k}{f(\omega_1 \conti)(\omega_0 \conti)})}$とおけば，
+ \[
+  \theta \Vdash \neg \forall x \: (x \neq 0 \to x \neq 1 \to x \strnin \gimel 2).
+ \]
+\end{lemma}
+\begin{proof}
+ $\xi \Vdash \forall x \: (x \neq 0 \to x \neq 1 \to x \strnin \gimel 2)$および$\pi \in \Pi$を任意にとって，$\theta \cons \xi \push \pi\in \pole$を示す．
+ この時，
+ \[
+  {\theta \cons \xi \push \pi}
+  \reds {\xi \cons {\omega_1 \conti_{\pi}} \push {\omega_0 \conti_{\pi}} \push \pi}.
+ \]
+ $\xi$に関する仮定から，任意の$x < 2$について$\xi \Vdash x \neq 0 \to x \neq 1 \to x \strnin \gimel 2$.
+ よって特に$\xi \Vdash \bot \to \top \to \bot$かつ$\xi \Vdash \top \to \bot \to \bot$が成り立つ．
+ $\|\top\| = \Lambda$に注意すれば，$\omega_0 \conti_\pi \Vdash \bot$でも$\omega_1 \conti_\pi \Vdash \bot$でも上の式は$\pole$に属することがわかる． \qed
+\end{proof}
+後ほど具体例を見る時に，実際にこのような$\omega_0, \omega_1$を持つ実現可能性代数の例を与える．
+
+\subsection{$V$を初等拡大する$\gimel 2$-値構造}
+一方，$\gimel 2$は関数$\braket{ \varphi[-] }$によって$V$の情報をコードするのにも使われている．
+特に，$V^{\mathcal{R}}$には$\ZF_{\epsilon}$-構造の他に，$\ZF$のBoole代数$\gimel 2$-値構造が入り，それはある意味で$V$の初等拡大になっている．
+これは$V$のBoole値拡大$V^{\mathbb{B}}$が$V$の初等拡大構造を含んでいた事と非常に似通っている．
+
+まず，$\Braket{ - }$の値が自然な形で計算できる事を見る：
+\begin{lemma}\label{lem:char-homo}
+ $\Braket{ - }$はメタ的に論理式の関数として見た時，Boole代数の同型のように振る舞う．即ち：
+ \begin{gather*}
+  V^{\mathcal{R}} \models \braket{\bot} = 0, \quad \forall \vec{x}\: \braket{\varphi[\vec{x}] \to \psi[\vec{x}]} = - \braket{\varphi[\vec{x}]} + \braket{\psi[\vec{x}]},\\
+  V^{\mathcal{R}} \models \forall \vec{y} \: \braket{\forall x \: \varphi(x)} = \prod_{x \in V^{\mathcal{R}}} \braket{\varphi(x)}.
+ \end{gather*}
+\end{lemma}
+\begin{proof}
+ 論理式の構成に関する帰納法で示す．
+ $\braket{\bot} = 0$は明らか．
+
+ また，基礎モデルにおいては$\Braket{ \varphi[x] \to \psi[x] } = -\Braket{\varphi[x]} + \braket{\psi[x]}$はどんな$x$についても成り立つから，等式に関する絶対性より
+ \[
+  V^{\mathcal{R}} \models \forall x \: \Braket{ \varphi[x] \to \psi[x] } = -\Braket{\varphi[x]} + \braket{\psi[x]}
+ \]
+ は常に成立する．
+
+ 最後に全称量化の場合を考える．
+ 次の二つがそれぞれ実現されていることを見ればよい：
+ \begin{enumerate}
+  \item $\forall x \: \forall z \: \Braket{\forall y \: \varphi(x, y) } \leq \Braket{\varphi(x, z)}$,
+  \item $\forall x \: \forall \alpha \strin \gimel 2\:
+          \left[\forall z \: \alpha \leq \Braket{\varphi(x, z)}
+            \implies \alpha \leq \Braket{\forall y \: \varphi(x,y)}
+          \right]$.
+ \end{enumerate}
+ 一つ目の条件，下界である事については$\comb{I}$が実現することがすぐにわかる．
+ 二つ目の条件も，実は$\comb{I}$が実現する．
+ これを見るため，$x \in V$と$\alpha < 2$を任意に固定し，代入結果がすべて$\comb{I}$で実現されている事を見よう．
+
+ $\alpha = 0$の時は，
+ \[
+  \|\forall z \: 0 \leq \Braket{\varphi(x, z)}
+ \to 0 \leq \Braket{\forall y \: \varphi(x,y)}\| = \|(\bot \to \bot) \to (\bot \to \bot)\|
+ \]
+ なので，$\comb{I} \Vdash (\bot \to \bot) \to (\bot \to \bot)$よりOK．
+
+ 最後に$\alpha = 1$の時を考える．
+ \[
+  \|\forall z \: 1 \leq \Braket{\varphi(x, z)}
+ \to 1 \leq \Braket{\forall y \: \varphi(x,y)}\| =
+ \|\forall z \:[\Braket{\varphi(x, z)} = 1]
+ \to \Braket{\forall y \: \varphi(x,y)} = 1\|
+ \]
+ よって，$\xi \Vdash \forall z \: \Braket{\varphi(x,z)} = 1$と$\pi \in \|\Braket{\forall y \: \varphi(x,y)} = 1\|$を任意に取って$\comb{I} \cons \xi \push \pi \in \pole$を示す．
+ ここで$V \models \forall y \: \varphi(x,y)$か否かで場合分けする．
+
+ $V \models \forall x \: \varphi(x, y)$の時は，$\Braket{x, z} = 1$が任意の$z \in V$について成立しているから，
+ \[
+ \left|\forall z \: \Braket{\varphi(x,z)} = 1\right| = \bigcap_{z \in V} \left|\Braket{\varphi(x, z)} = 1\right| = | \bot \to \bot |.
+ \]
+ 一方で仮定より$\|\braket{\forall y \: \varphi(x, y)} = 1\|$なので$\comb{I} \cons \xi \push \pi \reds \xi \cons \pi \in \pole$となる．
+
+ $V \not\models \forall x \: \varphi(x)$の時を考える．
+ この時$V \models \neg \varphi(y_0)$なる$y_0$を取っておけば，$\braket{\varphi(x, y_0)} = 0$であり，
+ \[
+ \left|\forall z \: \Braket{\varphi(x,z)} = 1\right| = \bigcap_{z \in V} \left|\Braket{\varphi(x, z)} = 1\right| = |\Braket{\varphi(x, y_0)} = 1| = | \top \to \bot |.
+ \]
+ また仮定より$\|\Braket{\forall y\: \varphi(x, y)} = 1\| = \|\top \to \bot\|$.
+ よってこの場合も$\comb{I}$が実現してくれる事がわかる． \qed
+\end{proof}
+
+\begin{corollary}
+ $V^{\mathcal{R}}$は$\Braket{-}$によって$\ZF$の言語に関する$\gimel 2$-値構造$V^{\gimel^{\mathcal{R}} 2}$が入る．
+ 更に，任意の$x \in V$に対して$V \models \varphi[x] \iff \Braket{\varphi[x]} = \mathds{1}$.
+\end{corollary}
+\begin{proof}
+ $\Braket{-}$の定義と補題~\ref{lem:func-abs}および~\ref{lem:char-homo}から$\gimel 2$-値擬構造が入る事は従う．
+ Boole値等号公理も普通に分解して証明すればよい． \qed
+\end{proof}
+
+一方，強制法における$\check{V}$と同じような，$V^{\mathcal{R}}$の自然な推移的な部分モデルで$V$の初等拡大になっているようなものが取れないか？という気分が出て来る．
+ところが，これは自然な形では出来ないことがわかる：
+
+\begin{remark}[$V^{\mathcal{R}}$は単純な$V$の複製を持たない]
+ $\gimel$の定義から次が明らかである：
+ \[
+  \braket{x \in y} = 1 \iff x \strin \gimel y.
+ \]
+ $\gimel$が一方のみに付いているのが気持ち悪いので，ハッキリと$V$の写し身だけを考えるために，仮に$\tilde{x}$という作用素を次で定義する：
+ \[
+  \tilde{x} \defeq \Set{ (\tilde{y}, \pi) | \pi \in \Pi }.
+ \]
+ このとき，$V^{\mathcal{R}} \models \forall x \: \forall E \: [\braket{x \strin E} = 1 \iff x \strin \gimel E \iff \tilde{x} \strin \tilde{E}]$となる事が容易に示せる．
+ そこで$V^{\mathcal{R}}$の中で$\tilde{x}$の形の元のみを考えてやる事を考えて，
+ \[
+  \|\forall x \strnin \tilde{V} \: \varphi[x]\| \defeq
+  \bigcup_{x \in V} \|\varphi[\tilde{x}]\|, \qquad
+  \| x \strnin \tilde{V}\| \defeq \Set{ (\tilde{x}, \pi) | x \in V, \pi \in \Pi}
+  = \gimel\Set{\tilde{x} | x \in V}
+ \]
+ により新たな定数記号$\tilde{V}$と量化子$\forall x \strin \tilde{V}$を定めてやる．
+ これらはこれまでと同様の議論から似た形の論理式はすべて交換可能であることがわかる．
+ また，$\tilde{V}$は$\strin$および$\in$について$V^{\mathcal{R}}$の推移的な部分クラスとなっていることが示せる．
+
+ そこで，次の相対化を考える：
+ \begin{gather*}
+  (x \in y)^{\tilde{V}} \deffml x \strin y, \qquad
+  (x = y)^{\tilde{V}} \deffml x = y, \qquad
+  (\varphi \to \psi)^{\tilde{V}} \deffml \varphi^{\tilde{V}} \to \psi^{\tilde{V}} \\
+  (\forall x \: \varphi(x, \vec{y}))^{\tilde{V}} \deffml
+  \forall x \strin \tilde{V} \: \varphi^{\tilde{V}}(x, \vec{y})
+ \end{gather*} 
+ こうすれば$V \models \varphi[x] \iff V^{\mathcal{R}} \models \varphi^{\tilde{V}}[\tilde{x}]$という形で初等性が成り立ってくれるのではないか？という気がしてくる．
+ しかし，これは$V^{\mathcal{R}}$が存在特性を欠いているために示すことが出来ない！
+
+ 実際，$\gimel 2$が非自明なら$\tilde{V}$は実際に$V$の初等拡大になっていないことを見る．
+ $x \defeq \set{\emptyset}, E \defeq \set{ x, \emptyset }$とおく．
+ まず次が成り立つ：
+ \[
+  V \models \forall x \in E \: [x = \emptyset \lor \exists y \: (y \in x)]
+ \]
+ 一方で，$V^{\mathcal{R}}$で$\gimel 2$が非自明なので，補題~\ref{lem:nontriv-adds-atom}および~\ref{lem:g2-upwd-cl}より
+ \[
+  V^{\mathcal{R}} \models \exists \alpha \strin \gimel 2 \: [\forall z\:(z \strnin \alpha \cdot x), \alpha \cdot x \neq 0 \cdot x = \emptyset, \alpha \cdot x \strin \gimel E].
+ \]
+ $V^{\mathcal{R}}$は同値変形で閉じており，$\tilde{V}$が$V^{\mathcal{R}}$において$\strin$について推移的であることから：
+ \[
+  V^{\mathcal{R}} \models \exists x \strin \tilde{E}\:[x \neq \emptyset, \nexists y \:(y \strin x)].
+ \]
+ したがって$V \not\prec \tilde{V}$.
+\end{remark}
+
+Krivine~\cite{Krivine:2014yu}では，$\gimel 2$の超フィルター$\mathcal{D}$が常に付加されていることが示されている．
+そこで$\mathcal{D}$によって$V^{\gimel^{\mathcal{R}} 2}$を割れば，$V^{\mathcal{R}}$の中で二値モデル$M \defeq V^{\gimel^{\mathcal{R}} 2}/D$が得られる．
+特に，$\mathcal{D}$は$\Braket{x \in \trcl(\set{y})} \geq \alpha$が整礎となるような$\alpha$の全体として定義出来る．
+すると，この二値モデルは整礎でset-likeになっているので，Mostwski崩壊によってある推移クラスと同型になっている．
+この時，$M$は$V^{\mathcal{R}}$の$\in$-順序数を全て持ち，上の結果から$V \models \varphi \iff V^{\mathcal{R}} \models (M \models \varphi)$が成り立つ．
+\end{document}
+
+% Local Variables:
+% mode: yatex
+% TeX-master: "config.tex"
+% End:

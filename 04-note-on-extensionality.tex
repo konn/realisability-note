@@ -1,0 +1,211 @@
+%#!luajitlatex -src-specials 04-note-on-extensionality.tex
+
+\documentclass[realisability.tex]{subfiles}
+
+\begin{document}
+\section{外延性と関数・関係に関する注意}
+$\ZFe$-関数と$\ZF$-関数の間の相互関係について以下では細かく分析する．
+
+\begin{definition}
+ $\ZFe$において集合$X$が\emph{外延的}$\defs \forall x, y \strin X \: [x \simeq y \to x = y]$.
+\end{definition}
+
+定義より明らかに次が成り立つ：
+
+\begin{lemma}
+ $X$が外延的で$Y \subseteq X$なら$Y$も外延的．
+\end{lemma}
+\begin{lemma}
+ $X, Y$が外延的なら$X \times Y$も外延的．
+\end{lemma}
+\begin{proof}
+ $(x, y), (x', y') \strin X \times Y$かつ$(x, y) \simeq (x', y')$とすると，順序対の定義は$\ZF$部分でも$\ZFe$部分でも同じように出来るので$x \simeq x'$かつ$y \simeq y'$.
+ すると$X, Y$の外延性より$x = x', y = y'$を得，結局$(x, y) = (x', y')$を得る． \qed
+\end{proof}
+
+定義域・値域の外延性は，$\ZF_\epsilon$-関数と$\ZF$-関数の互換性に関して重要な十分条件を与える：
+\begin{lemma}
+ \begin{enumerate}
+  \item $X$が外延的で$f: X \strto Y$なら$f: X \extto Y$.
+  \item $Y$が外延的で$f: X \extto Y$なら$f \simeq f' \defeq \Set{(x, y) \strin X \times Y | (x, y) \in f}$.
+  \item $X, Y$が共に外延的なら，$f: X \strto Y \iff f: X \extto Y$. 単射全射の概念も一致する．
+ \end{enumerate}
+\end{lemma}
+
+外延的写像が与えられれば，それを用いて引き戻し・押し出しを考えることが出来る．
+通常の$\ZF$における議論と同様にして次が成り立つ：
+\begin{lemma}
+ $f: A \extto B$について，$f_*: \Pow(A) \to \Pow(B)$および$f^*: \Pow(B) \to \Pow(A)$をそれぞれ$f_*(X) \defeq \Set{ f(x) | x \in X }$および$f^*(Y) \defeq \Set{x \strin X | f(x) \in Y}$で定める．
+ \begin{enumerate}
+  \item $f_*, f^*$は共に外延的関数，
+  \item $f$が外延的単射なら$f_*$も外延的単射，
+  \item $f$が外延的全単射なら$f^*, f_*$は互いに$\ZF$-逆写像であり，従って$\ZF$-全単射．
+ \end{enumerate}
+\end{lemma}
+
+これらは個別の写像が$\ZF$と両立するか否かという問題を扱っているが，個別のモデルにおける議論では，良い写像を介して$\ZFe$側の現象を$\ZF$側にも伝播させる形で種々の独立性を証明する．
+そのために必要なのが次の概念である：
+
+\begin{definition}
+ $A, B$を集合，$f: A \strto B$とする．
+ $x \neq y$なら$f(x) \not\simeq f(y)$となるとき，$f$は$A$を$B$に\emph{外延的に埋め込む}と言う．
+ このとき$f: A \eembto B$，あるいは$f$を略して$A \eembto B$と書く．
+\end{definition}
+
+\begin{remark}
+ $a \not\simeq b \implies a \neq b$なので$f: A \eembto B$の時$f$は$\ZFe$の意味で単射となっている．
+ しかし，$a \simeq b$なら$f(a) \simeq f(b)$となるかは定かではないので，外延的埋め込みが$\ZF$-写像であるとは限らず，特に$\ZF$-単射になっているわけではない．
+ なのであまり良い用語法ではないが，言葉にない事には仕方がないので当座そう呼ぶことにする．
+\end{remark}
+
+明らかに$\ZF$-単射と外延的埋め込みの合成は外延的埋め込みになる：
+
+\begin{lemma}\label{lem:compos-ext-emb}
+ $A \xrightarrow[\mathrm{str}, \text{1-1}]{f} C \mathrel{\smash{\xhookrightarrow[\hphantom{\mathrm{str}, \text{1-1}}]{g}}_{\mathrm{e}}} D \xrightarrow[\text{1-1}, \mathrm{ext}]{h} B$なら$h \circ g \circ f: A \eembto B$.
+\end{lemma}
+外延的埋め込みがあると，単射と全射を互いに融通しあうことが出来る：
+\begin{lemma}
+ 下図のような$\ZF$-全射$f$,外延的埋め込み$i, j$が与えられたとする：
+ \begin{center}
+  \begin{tikzpicture}
+   \matrix[matrix of math nodes, column sep=1cm, row sep=1cm]{
+    |(A)|  A   & |(B)|  B \\
+    |(A0)| A_0 & |(B0)| B_0\\
+   };
+   \path[draw, ->>]
+     (A) edge node[above] {$\scriptstyle f$}
+              node[below] {\scriptsize ext} (B);
+   \path[draw,right hook->>]
+     (A0) edge node[auto] {$\scriptstyle i$}
+               node[right, pos=.9] {$\scriptstyle \mathrm{e}$}
+     (A);
+   \path[draw,left hook->]
+     (B0) edge node[auto,swap] {$\scriptstyle j$}
+               node[left, pos=.9] {$\scriptstyle \mathrm{e}$}
+     (B);
+   \path[draw, densely dotted, ->>]
+     (A0) edge node[auto]{\scriptsize str} node[auto,swap] {$\scriptstyle \exists \hat{f}$} (B0);
+  \end{tikzpicture}
+ \end{center}
+ 但し$i$の全射性は$\ZFe$の意味とする．
+ このとき上図を可換とする$\ZFe$-全射$\hat{f}: A_0 \xrightarrow[\mathrm{str}]{\mathrm{onto}} B_0$が存在する．
+\end{lemma}
+\begin{proof}
+ $b_0 \in B_0$を一つ固定し，$\hat{f}$は次で定める：
+ \[
+  \hat{f}(a) =
+  \begin{cases}
+   b   & \text{if } f(i(a)) \simeq j(b) \text{ for some } b \in B_0,\\
+   b_0 & \ow.
+  \end{cases}
+ \]
+ $j(b') \simeq f(i(a)) \simeq j(b)$なら$j$が外延的埋め込みであることから$b' = b$となるので，この$\hat{f}$はwell-definedであり，特に$A_0$の全域で定義されている．
+
+ あとは全射を見ればよい．
+ ここで$b \in B_0$を任意にとれば，$f$の$\ZF$-全射性より$f(a') \simeq j(b)$となる$a' \in A$が取れる．
+ すると$i$は$\ZFe$-全射なので$i(a) = a'$となる$a \in A_0$が取れる．
+ よって$f(i(a)) = f(a') \simeq j(b)$を得る． \qed
+\end{proof}
+これの双対も成立する：
+\begin{lemma}
+ 下図のような$\ZFe$-単射$f$,外延的埋め込み$i, j$が与えられたとする：
+ \begin{center}
+  \begin{tikzpicture}
+   \matrix[matrix of math nodes, column sep=1cm, row sep=1cm]{
+    |(A)|  A   & |(B)|  B \\
+    |(A0)| A_0 & |(B0)| B_0\\
+   };
+   \path[draw,densely dotted, >->]
+     (A) edge node[above] {$\scriptstyle \exists \hat{f}$}
+              node[below] {\scriptsize ext} (B);
+   \path[draw,right hook->>]
+     (A0) edge node[auto] {$\scriptstyle i$}
+               node[right, pos=.9] {$\scriptstyle \mathrm{e}$}
+     (A);
+   \path[draw,left hook->]
+     (B0) edge node[auto,swap] {$\scriptstyle j$}
+               node[left, pos=.9] {$\scriptstyle \mathrm{e}$}
+     (B);
+   \path[draw, >->]
+     (A0) edge node[auto]{\scriptsize ext} node[auto,swap] {$\scriptstyle f$} (B0);
+  \end{tikzpicture}
+ \end{center}
+ このとき上図を可換とする$\ZF$-単射$\hat{f}: A \xrightarrow[\mathrm{ext}]{\text{1-1}} B$が存在する．
+\end{lemma}
+\begin{proof}
+ $i$が$\ZFe$-全単射なので，$\hat{f}(a) \defeq j(f(i^{-1}(a)))$により$\hat{f}$を定めよう．
+ ここで$j(f(i^{-1}(a_0))) \simeq j(f(i^{-1}(a_1)))$なら$j$が外延的埋め込みであることから$f(i^{-1}(a_0)) = f(i^{-1}(a_1))$となり，$f$の$\ZFe$-単射性より$i^{-1}(a_0) = i^{-1}(a_1)$を得る．
+ すると今度は$i$が外延的埋め込みであることから$a_0 = i(i^{-1}(a_0)) \simeq i(i^{-1}(a_1)) = a_1$となる．
+ よって$\hat{f}$は可換である． \qed
+\end{proof}
+
+\begin{lemma}
+ 下図のような$\ZFe$-全射$f$,外延的埋め込み$i, j$が与えられたとする：
+ \begin{center}
+  \begin{tikzpicture}
+   \matrix[matrix of math nodes, column sep=1cm, row sep=1cm]{
+    |(A)|  A   & |(B)|  B \\
+    |(A0)| A_0 & |(B0)| B_0\\
+   };
+   \path[draw, densely dotted, ->>]
+     (A) edge node[above] {$\scriptstyle \exists \hat{f}$}
+              node[below] {\scriptsize ext} (B);
+   \path[draw,right hook->>]
+     (A0) edge node[auto] {$\scriptstyle i$}
+               node[right, pos=.9] {$\scriptstyle \mathrm{e}$}
+     (A);
+   \path[draw,left hook->>]
+     (B0) edge node[auto,swap] {$\scriptstyle j$}
+               node[left, pos=.9] {$\scriptstyle \mathrm{e}$}
+     (B);
+   \path[draw, ->>]
+     (A0) edge node[auto]{\scriptsize str} node[auto,swap] {$\scriptstyle f$} (B0);
+  \end{tikzpicture}
+ \end{center}
+ 但し$i, j$の全射性は$\ZFe$の意味とする．
+ このとき上図を可換とする$\ZF$-全射$\hat{f}: A \xrightarrow[\mathrm{ext}]{\mathrm{onto}} B$が存在する．
+\end{lemma}
+\begin{proof}
+ $\hat{f} = j \circ f \circ i^{-1}$. \qed
+\end{proof}
+
+\begin{lemma}
+ 下図のような$\ZF$-単射$f$,外延的埋め込み$i, j$が与えられたとする：
+ \begin{center}
+  \begin{tikzpicture}
+   \matrix[matrix of math nodes, column sep=1cm, row sep=1cm]{
+    |(A)|  A   & |(B)|  B \\
+    |(A0)| A_0 & |(B0)| B_0\\
+   };
+   \path[draw, >->]
+     (A) edge node[above] {$\scriptstyle f$}
+              node[below] {\scriptsize ext} (B);
+   \path[draw,right hook->]
+     (A0) edge node[auto] {$\scriptstyle i$}
+               node[right, pos=.9] {$\scriptstyle \mathrm{e}$}
+     (A);
+   \path[draw,left hook->>]
+     (B0) edge node[auto,swap] {$\scriptstyle j$}
+               node[left, pos=.9] {$\scriptstyle \mathrm{e}$}
+     (B);
+   \path[draw, densely dotted, >->]
+     (A0) edge node[auto]{\scriptsize str} node[auto,swap] {$\scriptstyle \exists \hat{f}$} (B0);
+  \end{tikzpicture}
+ \end{center}
+ 但し$i$の全射性は$\ZFe$の意味とする．
+ このとき上図を可換とする$\ZFe$-単射$\hat{f}: A_0 \xrightarrow[\mathrm{str}]{\mathrm{onto}} B_0$が存在する．
+\end{lemma}
+\begin{proof}
+ $\hat{f} = j^{-1} \circ f \circ i$. \qed
+\end{proof}
+
+\begin{corollary}\label{cor:ext-emb-morphs}
+ $A_0 \mathrel{\tikz{\path[draw,right hook->>] (0,0) to (1em,0)}}_e A$, $B_0 \mathrel{\tikz{\path[draw,right hook->>](0,0) to (1em,0)}}_e B$なら$A$と$B$の間の単射・全射・全単射と$A_0$と$B_0$の間のそれらの存在は同値になる．
+\end{corollary}
+
+\end{document}
+
+% Local Variables:
+% mode: yatex
+% TeX-master: "realisability.tex"
+% End:

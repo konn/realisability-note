@@ -1,0 +1,435 @@
+%#!luajitlatex -src-specials realisability.tex
+\documentclass[realisability.tex]{subfiles}
+
+\begin{document}
+\section{背景：組合せ論理とヒルベルトの命題計算}
+実現可能性モデルの議論に入る前に，背景知識としてヒルベルト流論理体系とCurryの結合子論理の間の関係について振り返っておきます．
+
+\subsection{直観主義論理とCurry--Howard対応}
+\begin{definition}[ヒルベルト流の論理体系$\HJ$]
+ 直観主義命題論理のヒルベルト流の論理体系$\HJ$とは推論規則
+ \begin{prooftree}
+  \AxiomC{$M: P \to Q$}, \AxiomC{$N: P$}
+  \RightLabel{$(\mathrm{MP})$}
+  \BinaryInfC{$MN: Q$}
+ \end{prooftree}
+ および次の論理公理図式から成る：
+ \begin{gather*}
+  \S: (P \to Q \to R) \to (P \rightarrow Q) \to P \to R , \qquad \K: P \to Q \to P.
+ \end{gather*}
+ 但し${\to}$は右結合とする．
+ 命題変数$P_i$と論理式$\varphi_i$の組からなる集合$\set{P_1 : \varphi_1, P_2: \varphi_2, \dots}$を\emph{公理系}，あるいは\emph{文脈}と呼ぶ．
+ $M: \varphi$が公理系$\Gamma$から$\mathrm{MP}$と公理図式$\comb{P}_1, \dots, \comb{P}_n$によって証明可能であるとき，$\Gamma \vdash_{\comb{P}_1\cdots\comb{P}_n} M: \varphi$と書く．
+ この時，$M$を$\varphi$の\emph{証明項}(\emph{proof-term})と呼ぶ．
+ 何らかの証明項$M$があって$\Gamma \vdash_S M: \varphi$となる時，単に$\Gamma \vdash_S \varphi$と書く．
+ 特に$\Gamma \vdash_{\HJ} \varphi \deffml \Gamma \vdash_{\S\K} \varphi$である．
+\end{definition}
+一般的にHilbert流で採用されるのは上の論理公理ですが，以下の議論では次を採用します：
+
+\begin{theorem}
+ $\B, \C, \I, \W$を次で与えられる公理図式とする：
+ \begin{gather*}
+  \B: (Q \to R) \to (P \to Q) \to P \to R, \qquad
+  \C: (P \to Q \to R) \to Q \to P \to R, \\
+  \I: P \to P, \qquad
+  \W: (P \to P \to Q) \to P \to Q.
+ \end{gather*}
+ この時$\Gamma \vdash_{\HJ} \varphi \iff \Gamma \vdash_{\S\K\I} \varphi \iff \Gamma \vdash_{\B\C\K\W} \varphi \iff \Gamma \vdash_{\B\C\K\W\I} \varphi$.
+\end{theorem}
+$\S$と$\K$の組合せは色々混ざっていて意味がわかりづらいですが，推件計算で$\B$はカット，$\C$は交換規則，$\K$は弱化規則，$\W$は縮約規則に対応するため，証明論や計算論の文脈ではこれらの規則の振る舞いを分析するために$\S\K$の代わりに$\B\C\K\W$を採用することが多いです．
+
+$\HJ$と深い関係にあるのが，Curryによる\emph{結合子論理}です：
+\begin{definition}
+ $\Lambda_0$を原子項とする\emph{$\CL$-項}の全体$\Lambda_{\CL}(\Lambda_0)$を次で定まる最小の集合とする：
+ \begin{gather*}
+  M \in \Lambda_0 \implies M \in \Lambda_{\CL}(\Lambda_0),\qquad
+  x: \text{変数} \implies x \in \Lambda_{\CL}(\Lambda_0),\\
+  M, N \in \Lambda_{\CL}(\Lambda_0) \implies (MN) \in \Lambda_{\CL}(\Lambda_0).
+ \end{gather*}
+ $M \in \Lambda_{\CL}$に現れる変数の全体を$\FV(M)$で表す．$\FV(M) = \emptyset$の時$M$は\emph{閉$\CL$項}または\emph{コンビネータ}と呼ばれる．
+ $(MN)$の形の項は\emph{適用項}と呼ばれる．
+ 適用は左結合とする：$MN_1 \dots N_n \equiv ((MN_1) \dots N_n)$．
+
+ 以下$\Lambda_{\BCKWI} \defeq \Lambda_{\CL}(\set{\B,\C,\K,\W,\I})$とする．
+ $\Lambda_{\BCKWI}$上の\emph{弱頭部簡約}関係$\reds_{wh}$を次の関係式で定義される$\Lambda$上の二項関係とする：
+ \begin{gather*}
+  \B M N L \reds_{wh} M (NL), \qquad
+  \C M N L \reds_{wh} M L N, \\
+  \K M N   \reds_{wh} M, \qquad
+  \W M N   \reds_{wh} M N N, \qquad
+  \I M     \reds_{wh} M\\
+  M_1 \reds_{wh} M_2 \implies M_1 N \reds_{wh} M_2 N.
+ \end{gather*}
+ \emph{弱簡約}関係${\reds_w}$を定める：
+ \begin{gather*}
+  M \reds_{wh} N \implies M \reds_w N,\\
+  M_1 \reds_{w} M_2 \implies M_1 N \reds_{w} M_2 N,\qquad
+  N_1 \reds_{w} N_2 \implies M N_1 \reds_{w} M N_2.
+ \end{gather*}
+ ${\reds}_{wh}^*$を${\reds_{wh}}$が生成する$\Lambda$上の最小の擬順序とする．
+ ${\reds}^*$も同様．
+
+ $M \reds_{w} N$となる$\CL$-項$N$が存在しない時（つまり${\reds_w^*}$-極大であるとき），項$M$が\emph{弱正規形}であると言う．
+ \emph{弱頭部正規形}とは，${\reds_{wh}^*}$に関する極大元の事である．
+ 項$M$に対してある$\rhd$-正規形$N$があって$M \rhd^* N$となるとき，$M$は\emph{$\rhd$-正規形を持つ}，あるいは\emph{$\rhd$-弱正規化定理を満たす}という．
+ 
+
+ 項$M$において，原子項に関する簡約規則が適用出来る形になっている部分項を\emph{簡約基}(\emph{redex})と呼ぶ．
+
+ 項$M \in \Lambda$が\emph{$\rhd$-強正規化定理を満たす}($M$ \emph{strongly normalises})とは$M$から始まる$\rhd$-無限上昇列を持たないことである．
+ 特に，$M$が$\rhd_w$に関する強正規化定理を満たす時，単に$M$は強正規化定理を満たすという．
+\end{definition}
+
+結局，上の議論は$\CL$-項に対する項書き換え規則を定めていると思えます．
+実際，上で定義された$\CL$-項の書き換え規則を使うと，任意の再帰関数を$\CL$-項でコードすることが出来，簡約はその関数の計算過程に対応しています．
+
+弱頭部簡約と弱簡約は原子項$\B, \C, \K, \W, \I$に関する書き換え規則は共有していますが，弱頭部簡約では一番先頭に来ている簡約基のみを簡約していくのに対し，弱簡約では手当たり次第に全ての簡約基を簡約していく，という違いがあります．
+
+項$M$が$\rhd$-強正規化定理を満たすなら必ず$\rhd$-正規形を持ちますが，逆は成り立ちません：
+
+\begin{example}[弱簡約と弱頭部簡約の違い，弱正規化と強正規化の違い]
+ $\comb{A} \defeq \W(\B(\B\W(\C\B)))$, $\boldface{\Theta} \defeq \comb{A}\comb{A}$と置く．
+ この時，$\boldface{\Theta} M \rhd_{wh}^* M (\boldface{\Theta} M)$となる事が手計算によって簡単にわかる．
+
+ そこで，$M \defeq \boldface{\Theta} (\K\I)$を考えると，
+ \[
+  \boldface{\Theta}(\K\I) \rhd_{wh}^* \K \I (\boldface{\Theta} (\K\I)) \rhd_{wh} \I
+ \]
+ となる．
+ よって$M$は弱頭部正規形を持ち，特に弱頭部簡約の過程は明らかに一意に定まるので，$M$は弱頭部簡約にかんして強正規化定理を満たす．
+ また，$\I$は簡約基を一切含まないので弱正規形になっているから，弱簡約に関する弱正規化定理も満たしている．
+ しかし，$M$は次のような弱簡約の無限列を持つので，強正規化定理は満たさない：
+ \[
+  M \rhd_{w}^* \boldface{\Theta}(\K\I)
+    \rhd_{w}^* \K\I(\K\I(\boldface{\Theta}(\K\I)))
+    \rhd_w^* \dots
+ \]
+\end{example}
+
+結局の所，$M$が$\rhd$に関して「弱正規化定理を満たす」というのは，「上手いこと順番を選べば$M$の計算が停止する」という事を表すのに対して，「強正規化定理を満たす」というのは「どう計算しても必ず計算が停止する」ことを表しています．
+
+弱簡約と弱頭部簡約の正規化の関係を述べたのが次の定理です：
+\begin{theorem}\label{thm:normal-wh-w}
+ $M$が弱正規形を持つのなら，$M$は$\rhd_{wh}$に関して強正規化定理を満たす．
+\end{theorem}
+対偶を取れば，「弱頭部簡約で計算が停止しなければ，どんな順番で簡約基を選んでも弱簡約が停止することはない」という事になります．
+よって，簡約の停止性のみが問題の場合，弱頭部簡約だけを考えていれば良いことになります．
+
+どんな時に項$M$が強正規化定理を満たすのか？という十分条件を与えるのが次の定理です：
+
+\begin{theorem}[単純型付$\CL$-項の強正規化定理]
+ 命題論理の論理式$\varphi$と公理系$\Gamma$が存在して$\Gamma \vdash_{\HJ} M: \varphi$となるとき，$M$は強正規化定理を満たす．
+\end{theorem}
+
+このように，$\CL$-項$M$について$\Gamma \vdash M: \varphi$となるような$\varphi$を（文脈$\Gamma$における）$M$の\emph{型}と呼びます．
+
+この事から，上の「反例」として出された$\boldface{\Theta}$を証明項に持つような直観主義論理の論理式は存在しないことがわかります．
+この定理は必要十分ではありませんが，$\CL$-項の簡約に関する性質と直観主義論理に関する深い関係を示唆しています．
+こうした計算モデルと論理体系の間に成り立つ対応を\emph{Curry--Howard対応}と呼びます．
+Curry--Howard対応においては，命題が型に，証明が項に，カット除去が項の簡約に対応しています．
+
+\begin{remark}[理論計算機科学からの注意]
+ 上で触れた$\boldsymbol{\Theta}$は一般にTuringの不動点コンビネータと呼ばれています．
+ 一般に，$\comb{Y} M \rhd^* M (\comb{Y} M)$というような性質を持つようなコンビネータがあると，これにより再帰関数を表現出来るようになります．
+ これに型を付けられると，計算機科学としては嬉しくなります．
+ 実際，公理系に$\comb{Y}: (P \to P) \to P$を付け加えれば，$\comb{Y}$を使って定義出来る再帰関数には型が付くようになります．
+ この時，たとえば$\vdash_{\HJ, \Y} \Y\I: A \to A$となりますが，$\comb{Y} \I \rhd_{wh} \I (\Y \I) \rhd_{wh} \Y \I \rhd_{wh} \dots$と弱頭部簡約は永久に停止しないので，強正規化定理は成り立ちません．
+ それどころか，弱簡約に関する弱正規化も成り立たなくなります．
+ また，これに対応する公理$(P \to P) \to P$はただの循環論法ですから，これを直観主義論理に付け加えた体系は明らかに矛盾しています．
+
+ 計算機科学では，「型」は関数の不変条件や安全性を担保するのに使われます．
+ ですから，少しでも多くの「有用」な関数に型が付き，その事実によって何らかのプログラムの性質が保証されてくれると助かる訳です\footnotemark．
+
+ 一方，我々は以下では結合子代数を用いてマトモなモデルを創りたいという欲求があります．
+ Krivineの実現可能性代数では，代数的な方法によって上の単純型付き結合子論理の型付けを拡張し，論理的な矛盾が出ない範囲で$\Y$などにも「型」が付くようになっています．
+\end{remark}
+\footnotetext{理論計算機科学では，型理論の体系の安全性は進行定理と型保存定理という二つの定理とセットで定式化されることが多いです．}
+
+\subsection{計算モデルとしての結合子論理}
+上で結合子論理は計算モデルとして見ることが出来る，と述べました．
+本節では簡単に$\CL$における「計算」を概観することにします．
+
+その前に，$\CL$-項を解り易く記述するための「略記法」として\emph{$\lambda$-記法}を導入します\footnote{$\lambda$-記法はChurchによる\emph{$\lambda$-計算}という計算モデルに由来するもので，本来結合子論理とは同値だが違う体系として定式化されています．本稿ではどうせ$\CL$-項への翻訳でしか出て来ないため，$\lambda$-計算そのものの定義は省略します}．
+先に結論を書いてしまうと，$\CL$項$M$に変数$x$に対して，$\abs x M$は関数$x \mapsto M$に対応し，特に次が成り立つように定義されます：
+
+\begin{theorem}[抽象定理]\label{thm:abs-thm-cl}
+ $\CL$-項$M$と各$R, N_1, \dots, N_n \in \Lambda$に対して次が成立する：
+ \[
+  (\abs x M)\subst{y_1 & \dots& y_n\\ N_1& \dots & N_n } R \reds_{wh}^*
+  M\subst{x & y_1 & \dots& y_n\\ R & N_1 & \dots &N_n }.
+ \]
+\end{theorem}
+
+\begin{definition}
+ 項$t$に対し，変数$x$についての\emph{$\lambda$-変換}を$\abs{x}{t} \deffml \abs[*]{x}{\I t}$で，$\lambda^*$-変換$\abs[*]{x}{t}$を次で定める：
+ \begin{alignat}{2}
+  \abs[*] x t       &\deffml \K t &\qquad &(x \notin \FV(t)),\label{eq:lam-K}\\
+  \abs[*] x x       &\deffml \I,\label{eq:lam-var}\\
+  \abs[*]{x}{t u}     &\deffml \C(\abs[*] x t) u && (x \in \FV(t) \setminus \FV(u))\label{eq:lam-head}\\
+  \abs[*]{x}{t x}     &\deffml t && (x \notin \FV(t)),\label{eq:lam-tail}\\
+  \abs[*]{x}{t x}     & \deffml \W(\abs[*] x t) && (x \in \FV(t)),\label{eq:lam-both-var}\\
+  \abs[*]{x}{t (u v)} & \deffml \abs[*] x {\B t u v} && (x \in \FV(uv))\label{eq:lam-app-app}.
+ \end{alignat}
+ また，$\abs{x_1}{\abs{x_2}{ \dots \abs{x_n} M}} \equiv \abs{x_1 \dots x_n} M$と略記する．
+\end{definition}
+
+\begin{proof}[抽象定理の証明]
+ 頑張ってランク関数を見付ける．
+ 詳細はKrivine~\cite{Krivine:2016if}参照． \qed
+\end{proof}
+
+この記法を使って，まずは自然数がどのようにコードされるかを見てみましょう．
+以下では，Churchエンコーディングと呼ばれる手法\footnote{厳密にはChurchエンコーディングと$\beta$-同値な項}を使って自然数を表します．
+直観的には，$n \in \N$と「関数$f$を$n$回適用する汎関数」を同一視します：
+
+\begin{definition}
+ 自然数$n < \omega$に対し，$\CL$-項$\num{n}$を次で定める：
+ \begin{gather*}
+  \num{0} \defeq \abs{s z}{z}, \qquad
+  \num{n + 1} \defeq \sigma\, \num{n}, \qquad \text{where }
+  \sigma \equiv \texttt{succ} \equiv \abs{n s z}{n\, s\, (s z)}.
+ \end{gather*}
+ $\num{n}$を自然数$n$に対応する数項と呼ぶ．
+\end{definition}
+
+こうすると，次のようにして加法と乗法を定義出来ます：
+\begin{gather*}
+ \prog{add} \defeq \abs{m\,n}{m\, {\prog{succ}}\, n},\qquad
+ \prog{mul} \defeq \abs{m\,n}{m\, (\prog{add} n)\, \num{0}}.
+\end{gather*}
+
+実は，任意の再帰的（部分）関数は$\CL$-項により表現することが出来ます：
+\begin{theorem}[表現定理]
+ $\varphi: \N^k \to \N$を再帰的関数とする．
+ この時，$\varphi$を「表現」する$\CL$-項$M_\varphi$が存在する．即ち：
+ \[
+  M_\varphi \num{n_1} \dots \num{n_k}\mathrel{}
+  \begin{cases}
+   \reds_{wh}^* \num{\varphi(n_1, \dots, n_k)} & (\varphi(n_1, \dots, n_k): \text{defined})\\
+   \text{は弱正規形を持たない}& (\ow)
+  \end{cases}
+ \]
+\end{theorem}
+
+\subsection{直観主義論理から古典論理へ}
+さて，これまで見てきた対応は直観主義論理の範疇でしたが，我々は$\ZF$や$\ZFC$のモデルを創りたいわけなので，古典論理を扱わなくてはいけません．
+そこで，これまでのCurry--Howard対応を拡張して古典論理を扱えるようにできないでしょうか？
+
+論理体系の場合は，排中律なり二重否定除去なりを足せば良いでしょう．
+以下では，計算機科学と相性がよく，また含意記号だけで定式化できるPeirceの法則を採用します：
+\begin{definition}\label{def:prop-HK}
+ 古典論理の体系$\HK$は，$\HJ$に次の\emph{Periceの法則}と呼ばれる公理図式を付け加えて得られる：
+ \begin{gather*}
+  \cc: ((P \to Q) \to P) \to P.
+ \end{gather*}
+\end{definition}
+
+\begin{theorem}
+ $\Gamma \vdash_{\HK} \varphi \iff \Gamma \vdash_{\HJ+\quoted{\neg\neg A \to A}} \varphi$.
+\end{theorem}
+
+計算機科学的にはPeirceの法則はどういう意味を持つのでしょうか？
+結論からいってしまえばそれは\emph{継続}です．
+継続とは，直観的にいえばある$\CL$-項の部分項に着目し，その「続きの計算」を関数として取り出したようなものです．
+たとえば，以下のような$\CL$-項
+\[
+ A(BC(D\uwave{(EF)}G)H)I
+\]
+で下線部$EF$に注目した場合の継続は
+\[
+ \abs{x}{A(BC(D\, \uwave{x} \,G)H)I}
+\]
+ということになります．
+そこで，ある時点での継続を取り出して関数に渡すコンビネータ$\prog{call/cc}$あるいは$\cc$を考えましょう\footnote{$\prog{call/cc}$は``call with current continuation''の略です}．
+つまり，上の項$A(BC(D\uwave{(EF)}G)H)I$は$\cc$を明示的に使って，
+\[
+ A(BC(D(\cc(\abs{\uuline{k}}{k (EF)}))G)H)I
+\]
+と書けるような物を考えます．
+実は，この$\cc$に整合的に型を付けようとすると上記のPeirceの法則が得られます．
+まず，$EF$の型を$P$とすれば，全体として$\cc (\abs k {k (EF)})$も型$P$でなくてはいけません．
+すると，$\cc: (X \to P) \to P$という形になりそうです．
+$k$は$P$型の値を渡される継続なので，$\uuline{k}: P \to Y$という型が付きそうです．
+今回の場合は$Y = P$としても良さそうですが，例えば継続を使わずに
+\[
+ A(BC(D(\cc(\abs{\uuline{k}}{EF}))G)H)I
+\]
+と書いた場合も同じ結果になって欲しいですし，この場合$k$の返値の値が何かはわかりません．
+なので，一番一般的な型\footnote{このように他の型が代入例として得られる型を主要型(principal type)と言います．}を付けようと思った場合は，$\cc: ((P \to Q) \to P) \to P$という型にするしかありません．
+これこそ，まさにPeirceの法則です．
+
+さて，上ではふわっとした議論をしましたが，例えば$\cc M$で継続を渡された$M$で二回継続を呼び出していた場合はどうなるのか？という疑問が湧きます．
+この場合は，どのような簡約戦略を採るかによって結果が変わってくるでしょう．
+定理~\ref{thm:normal-wh-w}によれば，簡約の停止性に関しては弱頭部簡約だけを考えていればよいので，弱頭部簡約を採用しましょう．
+
+しかし，これまでの書き換え規則が局所的な情報だけで決まっていたのに対して，$\cc$は「残りの計算」という大域的な情報を使います．
+つまり，簡約基周辺の情報だけではなくて，その簡約に至るまでの「道筋」も一緒に持っていないと，$\cc$を定式化することは出来ません．
+そこで，その情報をスタックを使って保存しようと考えて得られるのが，次の\emph{Krivine機械}です：
+
+\begin{definition}[Krivine機械]
+ 原子項の集合$\Lambda_0 \supseteq \set{\B, \C, \K, \W, \I, \cc}$とスタック定数の集合$\Pi_0 \supseteq \set{\pi_0}$が与えられた時，項の集合$\Lambda_c = \Lambda(\Lambda_0, \Pi_0)$およびスタックの全体$\Pi = \Pi(\Lambda_0, \Pi_0)$を同時帰納法により次のように定める：
+ \begin{gather*}
+  M \in \Lambda_0 \implies M \in \Lambda, \qquad x: \text{変数} \implies x \in \Lambda, \qquad \qquad \pi \in \Pi_0 \implies \pi \in \Pi,\\
+  M, N \in \Lambda \implies (MN) \in \Lambda, \qquad \pi \in \Pi \implies k_\pi \in \Lambda,\\
+  M \in \Lambda, \pi \in \Pi \implies M \push \pi \in \Pi.
+ \end{gather*}
+ $\conti_\pi$を含まない項を特に$\mathbf{c}$-項と呼ぶ．
+
+ 以下，$(M, \pi) \in \Lambda_c \times \Pi$を$M \cons \pi$と書く．
+ この時，$\Lambda_c \times \Pi$上の二項関係$\rhd$を次で定める：
+ \begin{gather*}
+  MN \cons \pi \reds M \cons N \push \pi,\\
+  \B \cons M \push N \push R \push \pi \reds M \cons (R N) \push \pi,\qquad
+  \C \cons M \push N \push R \push \pi \reds M \cons R \push N \push \pi,\\
+  \K \cons M \push N \push \pi \reds M \cons \pi,\qquad
+  \W \cons M \push N \push \pi \reds M \cons N \push N \push \pi,\qquad
+  \I \cons M \push \pi \reds M \cons \pi,\\
+  \cc \cons M \push \pi \reds M \cons \conti_\pi \push \pi,\qquad
+  \conti_\pi \cons M \push \varpi \reds M \cons \pi
+ \end{gather*}  
+\end{definition}
+結局の所，$\BCKWI$の範囲内ではKrivine機械は「先頭のコンビネータに行き着くまで外していって，あとは書き換え規則を適用していく」という形になっています．
+\begin{example}[実行例]
+ 項$\W \K x$と空スタックから成るプロセスの実行列を見てみよう．
+
+ \begin{center}
+  \begin{tikzpicture}
+   \matrix[column sep=.5em, matrix of nodes, row sep=1em]{
+   \VM{$\W \K x$}{}
+   & $\reds$ &
+   \VM{$\W \K$}{{$x$}}
+   & $\reds$ &
+   \VM{$\W$}{{$\K$} {$x$}}
+   & $\reds$ &
+   \VM{$\K$}{{$x$} {$x$}}\\
+   & $\reds$ &
+   \VM{$x$}{}
+   \\ };
+  \end{tikzpicture}
+\end{center}
+\end{example}
+実際，直ちに次がわかります：
+\begin{lemma}\label{lem:CR-wh-KM}
+ $M, N$を$\B, \C, \K, \W, \I$を原子項とする$\CL$-項，$\pi \in \Pi$のとき，
+ \[
+  M \reds_{wh}^* N \iff
+ \exists L \: \exists \pi' \:
+  \begin{tikzpicture}[baseline=(L.base)]
+   \matrix[matrix of math nodes, column sep=6mm, row sep=3mm]{
+     & |(M)| M \cons \pi \\
+   |(L)| L \cons \pi' \concat \pi\\
+     & |(N)| N \cons \pi.\\
+   };
+   \path[opacity=0, text opacity=1]
+     (L) edge node[sloped] {$\lhd^*$} (M)
+     (L) edge node[sloped] {$\lhd^*$} (N);
+  \end{tikzpicture}
+ \]
+\end{lemma}
+\begin{proof}
+ $N = L L_1 \dots L_n$の時$\pi' = L_1 \push \dots \push L_n \push \pi$という形になる．\qed
+\end{proof}
+つまり，Krivine機械による$\CL$項の簡約は，$\BCKW$の範囲内ではきっかり弱頭部簡約に対応している訳です．
+それに加えて，$\cc$がそれまでの評価文脈であるスタック$\pi$の情報を閉じ込めた継続$\conti_\pi$を作成しています．
+スタックによって文脈を表現したことで，継続をきちんと定式化できたわけです．
+
+\begin{example}{継続の実行例}
+ 次の形の$\lambda$-項を考える：
+ $\cc (\lambda k.\, k x y) z$.
+ これに$\lambda$-変換を施しおえると，$\cc (\C (\C (\B (\B \I)) x) y) z$となる．
+ これに空スタックを与えて定義に従って簡約したものが次になる：
+ \def\kz{\conti_{\tikz{\node[draw=black,inner sep=.5ex,minimum width=.75em]{\ensuremath{\scriptstyle z}}}}}
+ \begin{center}
+  \begin{tikzpicture}
+   \matrix[column sep=.5em,row sep=1em, matrix of nodes]{
+   & \VM{$\cc(\C(\dots)y)z$}{}
+   & $\reds^*$ &
+   \VM{$\cc$}{{$\C(\dots)y$}{$z$}}
+   & $\reds$ &
+   \VM{$\C(\dots)y$}{{$\kz$}{$z$}}\\
+   $\reds^*$ &
+   \VM{$\C$}{{$\C(\dots)x$}{$y$}{$\kz$}{$z$}}
+   & $\reds$ &
+   \VM{$\C(\dots)x$}{{$\kz$}{$y$}{$z$}}
+   & $\reds^*$ &
+   \VM{$\C$}{{$\B\B\I$}{$x$}{$\kz$}{$y$}{$z$}}
+   \\
+   $\reds^*$ &
+   \VM{$\I$}{{$\kz xy$}{$z$}}
+   & $\reds$ &
+   \VM{$\kz$}{{$x$}{$y$}{$z$}}
+   & $\reds$ &
+   \VM{$x$}{{$z$}}
+   \\
+   };
+  \end{tikzpicture}
+ \end{center}
+ $\cc$の内側で$kx$が評価された瞬間，の時点で後ろ側の値$y$が斬り捨てられて，
+ あたかも最初から$\cc (\dots)$の位置に$x$があったかのような簡約結果になっている事がわかる．
+
+ では，渡された継続$k$を呼ばないとどうなるか．たとえば$\cc (\lambda k.\, I x y) z$を考えれば，$\lambda$-変換を施すとこれは$\cc (\K (\I (\I x y))) z$となり，
+ \begin{center}
+  \begin{tikzpicture}
+   \matrix[column sep=.5em,row sep=1em, matrix of nodes]{
+   &
+   \VM{$\cc (\K (\I (\I x y))) z$}{}
+   & $\reds^*$ &
+   \VM{$\K (\I (\I x y))$}{{$\kz$} {$z$}}
+   & $\reds$ &
+   \VM{$\K$}{{$\I (\I x y)$} {$\kz$} {$z$}}
+   \\
+   $\reds$ &
+   \VM{$\I(\I x y)$}{{$z$}}
+   & $\reds^*$ &
+   \VM{$\I$}{{$x$}{$y$} {$z$}}
+   & $\reds$ &
+   \VM{$x$}{{$y$} {$z$}}
+   \\
+   };
+  \end{tikzpicture}
+ \end{center}
+ となる．
+ これは，$\cc (\dots)$の内側が$\cc$で囲まれていなかった時と結果的に同じである．
+
+ このように，$\cc$によって渡された継続を使えば，\textbf{大域脱出}が可能になる．
+ $\cc$内で継続$k$が複数呼び出される場合，最初にスタックトップにきた$k$を使って脱出する．
+\end{example}
+
+\begin{example}{リストの総積}
+ 与えられた自然数のリストの総積を右から順に計算する例を考えよう．
+ ここでは，純粋$\lambda$-計算に値をエンコードする方法として以下を用いる：
+ \begin{alignat*}{3}
+  \mathtt{true}   &\deffml \abs{t f}{t},\quad&
+  \mathtt{false}  &\deffml \abs{t f}{f},\quad&
+  \mathtt{if}\, p\, \mathtt{then}\, t\, \mathtt{else}\, f &\deffml p \,t\,f
+  \\
+  &&\mathtt{zero?}\,n &\deffml n\, (\K\,\mathtt{false})\, \mathtt{true},\quad &
+  \\
+  \mathtt{nil} &\deffml \abs{c n}{n} \quad&
+  \mathtt{cons}\,&\deffml \abs{x\, l\, c\, n}{c\, x\, (l\, c\, n)},\quad&
+  \mathtt{fold} & \deffml \abs{\,f\,z\,l}{l\, f \, z.}
+ \end{alignat*}
+ この時，与えられたリストの総積を計算する関数は$\mathtt{prod} \defeq \texttt{fold}\, \prog{mul}\, \underline{1}$として定義出来る．
+ これに対応する\textsf{c}-項は次の通りである：
+ \[
+  \B \C (\C \I) (\C (\C (\B (\B (\B \C) \C) \B) (\B \W (\B \B))) (\K \I)) (\B \W (\B \B) (\K \I))
+ \]
+ この時，$\reds$の公理だけに基づいて$\mathop{\mathtt{prod}}\,[1,2, \dots, 7, 0]$を実行していくと，停止するまでに$473113$ステップかかる\footnotemark．
+
+ そこで，ゼロが現れたら残りのリストは舐めずに即座に$0$を返すような最適化をしたい．
+ これは$\cc$を使い$\mathtt{prod}' \defeq \lambda l.\, \cc\,(\lambda k., \mathtt{fold}\,(\lambda a\,b.\, \mathtt{if}\,[\mathtt{zero?}\,a]\,\mathtt{then}\, \{k\,0\}\, \mathtt{else}\, \{a \times b\})\,1\,l)$と書け，
+ 展開すれば：
+ \begin{align*}
+  \B (\B \I \cc) (\C (\C (\C (\C (\B (\B (\B (\B (\B (\B (\B (\B \I)) (\B \C (\C \I))) \W)) \C) (\C (\B (\B (\B (\B (\B (\B \B (\B \I)) \B) (\B \I))) \I)\\ (\C (\C \I (\K (\K \I))) \K))))) (\K \I)) (\C (\C (\B (\B (\B \C) \C) \B) (\B \W (\B \B))) (\K \I))) (\B \W (\B \B) (\K \I))))
+ \end{align*}
+ $\mathop{\mathtt{prod}'}\,[1,2, \dots, 7, 0]$を実行させると，わずか$1830$ステップで停止し，最適化が効いていることがわかる．
+
+ 継続は他にも，例外処理などの実装にも使われる．
+\end{example}
+\footnotetext{ここでのステップ数は，実行過程関係$\reds$の各公理を小ステップ簡約の定義と見做して計算している．}
+\end{document}
+
+% Local Variables:
+% mode: yatex
+% TeX-master: "config.tex"
+% End:

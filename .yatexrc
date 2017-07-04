@@ -1,0 +1,32 @@
+(setq tmp-singlecmd-table '(
+("strto")
+("NN")
+("redsto")
+("MP")
+("PT")
+("strin")
+("adbmal")
+("FV")
+("cons")
+("exec")
+("push")
+("pole")
+("cc")
+("conti")
+("app")
+))
+
+(setq tmp-section-table '(
+("KVM")
+("comb")
+("numeral")
+("stackcell")
+("subst")
+("stack" 2)
+("VM" 2)
+))
+
+(setq tmp-env-table '(
+("discussion")
+("stackdiag")
+))

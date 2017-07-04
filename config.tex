@@ -1,0 +1,116 @@
+%#!xelatex -src-specials realisability.tex
+\usepackage[hiragino-pron]{luatexja-preset}
+\usepackage{mystyle}
+\usepackage{luatexja-otf}
+\usepackage{dsfont}
+\usepackage{stmaryrd}
+\usepackage{xparse}
+\usepackage{mathtools}
+\usetikzlibrary{math,intersections,positioning,calc,arrows.meta}
+\DeclareMathAlphabet{\mathrsfs}{U}{rsfso}{m}{n}
+\usepackage{fixme}
+\usepackage[super]{nth}
+\usepackage[bookmarksnumbered,pdfproducer={LuaLaTeX},%
+            luatex,psdextra,pdfusetitle,pdfencoding=auto]{hyperref}
+\usepackage[backend=biber, style=math-numeric]{biblatex}
+\addbibresource{myreference.bib}
+\newcommand{\app}{\mathbin{\boldsymbol{\cdot}}}
+\newcommand{\conti}{\mathsf{k}}
+% \usepackage{txfonts}
+\newcommand{\abs}[3][]{\lambda^{\mathsf{#1}}#2.\;#3}
+\newcommand{\comb}[1]{\mathsf{\mathbf{#1}}}
+\renewcommand{\emph}[1]{\textsf{\textgt{#1}}}
+\newcommand{\eembto}{\hookrightarrow_{\mathrm{e}}}
+\newcommand{\Perp}{\tikz[baseline] %
+    {\path[draw,semithick] (-.375em,0) -- (.375em,0)%
+                      (-.09em,0) -- +(0,.65em) (.09em,0) -- +(0,.65em)}}
+\newcommand{\pole}{\mathord{\Perp}}
+\newcommand{\push}{\mathbin{\boldsymbol{.}}}
+\newcommand{\reds}{\mathrel{\rhd}}
+\newcommand{\cons}{\mathbin{\star}}
+\newcommand{\prog}[1]{\mathop{\mathtt{#1}}}
+\newcommand{\redsto}{\reds}
+\newcommand{\NN}{\mathord{\tilde{\mathbb{N}}}}
+\DeclareMathOperator{\FV}{FV}
+\newcommand{\NEAC}{\mathord{\mathreg{NEAC}}}
+\newcommand{\ZFe}{\mathord{\ZF_{\varepsilon}}}
+\newcommand{\strto}{\xrightarrow[\mathreg{str}]{}}
+\newcommand{\extto}{\xrightarrow[\mathreg{ext}]{}}
+\usepackage{knstackdiag}
+\newcommand{\strin}{\mathrel{\varepsilon}}
+\newcommand{\strni}{\mathrel{\reflectbox{\ensuremath{\varepsilon}}}}
+\newcommand{\strnin}{\not\mathrel{\varepsilon}}
+\newcommand{\strsubseteq}{\mathrel{\sqsubseteq}}
+\newcommand{\PT}{\mathord{\mathreg{PT}}}
+\newcommand{\MP}{\mathord{\textsc{MP}}}
+\newcommand{\Abs}{\mathord{\textsc{Abs}}}
+\newcommand{\A}{\comb{A}}
+\renewcommand{\Gen}{\mathord{\textsc{Gen}}}
+\newcommand{\Subs}{\mathord{\textsc{Subs}}}
+\makeatletter
+\NewDocumentCommand\stack{O{} +m}{
+ \def\kn@tmp@s{#2}
+ \ifx\@empty\kn@tmp@s%
+ \begin{tikzpicture}[baseline=(current bounding box.south)]
+  \node[minimum height=1.25em, inner sep=1ex,minimum width=3em, draw=black, dashed] (emp) at (0,0) {};
+  \path[draw]
+    ($(emp.south west)-(.5em, 0)$) -- ($(emp.south east)+(.5em, 0)$);
+ \end{tikzpicture}
+ \else
+ \begin{tikzpicture}[baseline=(current bounding box.south)]
+  \node [inner sep=0pt, outer sep=0pt] (stk) {\stackof[#1]{#2}};
+  \path[draw]
+    ($(stk.south west)-(.5em, 0)$) -- ($(stk.south east)+(.5em, 0)$);
+ \end{tikzpicture} 
+\fi
+}
+\newcommand{\VM}[2]{%
+\tikz[baseline=(L.base)]{
+    \node (L) {#1};
+    \node (S) at ($(L.south east)+(.5em,0)$) [anchor=south west,inner sep=0]{\stack{#2}
+    };
+    \node at ($(L.east)+(.4em, -.25em)$) {$\cons$};
+   }}
+\makeatother
+
+\newcommand{\HK}{\mathord{\mathbf{HK}}}
+\newcommand{\CL}{\mathord{\mathbf{CL}}}
+\newcommand{\HJ}{\mathord{\mathbf{HJ}}}
+
+\newcommand{\B}{\comb{B}}
+\renewcommand{\S}{\comb{S}}
+\renewcommand{\C}{\comb{C}}
+\renewcommand{\I}{\comb{I}}
+\newcommand{\K}{\comb{K}}
+\newcommand{\Y}{\comb{Y}}
+\newcommand{\W}{\comb{W}}
+\newcommand{\BCKW}{\comb{BCKW}}
+\newcommand{\BCKWI}{\comb{BCKWI}}
+\newcommand{\cc}{\comb{c\hspace{-1pt}c}}
+\newcommand{\subst}[1]{\left[\begin{smallmatrix}#1\end{smallmatrix}\right]}
+\newcommand{\num}[1]{\underline{#1}}
+
+\makeatletter
+\def\KVM#1{\KVM@init#1{\relax}}
+\def\KVM@init#1#2{#1 \cons \KVM@rest#2}
+\def\KVM@rest#1#2{%
+\def\KVM@next{\KVM@rest{#1 \push #2}}
+\ifx#2\relax
+#1
+\else
+\expandafter\KVM@next
+\fi
+}
+\makeatother
+
+\title{実現可能性モデルノート}
+\author{石井大海}
+
+\usepackage{amssymb}	% required for `\mathbb' (yatex added)
+\usepackage{amsmath}	% required for `\gather*' (yatex added)
+\usepackage[normalem]{ulem}	% required for `\uwave' (yatex added)
+
+% Local Variables:
+% mode: yatex
+% TeX-master: "realisability.tex"
+% End:

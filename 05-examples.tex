@@ -1,0 +1,252 @@
+%#!luajitlatex -src-specials 05-examples.tex
+
+\documentclass[realisability.tex]{subfiles}
+
+\begin{document}
+\section{実現可能性モデルの具体例}
+以下では，まず標準的な実現可能性モデルについて考える：
+\begin{definition}
+ $\mathcal{A}$が$\Pi_0$をスタック定数，$\Lambda_0 (\supseteq \set{\B, \C, \K, \W, \I, \cc})$を原子項とする\emph{標準実現可能性代数}$\defs$ $\Lambda$は$\Set{\conti_\pi | \pi \in \Pi} \cup \Lambda_0$の元を原子コンビネータとする$\CL$-項の全体，$\Pi$の元は$\xi_i \in \Lambda\;(i < n)$と$\pi_0 \in \Pi_0$により$\xi_0 \push \dots \push \xi_{n-1} \push \pi_0$の形のみであり，$\redsto$はKrivine機械の簡約規則に対応し，$\Lambda \cons \Pi = \Lambda \times \Pi$, $\PT \defeq \Set{ \theta \in \Lambda | \theta \text{ に } \conti_\pi \text{ の形の項が現れない}}$．
+\end{definition}
+
+\subsection{スレッドモデル------$\R$の整列性が破れているモデル}
+\emph{スレッドモデル}(\emph{model of threads})はKrivine~\cite{Krivine:2012hl}が定義した一番簡単な斉一的な実現可能性代数である：
+
+\begin{definition}
+ スレッド代数$\mathcal{T}$は次を満たす標準的実現可能性代数とする：
+ \begin{itemize}
+  \item 原子項は$\Set{\B, \C, \K, \I, \W, \cc, \varsigma}$，
+  \item 相異なる可算個のスタック定数$\Set{\pi_n | n < \omega}$を持つ，
+  \item $\Lambda \ni \eta \mapsto n_\eta \in \NN$を（証明的とは限らない）項の再帰的な列挙，$n \mapsto \xi_n$をその逆関数とし，$n \mapsto \theta_n$を証明的項$\PT$の再帰的な列挙とする，
+  \item $\KVM{\varsigma \xi \eta \pi} \reds \KVM{{\xi}{{\num{n}_\eta}}{\pi}}$,
+  \item $\pole$を次で定める：
+        \[
+        \xi \cons \pi \notin \pole \defs \exists n < \omega\: \theta_n \cons \pi_n \redsto \xi \cons \pi.
+        \]
+        $\theta_n \cons \pi_n$の簡約過程に現れる項全体を\emph{$n$番目のスレッド}と呼ぶ．
+        つまり，$\pole$は何如なるスレッドにも属さないプロセスの集合である．
+ \end{itemize}
+\end{definition}
+ソフトウェア工学において，スレッドとは同時並行で計算を行う際に使われる概念で，逐次的な計算を行う独立した単位のことである．
+\begin{lemma}
+ スレッド代数$\mathcal{T}$は斉一的である．
+\end{lemma}
+\begin{proof}
+ 任意の$\xi \in \PT$を取れば，$\xi = \theta_n$なる$n$があり，定義より$\theta \cons \pi_n \in \pole$となる． \qed
+\end{proof}
+スレッド代数の濃度は可算なので補題\ref{cor:dc-suff-cond}より従属選択公理が成り立つ：
+\begin{lemma}
+ $V^{\mathcal{T}} \models \DC$.
+\end{lemma}
+本小節の目標は次の独立性証明である：
+
+\begin{theorem}[Krivine]\label{thm:patho-sets-of-reals}
+ \[
+  V^{\mathcal{T}}
+   \models \ZF + \DC
+    \begin{aligned}[t]
+     &+\exists \Set{ \mathcal{X}_n \subseteq \Pow(\NN) | n < \omega } \:
+     \forall n, m \in \NN \:
+    \left[|\mathcal{X}_{n}| < |\mathcal{X}_{n+1}| \land |\mathcal{X}_n \times \mathcal{X}_m| = |\mathcal{X}_{nm}|\right],\\
+     &+ \exists \Set{ \mathcal{Y}_n \subseteq \Pow(\NN) | n <\omega} \: \forall n \in\NN \:
+       |\mathcal{Y}_{n+1}| < |\mathcal{Y}_n|.
+    \end{aligned}
+ \]
+\end{theorem}
+
+そこで，一旦$\gimel n$や$\Pow(\NN)$の構造に関する一般論をやっておく．
+
+\subsubsection{$\gimel \mathbf{2}$のBoole構造と$\gimel \mathbf{n}$}
+以下では，von Neumann順序数もどきの表現を使って分析をする．
+特に，$k < n$なる$s^k 0$の形の数項全体に太字の表記を用いる．
+\begin{notation}
+ $\mathbf{n} \defeq \set{0, s0, \dots, s^{n-1} 0}$.
+
+ $V$における関数$s^n 0 \mapsto \mathbf{n}$および$s^n 0 \mapsto \gimel \mathbf{n}$は$V^{\mathcal{R}}$では$\gimel \mathbf{N}$上定義されている事に注意する．
+\end{notation}
+
+$\mathbf{n}$は，期待通り自然数の構造を反映した性質を持っていることがわかる：
+\begin{lemma}\label{lem:gimel-n-props}
+ 次の論理式が$V^{\mathcal{R}}$で成立：
+ \begin{enumerate}
+  \item \label{item:lt-elem}$\forall m \strin \gimel \N\: \forall n \strin \gimel \N\: \left[ \braket{m < n} = 1 \iff m \strin \gimel\mathbf{n}\right]$,
+  \item \label{item:lt-str-subs}$\forall m \strin \gimel \N\: \forall n \strin \gimel \N\: \left[ \braket{m < n} = 1 \to \gimel \mathbf{m} \sqsubseteq \gimel \mathbf{n}\right]$,
+  \item \label{item:lt-plus}$\forall m \strin \gimel \N\: \forall n \strin \gimel \N\: \left[ \braket{m < n} = 1 \iff \exists y \strin \gimel \N\: n = m + y + 1\right]$.
+ \end{enumerate}
+ よって特に$\gimel \mathbf{n} \simeq \Set{x \strin \gimel \N | \braket{x < n} = 1}$.
+\end{lemma}
+\begin{proof}
+ \ref{item:lt-elem} $n, m \in \N$を任意にとれば$\|\braket{m < n} = 1\| = \|m \strin \gimel \mathbf{n}\|$.
+ \ref{item:lt-str-subs} $<^{\mathcal{R}}$の推移性（補題\ref{lem:nat-ord-in-NN}）および\ref{item:lt-elem}より．
+ \ref{item:lt-plus}も同様． \qed
+\end{proof}
+この$\gimel\mathbf{n}$たちが，実は上の命題の$\mathcal{X}_n$たちと同じ役割を果す．
+\begin{lemma}\label{lem:natural-bij-prod}
+ $V^{\mathcal{R}}$において，写像$(x, y) \mapsto my + x$は$\gimel \mathbf{m} \times \gimel \mathbf{n} \to \gimel(\mathbf{mn})$への全単射となっている．
+ 特に，次の論理式が$\I$で実現されている：
+ \begin{enumerate}
+  \item $\forall m, n \strin \gimel \N\: \forall x \strin \gimel \mathbf{m}\: \forall y \strin \gimel \mathbf{n}\: (my + x) \strin \gimel \mathbf{mn}$,
+  \item $\forall m, n \strin \gimel \N\:
+         \forall x, x' \strin \gimel \mathbf{m} \: \forall y, y' \strin \gimel \mathbf{n}\:
+         \left[ my + x = m'y + x' \hookrightarrow x = x'\land y = y' \right]$,
+  \item $\forall m,n \strin \gimel \N\:\forall z \strin \gimel(\mathbf{mn}) \:
+         \exists x \strin \gimel \mathbf{m} \: \exists y \strin \gimel \mathbf{n}\:
+         z = my + x$.
+ \end{enumerate}
+\end{lemma}
+
+\begin{definition}[可算実現可能性代数の特性関数]
+ $V$において$\Delta: \NN \to 2$を次で定める：
+ \[
+  \Delta(n) \defeq
+  \begin{cases}
+   0 & \text{if } \xi_n \Vdash \bot\\
+   1 & \ow
+  \end{cases}
+ \]
+\end{definition}
+これを用いると，$V^{\mathcal{R}}$における$\gimel 2$の可算稠密集合が得られる：
+\begin{lemma}
+ $\theta \defeq \abs{xy}{\varsigma y x x}$とおくと$\theta \Vdash \forall x \strin \gimel 2\:[x \neq 0 \to \exists n \strin \NN\:(0 \neq \Delta(n) \leq x)]$.
+\end{lemma}
+\begin{proof}
+ 実際には次を示せばよい：
+ \[
+  \theta \Vdash \forall x \strin \gimel 2\:[x \neq 0 \to \forall n \strin \NN\:(0 \neq \Delta(n) \to \Delta(n) + a \neq a) \to \bot]
+ \]
+ そこで$a = 0, 1$の時に$\xi \Vdash a \neq 0$, $\eta \Vdash \forall n \strin \NN\:(\Delta(n) \neq 0 \to \Delta(n) + a \neq a)$, $\pi \in \Pi$を固定し，$\KVM{{\theta}{\xi}{\eta}{\pi}} \in \pole$を示す．
+ ここで，
+ \[
+  \KVM{{\theta}{\xi}{\eta}{\pi}}
+ \reds \KVM{{\varsigma}{\eta}{\xi}{\xi}{\pi}}
+ \reds \KVM{\eta {{\num{n}_\xi}} \xi \pi}.
+ \]
+ $\eta$の取り方より，$\KVM{{{\num{n}_\xi}} \xi \pi} \in \|\forall n \strin \NN\: (0 \neq \Delta(n) \to \Delta(n) + a \neq a) \|$を示せばよい．
+ 特に$\forall n \strin \NN$の解釈の定義から，$\xi \push \pi \in \|\Delta(n_\xi) \neq 0 \to \Delta(n_\xi) + a \neq a\|$が言えればよい．
+ そこで$\xi \Vdash \Delta(n_\xi) \neq 0$および$\|\Delta(n_\xi) \nleq a\| = \|\bot\| = \Pi$を示したい．
+ まず，$\Delta(n_\xi) = 0$の時は定義より$\xi = \xi_{n_\xi} \Vdash \bot$かつ$\|\Delta(n_\xi) \neq 0\| = \|\bot\|$なので良い．
+ $\Delta(n_\xi) = 1$の時はそもそも$\|\Delta(n_\xi) \neq 0\| = \|\top\|$となるので$\xi \in \Lambda = \|\top\|$より良い．
+
+ あとは$\|\Delta(n_\xi) \nleq a\| = \|\bot\|$を示せばよいが，これは$\nleq$の定義より$V \models \Delta(n_\xi) \leq a$となる事が言えれば良いだけである．
+ $a = 1$の時は自明．
+ $a = 0$なら$\xi \Vdash a \neq 0$より$\xi \Vdash \bot$となるから$\Delta(n_\xi) = 0$となりこれもよい．
+ よって示せた． \qed
+\end{proof}
+
+これを使うと，$\gimel 2$から$\Pow(\NN)$への$\ZF$の意味での単射が得られていることがわかる：
+
+\begin{lemma}\label{lem:D-base-ext-inj}
+ $V^{\mathcal{R}}$において対応$\gimel 2 \strni x \mapsto D_x \defeq \Set{n \in \NN | 0 \neq \Delta(n) \leq x}$は$\gimel2$から$\Pow(\R)$への外延的埋め込みを与える．
+\end{lemma}
+\begin{proof}
+ 相異なる$x, y \strin \gimel 2$を取る．
+ 特に$x \cdot y = 0$である場合について考えよう．
+ そこで$0 < \Delta(n) \leq x + y$なる$n \strin \NN$を取れば，$x, y$が両立しないことから$\Delta(n) \leq x \iff \Delta(n) \nleq y$が成り立つ．
+ よって$n \in D_x \symdiff_{\text{ext}} D_y$となるので，$D_x \not\simeq D_y$.
+ また，$x \cdot y > 0$の時は$x' = x \cdot (- y), y' y \cdot (- x)$とおいて$0 < \Delta(n) \leq x' + y'$となるものを取れば同様の事が成り立つ． \qed
+\end{proof}
+よって$\gimel 2$自体は$\ZF$のモデルとして見ると$\set{0, 1}$に縮退してしまうが，$\ZFe$における$\gimel 2$と同じ構造をした実数の集合が$\ZF$の側でも得られている．
+
+補題\ref{lem:char-ba-nontriv}で$\gimel2$が非自明になる条件を見たが，更に以下ではアトムを持たない十分条件を与える．
+
+\begin{lemma}
+ $\alpha_0, \alpha_1, \alpha_2 \in \PT$で任意の$\xi \in \Lambda, \pi \in \Pi$について$\conti_\pi \xi \alpha_0, \conti_\pi \xi \alpha_1$または$\conti_\pi \xi \alpha_2$のいずれかが$\perp$を実現するような物が存在するとする．
+ このとき$\gimel2$はアトムを持たない．
+ 特に$\theta \defeq \abs{xy}{\cc (\abs{k}{x (k y \alpha_0)(x (k y \alpha_1)(k y \alpha_2))})}$とおけば，
+ \[
+  \theta \Vdash \forall x \strin \gimel 2 \left[ \forall y \strin \gimel 2 \: (x \cdot y > 0 \implies x \nleq y) \to x = 0 \right].
+ \]
+\end{lemma}
+\begin{proof}
+ 結論部分の論理式は，$[\quad]$内の対偶を取れば次の形になる：
+ \[
+  \forall x \strin \gimel 2 \: [ x > 0 \to \exists y \strin \gimel 2 \: (0 < x \cdot y < x)].
+ \]
+ そこで適当な$x > 0$を取れば，$0 < x \cdot y < x$となる$y$が存在する．
+ ここでもし$x \cdot (- y) = 0$とすると$x \cdot y = x$となり結論に反するから，$x \cdot y$および$x \cdot (- y)$は共に非零で互いに両立しない$x$未満の元になっている．
+ よって上の結論が示されれば$\gimel 2$は$V^{\mathcal{R}}$でアトムを持たない事がわかる．
+
+ 以下主張を示していく．
+ 定義に従って$x, y$にそれぞれ$0, 1$を代入して考えれば，結局以下が言えれば良いことがわかる：
+ \begin{enumerate}
+  \item $\xi \Vdash \bot \to \bot \to \bot, \eta \Vdash \bot, \pi \in \Pi \implies \KVM{\theta \xi \eta \pi} \in \bot$,
+  \item $\xi \Vdash \bot \to \top \to \bot, \xi \Vdash \top \to \bot \to \bot$, $\eta \in \Lambda, \pi \in \Pi \implies \KVM{\theta \xi \eta \pi} \in \pole$.
+ \end{enumerate}
+ 簡約すれば，いずれの場合も$\KVM{\xi {{\conti_\pi \eta \alpha_0}}{\xi (\conti_\pi \eta \alpha_1)(\conti_\pi \eta \alpha_2)} \pi} \in \pole$を示せばよい．
+ \begin{enumerate}
+  \item $\pi \in \|\bot\|$より任意の$\psi$に対し$\conti_\pi \Vdash \bot \to \psi$であり，今$\eta \Vdash \perp$より，$\conti_\pi \eta$は任意の型を持ちうることに注意すれば明らか．
+  \item $|\top| = \Lambda$より$k_\pi \eta \alpha_0 \Vdash \perp$の時は$\xi \Vdash \bot \to \top \to \bot$を使えば良い．
+        そこで$k_\pi \eta \alpha_0 \nVdash \perp$とする．
+        この時，一番外側の$\xi$の型は必然的に$\xi \Vdash \top \to \bot \to \bot$を使うしかないので，$\xi (\conti_\pi \eta \alpha_1) (\conti_\pi \eta \alpha_2) \Vdash \bot$が言えればよい．
+        しかし仮定より$\conti_\pi \eta \alpha_1$または$\conti_\pi \eta \alpha_2$の少なくとも一方は$\perp$を実現するから，仮定より明らかに成り立つ． \qed
+ \end{enumerate}
+\end{proof}
+
+いま我々は$\gimel \mathbf{2}$にはBoole代数の構造を入れて考えているが，$n > 2$の場合の$\gimel \mathbf{n}$にはBooleではないにせよ環の構造を持つことがわかる．
+特に，Boole代数には通常下限を積として自然に環構造が定まる．
+そこで以下の定義をする：
+
+\begin{definition}
+ 任意の$a \in \gimel 2$, $n \in \NN$に対し，$\gimel \mathbf{n}$上のイデアル$a\gimel\mathbf{n}$を次で定める：
+ \[
+  x \strin a \gimel\mathbf{n} \defs x \cdot a = x.
+ \]
+ 特に$n = 2$の場合，これは$a$による切断$\downarrow a = \Set{x \strin \gimel 2| x \leq a}$と一致する．
+
+ また，等式に関する初等性より$\gimel \mathbf{2}$の各元は$\gimel \mathbf{n}$の中で冪等元になっているので，各$a \strin \gimel 2$に対し$x \mapsto a x$により自然に写像$\gimel \mathbf{n} \to a \gimel \mathbf{n}$が引き起こされる．
+\end{definition}
+
+まず，$\gimel \mathbf{2^n}$は$\Pow(\NN)$に外延的な意味でも単射で埋め込むことが出来る：
+\begin{lemma}
+ $V^{\mathcal{R}} \models \forall n \strin \NN \: \gimel(\mathbf{2^n}) \eembto \Pow(\R)$.
+\end{lemma}
+\begin{proof}
+ まず補題\ref{lem:natural-bij-prod}を$n \strin \NN$についての帰納法で繰り返し適用すれば，$\gimel(\mathbf{2^n})$と$(\gimel \mathbf{2})^n$の間に自然な全単射が存在することがわかる．
+ すると，$(\gimel\mathbf{2})^n \strni (b_1, \dots, b_n) \mapsto D_{b_1} \times \dots \times D_{b_n} \sqsubseteq \Pow(\NN^n)$.
+ 補題\ref{lem:D-base-ext-inj}の議論より$D_{b_1} \times \dots \times D_{b_n} \simeq D_{b'_1} \times \dots \times D_{b'_n}$なら$b_1 = b'_1, \dots, b_n = b'_n$が言えるので，この対応による行き先は外延的に相異なる．
+ $\NN^n$と$\NN$の間の再帰的な全単射は補題\ref{lem:recursives-defined}より自然に$V^{\mathcal{R}}$の$\NN$にも持ち上がり，特にこれらは外延的全単射になっているので，補題\ref{lem:compos-ext-emb}より所望の結果が得られる． \qed
+\end{proof}
+
+\begin{corollary}\label{cor:gimels-ext-embeds}
+ $V^{\mathcal{R}} \models \forall n \strin \NN\: \gimel\mathbf{n} \eembto \Pow(\R)$.
+\end{corollary}
+\begin{proof}
+ $n < 2^m$なる$m$を取れば，補題\ref{lem:gimel-n-props}の\ref{item:lt-str-subs}より$\gimel\mathbf{n} \sqsubseteq \gimel (\mathbf{2^m}) \eembto \Pow(\R)$.
+\end{proof}
+さて，定理\ref{thm:patho-sets-of-reals}で求める集合族のうち$\Set{\mathcal{X}_n | n < \omega}$は$\Set{\gimel \mathbf{n} | n \strin \NN}$の$\Pow(\R)$における像である．
+更に，（非／外延的）従属選択公理が成り立つなら，$\gimel \mathbf{2}$の真の無限減少列$\Braket{b_n | n < \omega}$が取れる．
+実はこの$b_n$たちの定める切断が定理\ref{thm:patho-sets-of-reals}の$\Set{\mathcal{Y}_n | n < \omega}$に対応する．
+
+これらが増加・減少列になっていることは明らかであり，それらは補題\ref{cor:gimels-ext-embeds}と系\ref{cor:ext-emb-morphs}から$\ZF$においても$\Pow(\R)$の増加・減少列を生み出す．
+したがって，あとは$\gimel \mathbf{n}$達や$\downarrow b$達が真に単調であることがわかればよい．
+それには次の補題を使う：
+
+\begin{lemma}
+ 証明的項$\omega \in \PT$で任意の$\xi, \xi' \in \Lambda$, $\xi \neq \xi'$および$\pi \in \Pi$に対し$\omega \conti_\pi \xi \Vdash \perp$または$\omega\conti_\pi \xi' \Vdash \perp$が成り立つものが取れたとする．
+ この時$\theta \defeq \abs{x x'}{\cc (\abs{\conti}{\conti (x'(\abs{z}{xzz(\omega \conti z)}))})}$とおけば，任意の論理式$\varphi[x,y,z]$に対し，
+ \[
+  \theta \Vdash \forall m, n \strin \gimel \NN\: \forall z \:
+   \left[\begin{split}
+          \braket{m < n} = 1 &\hookrightarrow
+          \forall x, y, y' \left( \varphi[x,y,z] \to \varphi[x, y' z] \to y = y'\right)\\
+         &\to \exists y \strin \gimel\mathbf{n} \: \forall x \strin \gimel \mathbf{m} \: \neg \varphi[x,y,z]
+  \end{split}\right].
+ \]
+ 特に$\varphi[x, y, z] \equiv (x, y) \in z$とおけば，$V^{\mathcal{R}}$において$m < n$なる$m, n \strin \gimel \NN$に対し$\gimel \mathbf{m}$から$\gimel \mathbf{n}$への全射は存在しない．
+\end{lemma}
+
+\begin{lemma}
+ 上と同じ仮定の下で、$\theta \defeq \abs{x x'}{\cc(\abs{\conti}{x(\abs{n}{\cc(\abs{\mathsf{h}}{x'\mathsf{h}\mathsf{h}(\omega \conti)(\abs{f}{f\mathsf{h}n})})})})}$とおくと，
+ \[
+ \theta \Vdash \forall z \left[ \forall x \strin \gimel \mathbf{2} \: \exists n \strin \NN \: ( \varphi[n, x, z]) \to \exists n\: \exists x\: \exists y\: \left(\varphi[n, x, z] \land  \varphi[n, y, z] \land x \neq y\right)  \right].
+ \]
+ 特に$V^{\mathcal{R}}$において$\NN$から$\gimel \mathbf{2}$への全射は存在しない．
+\end{lemma}
+
+\subsection{実現可能性モデルと強制法の反復}
+\end{document}
+
+% Local Variables:
+% mode: yatex
+% TeX-master: "realisability.tex"
+% End:
