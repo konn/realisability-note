@@ -108,7 +108,7 @@ $\Phi$と$\Psi$は本質的には殆んど同じだが，定義域・値域が�
  いま$\varphi$は$\ZF$-論理式で$V^{(\mathcal{R})} \models \ZFe$なので，補題\ref{lem:ZF-conservative-lem}の\ref{item:ZF-fml-cong}より$\tau \Vdash \forall x \: \forall x'\: \forall y \: [x \subseteq x' \to x' \subseteq x \to \varphi[x, y] \to \varphi[x', y]]$となるような$\tau \in \PT$が取れる．
  また系\ref{cor:psi-of-phi-ext-eq}より$\I \Vdash \Psi(\Phi(x)) \subseteq x, x \subseteq \Psi(\Phi(x))$である．
  そこで$\theta_0 \defeq \abs{x}{\tau\I\I(\theta^\varphi_0 x)}$と定める．
- この時任意に$x \in V$を取れば，$\theta_0 \xi \Vdash \varphi[x, \Psi(\dot{b})]$となっている． \qed
+ ここで任意に$x \in V$を取れば$\theta_0 \xi \Vdash \varphi[x, \Psi(\dot{b})]$となる． \qed
 \end{proof}
 
 $V^{(\mathcal{R})}$における$\gimel E$の場合と同様，$V$の元に対応する$V^{\mathcal{R}}$の元が次で定まる：
@@ -127,27 +127,30 @@ $V^{(\mathcal{R})}$では$V$上の定義可能関数は$V^{(\mathcal{R})}$全域
 これは，$V^{(\mathcal{R})}$の元が同時に二つの役割を果していたからである．
 ひとつは，$V^{(\mathcal{R})}$における新たな集合の「名称」としての働きであり，もう一つは$V$における「古い」集合としての役割である．
 前者は所属関係を考える時に現れ，後者は$V$上の関数の値や$\gimel E$を考える際に現れる．
-Krivineのオリジナルの構成では，これらが互いに絡み合った形で定式化されているが，我々の$V^{\mathcal{R}}$においては最早モデルは$V$自身とは一致せず，これらは区別される．
+Krivineの構成では，これらが互いに絡み合った形で定式化されているが，我々の$V^{\mathcal{R}}$においては最早モデルは$V$自身とは一致せず，$V$における関数記号の役割は二つに分岐することになる：
 
 \begin{definition}
- $f$を$V$上定義された関数とするとき，$V^{\mathcal{R}}$における$f$の解釈は次で定める：
- \[
-  f^{V^{\mathcal{R}}}(\dot{x}) \defeq
- \begin{cases}
-  \widehat{f(x)} & (\text{if } \exists x \in V \: \dot{x} = \hat{x})\\
-  \emptyset & \ow.
- \end{cases}
- \]
+ $f$を$V$上定義された関数とするとき，$V^{\mathcal{R}}$において新たな関数記号$f$, $\hat{f}$の解釈を次で定める： 
+ \begin{align*}
+  \hat{f}^{V^{\mathcal{R}}}(\dot{x}) &\defeq
+  \begin{cases}
+   \widehat{f^V(x)} & (\text{if } \exists x \in V \: \dot{x} = \hat{x})\\
+   \emptyset & \ow.
+  \end{cases}\\
+  f^{V^{\mathcal{R}}}(\dot{x}) &\defeq f^V(\dot{x}).
+ \end{align*} 
+
  特に，$\braket{\varphi[\vec{x}]}$を$V$における$\ZF$-論理式$\varphi[\vec{x}]$の特性関数として，その$V^{\mathcal{R}}$上での拡張を考える．
 \end{definition}
 定義より次は明らか：
 \begin{lemma}
  $V \models \forall x_1 \in A_1 \dots \forall x_n \in A_n \: f(\vec{x}) \in B \iff V^{\mathcal{R}} \models \forall x_1 \strin \hat{A}_1 \dots \forall x_n \strin \hat{A}_n \: f(\vec{x}) \strin \hat{B}$.
 
- 特に$V \models f: A \to B$なら$V^{\mathcal{R}} \models f: \hat{A} \to \hat{B}$と思える．
+ 特に$V \models f: A \to B$なら$V^{\mathcal{R}} \models \hat{f}: \hat{A} \to \hat{B}$と思える．
 \end{lemma}
 また，$V^{\mathcal{R}}$の場合と同様に強い等号を次で導入する：
 \begin{definition}
+ $\dot{t}, \dot{u} \in V^{\mathcal{R}}$に対し：
  \[
  \|\dot{t} = \dot{u} \hookrightarrow \varphi \| =
  \begin{cases}
@@ -159,115 +162,17 @@ Krivineのオリジナルの構成では，これらが互いに絡み合った�
 全く同じようにして，等号的なHorn節の同値性が示せる：
 \begin{lemma}
  $t_i(\vec{x}), u_i(\vec{x}), t(\vec{x}), u(\vec{x})$を関数とすると：
- \begin{align*}
-  &V \models \forall \vec{x}\:\left[t_1(\vec{x}) = u_1(\vec{x}) \to \dots \to t_n(\vec{x}) = u_n(\vec{x}) \to t(\vec{x}) = u(\vec{x})\right]\\
+ \begin{alignat*}{2}
+  &&V &\models \forall \vec{x}\:\left[t_1(\vec{x}) = u_1(\vec{x}) \to \dots \to t_n(\vec{x}) = u_n(\vec{x}) \to t(\vec{x}) = u(\vec{x})\right]\\
  \iff
- &V^{\mathcal{R}} \models \forall \vec{x}\:\left[t_1(\vec{x}) = u_1(\vec{x}) \hookrightarrow \dots \hookrightarrow t_n(\vec{x}) = u_n(\vec{x}) \hookrightarrow t(\vec{x}) = u(\vec{x})\right].
- \end{align*}
+ &&V^{\mathcal{R}} &\models \forall \vec{x}\:\left[t_1(\vec{x}) = u_1(\vec{x}) \hookrightarrow \dots \hookrightarrow t_n(\vec{x}) = u_n(\vec{x}) \hookrightarrow t(\vec{x}) = u(\vec{x})\right].
+ \end{alignat*}
 \end{lemma}
 \begin{corollary}
  $V^{\mathcal{R}} \models \hat{2}: \text{Boole代数}$.
 \end{corollary}
 そこで以下では全て$V^{\mathcal{R}}$を使って議論を進めることにする．
 
-\subsection{$V$を初等拡大する$\hat{2}$-値構造}
-$\hat{2}$は関数$\braket{ \varphi[-] }$によって$V$の情報をコードしている．
-実際，$V^{(\mathcal{R})}$の場合は$V^{(\mathcal{R})}$上に$\gimel 2$-値構造が入り，これがあたかも$V$の初等拡大のように振る舞う．
-この状況は$V^{(\mathcal{R})}$という同じドメイン上に異なる構造が載っており，直観が掴みづらい．
-我々の$V^{\mathcal{R}}$では，上で定義した$V^{\mathcal{R}}$の部分クラス$\hat{V} \subsetneq V^{\mathcal{R}}$が$V$の初等拡大のように振る舞うので，随分と見通しがよくなる．
-
-まず，$\Braket{ - }$の値が自然な形で計算できる事を見る：
-\begin{lemma}\label{lem:char-homo}
- $\Braket{ - }: \hat{V}^n \to \hat{2}$は論理式の関数として見た時，Boole代数の準同型のように振る舞う．即ち：
- \begin{gather*}
-  V^{\mathcal{R}} \models \braket{\bot} = 0, \quad \forall \vec{x} \strin \hat{V}\: \braket{\varphi[\vec{x}] \to \psi[\vec{x}]} = - \braket{\varphi[\vec{x}]} + \braket{\psi[\vec{x}]},\\
-  V^{\mathcal{R}} \models \forall \vec{y} \strin \hat{V} \: \braket{\forall x \: \varphi[x, \vec{y}]} = \prod_{x \in \hat{V}} \braket{\varphi[x, \vec{y}]}.
- \end{gather*}
-\end{lemma}
-\begin{proof}
- 論理式の構成に関する帰納法で示す．
- $\braket{\bot} = 0$は明らか．
-
- また，基礎モデルにおいては$\Braket{ \varphi[x] \to \psi[x] } = -\Braket{\varphi[x]} + \braket{\psi[x]}$はどんな$x$についても成り立つから，等式に関する絶対性より
- \[
-  V^{(\mathcal{R})} \models \forall x \strin \hat{V} \: \Braket{ \varphi[x] \to \psi[x] } = -\Braket{\varphi[x]} + \braket{\psi[x]}
- \]
- は常に成立する．
-
- 最後に全称量化の場合を考える．
- 次の二つがそれぞれ実現されていることを見ればよい：
- \begin{enumerate}
-  \item $\forall x, z \strin \hat{V} \: \Braket{\forall y \: \varphi(x, y) } \leq \Braket{\varphi(x, z)}$,
-  \item $\forall x \strin \hat{V} \: \forall \alpha \strin \gimel 2\:
-          \left[\forall z \strin \hat{V} \: \alpha \leq \Braket{\varphi(x, z)}
-            \implies \alpha \leq \Braket{\forall y \: \varphi(x,y)}
-          \right]$.
- \end{enumerate}
- 一つ目の条件，下界である事については$\comb{I}$が実現することがすぐにわかる．
- 二つ目の条件も，実は$\comb{I}$が実現する．
- これを見るため，$x \in V$と$\alpha < 2$を任意に固定し，代入結果がすべて$\comb{I}$で実現されている事を見よう．
-
- $\alpha = 0$の時は，
- \[
-  \|\forall z \strin \hat{V} \: 0 \leq \Braket{\varphi(\hat{x}, z)}
- \to 0 \leq \Braket{\forall y \: \varphi(\hat{x},y)}\| = \|(\bot \to \bot) \to (\bot \to \bot)\|
- \]
- なので，$\comb{I} \Vdash (\bot \to \bot) \to (\bot \to \bot)$よりOK．
-
- 最後に$\alpha = 1$の時を考える．
- \[
-  \|\forall z \strin \hat{V} \: 1 \leq \Braket{\varphi(\hat{x}, z)}
- \to 1 \leq \Braket{\forall y \: \varphi(x,y)}\| =
- \|\forall z \strin \hat{V} \:[\Braket{\varphi(\hat{x}, z)} = 1]
- \to \Braket{\forall y \: \varphi(\hat{x},y)} = 1\|
- \]
- よって，$\xi \Vdash \forall z \strin \hat{V} \: \Braket{\varphi(\hat{x},z)} = 1$と$\pi \in \|\Braket{\forall y \: \varphi(\hat{x},y)} = 1\|$を任意に取って$\comb{I} \cons \xi \push \pi \in \pole$を示す．
- ここで$V \models \forall y \: \varphi(x,y)$か否かで場合分けする．
-
- $V \models \forall x \: \varphi(x, y)$の時は，$\Braket{x, z} = 1$が任意の$z \in V$について成立しているから，
- \[
- \left|\forall z \strin \hat{V} \: \Braket{\varphi(x,z)} = 1\right| = \bigcap_{z \in V} \left|\Braket{\varphi(\hat{x}, \hat{z})} = 1\right| = | \bot \to \bot |.
- \]
- 一方で仮定より$\pi \in\|\braket{\forall y \: \varphi(x, y)} = 1\| = \| \bot \to \bot \|$なので$\comb{I} \cons \xi \push \pi \reds \xi \cons \pi \in \pole$となる．
-
- $V \not\models \forall x \: \varphi(x)$の時を考える．
- この時$V \models \neg \varphi(y_0)$なる$y_0$を取っておけば，$\braket{\varphi(x, y_0)} = 0$であり，
- \[
- \left|\forall z \strin \hat{V} \: \Braket{\varphi(\hat{x},\hat{z})} = 1\right| = \bigcap_{z \in V} \left|\Braket{\varphi(\hat{x}, z)} = 1\right| \subseteq |\Braket{\varphi(\hat{x}, \hat{y}_0)} = 1| = | \top \to \bot |.
- \]
- また仮定より$\|\Braket{\forall y\: \varphi(x, y)} = 1\| = \|\top \to \bot\|$.
- よってこの場合も$\comb{I}$が実現してくれる事がわかる． \qed
-\end{proof}
-また，定義に戻って展開すれば直ちにつぎがわかる：
-\begin{lemma}
- $V^{\mathcal{R}} \models \forall x, y \strin \hat{V}\: [ \braket{x \in y} = 1 \iff x \strin y],\quad \forall x, y \strin \hat{V}\:[\braket{x = y} = 1 \iff x = y]$.
-\end{lemma}
-個別の$\hat{\;}$-名称については，強い関係と外延的関係は一致する：
-\begin{lemma}
- $\mathcal{R}$が斉一的で$x, y \in V$とする．
- \[
-  V^{\mathcal{R}} \models \quoted{\hat{x} \in \hat{y}} \iff V \models x \in y, \qquad
-  V^{\mathcal{R}} \models \quoted{\hat{x} \subseteq \hat{y}} \iff V \models x \subseteq y.
- \]
- よって特に$V^{\mathcal{R}} \models \hat{x} \simeq \hat{y} \iff V^{\mathcal{R}} \models \hat{x} = \hat{y}$.
-\end{lemma}
-\begin{remark}
- 上の結果は$V^{\mathcal{R}} \models \quoted{\hat{V}: \text{外延的クラス}}$を意味しない！
- 実際，$\hat{2}$が非自明な場合$\hat{V}$には$\check{x}$の形で書けないアトムが複数存在する．
-\end{remark}
-以上を踏まえると，$V$から$\hat{V}$への「初等埋め込み」は次の形で定式化出来る：
-\begin{corollary}
- $V^{\mathcal{R}} \models \quoted{(\hat{V}, {\strin}, {=}): \ZF\text{ の }\hat{2}\text{-値モデル}}$.
-
- また$\varphi[x_1, \dots x_n]$を$\ZF$-論理式，$a_i \in V$とすると
- \[
-  V \models \varphi[a_1, \dots, a_n] \iff V^{\mathcal{R}} \models \quoted{(\hat{V}, \hat{2}, {\strin}) \models \varphi[\hat{a}_1, \dots \hat{a}_n]}.
- \]
-\end{corollary}
-\begin{proof}
- $\Braket{-}$の定義と補題~\ref{lem:func-abs}および~\ref{lem:char-homo}から$\gimel 2$-値擬構造が入る事は従う．
- Boole値等号公理も普通に分解して証明すればよい． \qed
-\end{proof}
 \end{document}
 
 % Local Variables:
