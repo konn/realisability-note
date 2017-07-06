@@ -2,13 +2,216 @@
 
 \documentclass[realisability.tex]{subfiles}
 \begin{document}
-\section{$V^{(\mathcal{R})}$における自然数と従属選択公理}
+\section{$V^{\mathcal{R}}$における自然数と従属選択公理}
+本節では，$V^{\mathcal{R}}$における自然数の性質と，従属選択公理が成り立つ十分条件について基本的な考察を行う．
+
+\subsection{外延性と関数・関係に関する注意}
+自然数と従属選択公理について論じる前に，$\ZFe$-関数と$\ZF$-関数の間の相互関係について細かく分析しておく．
+
+\begin{definition}
+ $\ZFe$において集合$X$が\emph{外延的}$\defs \forall x, y \strin X \: [x \simeq y \to x = y]$.
+\end{definition}
+
+定義より明らかに次が成り立つ：
+
+\begin{lemma}
+ $X$が外延的で$Y \subseteq X$なら$Y$も外延的．
+\end{lemma}
+\begin{lemma}
+ $X, Y$が外延的なら$X \times Y$も外延的．
+\end{lemma}
+\begin{proof}
+ $(x, y), (x', y') \strin X \times Y$かつ$(x, y) \simeq (x', y')$とすると，順序対の定義は$\ZF$部分でも$\ZFe$部分でも同じように出来るので$x \simeq x'$かつ$y \simeq y'$.
+ すると$X, Y$の外延性より$x = x', y = y'$を得，結局$(x, y) = (x', y')$を得る． \qed
+\end{proof}
+
+定義域・値域の外延性は，$\ZF_\epsilon$-関数と$\ZF$-関数の互換性に関して重要な十分条件を与える：
+\begin{lemma}
+ \begin{enumerate}
+  \item $X$が外延的で$f: X \strto Y$なら$f: X \extto Y$.
+  \item $Y$が外延的で$f: X \extto Y$なら$f \simeq f' \defeq \Set{(x, y) \strin X \times Y | (x, y) \in f}$.
+  \item $X, Y$が共に外延的なら，$f: X \strto Y \iff f: X \extto Y$. 単射全射の概念も一致する．
+ \end{enumerate}
+\end{lemma}
+
+外延的写像が与えられれば，それを用いて引き戻し・押し出しを考えることが出来る．
+通常の$\ZF$における議論と同様にして次が成り立つ：
+\begin{lemma}
+ $f: A \extto B$について，$f_*: \Pow(A) \to \Pow(B)$および$f^*: \Pow(B) \to \Pow(A)$をそれぞれ$f_*(X) \defeq \Set{ f(x) | x \in X }$および$f^*(Y) \defeq \Set{x \strin X | f(x) \in Y}$で定める．
+ \begin{enumerate}
+  \item $f_*, f^*$は共に外延的関数，
+  \item $f$が外延的単射なら$f_*$も外延的単射，
+  \item $f$が外延的全単射なら$f^*, f_*$は互いに$\ZF$-逆写像であり，従って$\ZF$-全単射．
+ \end{enumerate}
+\end{lemma}
+
+これらは個別の写像が$\ZF$と両立するか否かという問題を扱っているが，個別のモデルにおける議論では，良い写像を介して$\ZFe$側の現象を$\ZF$側にも伝播させる形で種々の独立性を証明する．
+そのために必要なのが次の概念である：
+
+\begin{definition}
+ $A, B$を集合，$f: A \strto B$とする．
+ $x \neq y$なら$f(x) \not\simeq f(y)$となるとき，$f$は$A$を$B$に\emph{外延的に埋め込む}と言う．
+ このとき$f: A \eembto B$，あるいは$f$を略して$A \eembto B$と書く．
+\end{definition}
+
+\begin{remark}
+ $a \not\simeq b \implies a \neq b$なので$f: A \eembto B$の時$f$は$\ZFe$の意味で単射となっている．
+ しかし，$a \simeq b$なら$f(a) \simeq f(b)$となるかは定かではないので，外延的埋め込みが$\ZF$-写像であるとは限らず，特に$\ZF$-単射になっているわけではない．
+ なのであまり良い用語法ではないが，言葉にない事には仕方がないので当座そう呼ぶことにする．
+\end{remark}
+
+明らかに$\ZF$-単射と外延的埋め込みの合成は外延的埋め込みになる：
+
+\begin{lemma}\label{lem:compos-ext-emb}
+ $A \xrightarrow[\mathrm{str}, \text{1-1}]{f} C \mathrel{\smash{\xhookrightarrow[\hphantom{\mathrm{str}, \text{1-1}}]{g}}_{\mathrm{e}}} D \xrightarrow[\text{1-1}, \mathrm{ext}]{h} B$なら$h \circ g \circ f: A \eembto B$.
+\end{lemma}
+外延的埋め込みがあると，単射と全射を互いに融通しあうことが出来る：
+\begin{lemma}
+ 下図のような$\ZF$-全射$f$,外延的埋め込み$i, j$が与えられたとする：
+ \begin{center}
+  \begin{tikzpicture}
+   \matrix[matrix of math nodes, column sep=1cm, row sep=1cm]{
+    |(A)|  A   & |(B)|  B \\
+    |(A0)| A_0 & |(B0)| B_0\\
+   };
+   \path[draw, ->>]
+     (A) edge node[above] {$\scriptstyle f$}
+              node[below] {\scriptsize ext} (B);
+   \path[draw,right hook->>]
+     (A0) edge node[auto] {$\scriptstyle i$}
+               node[right, pos=.9] {$\scriptstyle \mathrm{e}$}
+     (A);
+   \path[draw,left hook->]
+     (B0) edge node[auto,swap] {$\scriptstyle j$}
+               node[left, pos=.9] {$\scriptstyle \mathrm{e}$}
+     (B);
+   \path[draw, densely dotted, ->>]
+     (A0) edge node[auto]{\scriptsize str} node[auto,swap] {$\scriptstyle \exists \bar{f}$} (B0);
+  \end{tikzpicture}
+ \end{center}
+ 但し$i$の全射性は$\ZFe$の意味とする．
+ このとき上図を可換とする$\ZFe$-全射$\bar{f}: A_0 \xrightarrow[\mathrm{str}]{\mathrm{onto}} B_0$が存在する．
+\end{lemma}
+\begin{proof}
+ $b_0 \in B_0$を一つ固定し，$\bar{f}$は次で定める：
+ \[
+  \bar{f}(a) =
+  \begin{cases}
+   b   & \text{if } f(i(a)) \simeq j(b) \text{ for some } b \in B_0,\\
+   b_0 & \ow.
+  \end{cases}
+ \]
+ $j(b') \simeq f(i(a)) \simeq j(b)$なら$j$が外延的埋め込みであることから$b' = b$となるので，この$\bar{f}$はwell-definedであり，特に$A_0$の全域で定義されている．
+
+ あとは全射を見ればよい．
+ ここで$b \in B_0$を任意にとれば，$f$の$\ZF$-全射性より$f(a') \simeq j(b)$となる$a' \in A$が取れる．
+ すると$i$は$\ZFe$-全射なので$i(a) = a'$となる$a \in A_0$が取れる．
+ よって$f(i(a)) = f(a') \simeq j(b)$を得る． \qed
+\end{proof}
+これの双対も成立する：
+\begin{lemma}
+ 下図のような$\ZFe$-単射$f$,外延的埋め込み$i, j$が与えられたとする：
+ \begin{center}
+  \begin{tikzpicture}
+   \matrix[matrix of math nodes, column sep=1cm, row sep=1cm]{
+    |(A)|  A   & |(B)|  B \\
+    |(A0)| A_0 & |(B0)| B_0\\
+   };
+   \path[draw,densely dotted, >->]
+     (A) edge node[above] {$\scriptstyle \exists \bar{f}$}
+              node[below] {\scriptsize ext} (B);
+   \path[draw,right hook->>]
+     (A0) edge node[auto] {$\scriptstyle i$}
+               node[right, pos=.9] {$\scriptstyle \mathrm{e}$}
+     (A);
+   \path[draw,left hook->]
+     (B0) edge node[auto,swap] {$\scriptstyle j$}
+               node[left, pos=.9] {$\scriptstyle \mathrm{e}$}
+     (B);
+   \path[draw, >->]
+     (A0) edge node[auto]{\scriptsize ext} node[auto,swap] {$\scriptstyle f$} (B0);
+  \end{tikzpicture}
+ \end{center}
+ このとき上図を可換とする$\ZF$-単射$\bar{f}: A \xrightarrow[\mathrm{ext}]{\text{1-1}} B$が存在する．
+\end{lemma}
+\begin{proof}
+ $i$が$\ZFe$-全単射なので，$\bar{f}(a) \defeq j(f(i^{-1}(a)))$により$\bar{f}$を定めよう．
+ ここで$j(f(i^{-1}(a_0))) \simeq j(f(i^{-1}(a_1)))$なら$j$が外延的埋め込みであることから$f(i^{-1}(a_0)) = f(i^{-1}(a_1))$となり，$f$の$\ZFe$-単射性より$i^{-1}(a_0) = i^{-1}(a_1)$を得る．
+ すると今度は$i$が外延的埋め込みであることから$a_0 = i(i^{-1}(a_0)) \simeq i(i^{-1}(a_1)) = a_1$となる．
+ よって$\bar{f}$は可換である． \qed
+\end{proof}
+
+\begin{lemma}
+ 下図のような$\ZFe$-全射$f$,外延的埋め込み$i, j$が与えられたとする：
+ \begin{center}
+  \begin{tikzpicture}
+   \matrix[matrix of math nodes, column sep=1cm, row sep=1cm]{
+    |(A)|  A   & |(B)|  B \\
+    |(A0)| A_0 & |(B0)| B_0\\
+   };
+   \path[draw, densely dotted, ->>]
+     (A) edge node[above] {$\scriptstyle \exists \bar{f}$}
+              node[below] {\scriptsize ext} (B);
+   \path[draw,right hook->>]
+     (A0) edge node[auto] {$\scriptstyle i$}
+               node[right, pos=.9] {$\scriptstyle \mathrm{e}$}
+     (A);
+   \path[draw,left hook->>]
+     (B0) edge node[auto,swap] {$\scriptstyle j$}
+               node[left, pos=.9] {$\scriptstyle \mathrm{e}$}
+     (B);
+   \path[draw, ->>]
+     (A0) edge node[auto]{\scriptsize str} node[auto,swap] {$\scriptstyle f$} (B0);
+  \end{tikzpicture}
+ \end{center}
+ 但し$i, j$の全射性は$\ZFe$の意味とする．
+ このとき上図を可換とする$\ZF$-全射$\bar{f}: A \xrightarrow[\mathrm{ext}]{\mathrm{onto}} B$が存在する．
+\end{lemma}
+\begin{proof}
+ $\bar{f} = j \circ f \circ i^{-1}$. \qed
+\end{proof}
+
+\begin{lemma}
+ 下図のような$\ZF$-単射$f$,外延的埋め込み$i, j$が与えられたとする：
+ \begin{center}
+  \begin{tikzpicture}
+   \matrix[matrix of math nodes, column sep=1cm, row sep=1cm]{
+    |(A)|  A   & |(B)|  B \\
+    |(A0)| A_0 & |(B0)| B_0\\
+   };
+   \path[draw, >->]
+     (A) edge node[above] {$\scriptstyle f$}
+              node[below] {\scriptsize ext} (B);
+   \path[draw,right hook->]
+     (A0) edge node[auto] {$\scriptstyle i$}
+               node[right, pos=.9] {$\scriptstyle \mathrm{e}$}
+     (A);
+   \path[draw,left hook->>]
+     (B0) edge node[auto,swap] {$\scriptstyle j$}
+               node[left, pos=.9] {$\scriptstyle \mathrm{e}$}
+     (B);
+   \path[draw, densely dotted, >->]
+     (A0) edge node[auto]{\scriptsize str} node[auto,swap] {$\scriptstyle \exists \bar{f}$} (B0);
+  \end{tikzpicture}
+ \end{center}
+ 但し$i$の全射性は$\ZFe$の意味とする．
+ このとき上図を可換とする$\ZFe$-単射$\bar{f}: A_0 \xrightarrow[\mathrm{str}]{\mathrm{onto}} B_0$が存在する．
+\end{lemma}
+\begin{proof}
+ $\bar{f} = j^{-1} \circ f \circ i$. \qed
+\end{proof}
+
+\begin{corollary}\label{cor:ext-emb-morphs}
+ $A_0 \mathrel{\tikz{\path[draw,right hook->>] (0,0) to (1em,0)}}_e A$, $B_0 \mathrel{\tikz{\path[draw,right hook->>](0,0) to (1em,0)}}_e B$なら$A$と$B$の間の単射・全射・全単射と$A_0$と$B_0$の間のそれらの存在は同値になる．
+\end{corollary}
+
+
 \subsection{実現可能性モデルにおける自然数の表現}
 実現可能性モデルでは，扱い易いようvon Neumann順序数とは異なる自然数のコードを採用する：
 
 \begin{definition}
- 写像$s$を$s(x) \defeq \gimel(\set{x}) = \Set{ (x, \pi) | \pi \in \Pi}$により定める．
- $0 \defeq \emptyset$とし，自然数$n$と$s^n 0$を同一視して，基礎モデルで$\mathbb{N} \defeq \Set{ s^n 0 | n < \omega}$と置く．
+ 写像$s$を$s(\dot{x}) \defeq \Set{ (\dot{x}, \pi) | \pi \in \Pi}$により定める．
+ $0 \defeq \emptyset = \hat{\emptyset}$とし，自然数$n$と$s^n 0$を同一視して，基礎モデルで$\mathbb{N} \defeq \Set{ s^n 0 | n < \omega}$と置く．
 
  この時，集合$\NN$を次で定める：
  \[
@@ -18,23 +221,23 @@
  この時$\underline{n} \cons \xi \push \pi \reds \xi^n \eta \cons \pi$となる．
 \end{definition}
 \begin{remark}
- $\|a \strnin s(b)\| = \|b \neq a\|$かつ$\|a \strin s(b)\| = \|a = b\|$.
- とくに$\|x \strnin s(x)\| = \Pi$であり，等号公理から$V^{(\mathcal{R})} \models \forall a \: \forall x \: \forall y \: [x \strin s(a) \to y \strin s(b) \to x = y]$.
+ $\|\hat{a} \strnin s(\hat{b})\| = \|\hat{b} \neq \hat{a}\|$かつ$\|a \strin s(b)\| = \|a = b\|$.
+ とくに$\|\hat{x} \strnin s(\hat{x})\| = \Pi$であり，等号公理から$V^{\mathcal{R}} \models \forall a, x, y \strin \hat{V} \: [x \strin s(a) \to y \strin s(a) \to x = y]$.
 \end{remark}
 
-この集合が$V^{(\mathcal{R})}$で見ると$\in$の意味でも$\strin$の意味でも自然数全体となっていることを以下では見ていく．
+この集合が$V^{\mathcal{R}}$で見ると$\in$の意味でも$\strin$の意味でも自然数全体となっていることを以下では見ていく．
 特に，$\NN$が$0$を含み$s$で閉じた最小の集合である事を示せば良く，つまり数学的帰納法の図式が$\NN$について実現されている事を見ればよいことになる．
 
 その前にまず，こうして導入した$s, 0$が外延的同値性$\simeq$と両立することを確かめる：
 
 \begin{lemma}\label{lem:s-0-compat}
  \begin{enumerate}
-  \item \label{item:sx-strong-inj}$\comb{I} \Vdash \forall x \: \forall y \: (s(x) = s(y) \hookrightarrow x = y)$,
+  \item \label{item:sx-strong-inj}$\comb{I} \Vdash \forall x, y \: (s(x) = s(y) \hookrightarrow x = y)$,
   \item \label{item:sa-strong-distinct}$\abs{x}{x\comb{I}} \Vdash \forall x \: (s(x) \not\simeq 0)$,
-  \item \label{item:s-compat-ext}$V^{(\mathcal{R})} \models \forall x\: \forall y \: [x \simeq y \leftrightarrow s(x) \simeq s(y)]$,
+  \item \label{item:s-compat-ext}$V^{\mathcal{R}} \models \forall x\: \forall y \: [x \simeq y \leftrightarrow s(x) \simeq s(y)]$,
   \item \label{item:N-weak-close-s} $\abs{g x}{g(\sigma x)} \Vdash \forall y \: (s(y) \strnin \NN \to y \strnin \NN) $,
-  \item \label{item:N-strong-close-s}$V^{(\mathcal{R})} \models \forall x \: (s(x) \notin \NN \to x \notin \NN)$.
-  \item \label{item:nat-ext-to-int}$V^{(\mathcal{R})} \models \forall n, m \strin \NN\:[n \simeq m \to n = m]$.
+  \item \label{item:N-strong-close-s}$V^{\mathcal{R}} \models \forall x \: (s(x) \notin \NN \to x \notin \NN)$.
+  \item \label{item:nat-ext-to-int}$V^{\mathcal{R}} \models \forall n, m \strin \NN\:[n \simeq m \to n = m]$.
  \end{enumerate}
 \end{lemma}
 \begin{proof}
@@ -51,7 +254,7 @@
  $\|z \strnin s(x)\| = \| z \neq x \|$なので，任意の$z \in V$に対して$\eta \Vdash (\forall z \: (z \notin \emptyset \to z \strnin s(x))) \iff \eta \Vdash \top \to z \neq x$となる．
  特に$z = x$に取れば，$\eta \Vdash \top \to \bot$を得，$\comb{I} \Vdash \top$より$\eta \I \cons \pi \in \pole$を得る．
 
- \ref{item:s-compat-ext}について：演繹について閉じているので，$V^{(\mathcal{R})}$の中で議論する．
+ \ref{item:s-compat-ext}について：演繹について閉じているので，$V^{\mathcal{R}}$の中で議論する．
  任意の$a, b$について：
  \[ s(a) \subseteq s(b)
  \iff \forall x\: (x \notin s(b) \to x \strnin s(a))
@@ -59,7 +262,7 @@
  \iff a \in s(b).
  \]
  いま，$a \simeq b$なら$a \simeq b \strin s(b)$より${\in}$の公理から$a \in s(b)$が得られる．
- また，逆に$a \in s(b)$なら$z \strin s(b)$で$a \simeq z$となるものが取れるが，上の注意より$s(b)$は$V^{(\mathcal{R})}$において$b$のみしか元を持たないので$a \simeq b$.
+ また，逆に$a \in s(b)$なら$z \strin s(b)$で$a \simeq z$となるものが取れるが，上の注意より$s(b)$は$V^{\mathcal{R}}$において$b$のみしか元を持たないので$a \simeq b$.
 
  \ref{item:N-weak-close-s}：やるだけ．
 
@@ -96,25 +299,24 @@ $\NN$に関する量化子の虚偽値の計算を簡単にするため，次の
 \end{proof}
 
 それでは，次に掲げる$\NN$の帰納法図式を示していく．
-\begin{lemma}\label{lem:ZFe-ind-nat}
+\begin{theorem} \label{thm:ZFe-ind-nat}
  任意の$\ZF_{\varepsilon}$-論理式$\varphi[z, \vec{x}]$に対し，次が成立：
  \[
   \I \Vdash \forall \vec{x}\: \forall n \strin \NN \:(\forall y\: (\varphi[\vec{x}, y] \to \varphi[\vec{x}, s(y)]) \to \varphi[\vec{x}, 0] \to \varphi[\vec{x}, n]).
  \]
-\end{lemma}
-これに加え，$\NN$が${\in}$の意味でも$s$について閉じていることがわかれば，$\ZF$で見ても（つまり${\in}, {\subseteq}$だけで書き換えても）帰納法図式が成り立っていることが直ちにわかる：
-
-\begin{corollary}
+\end{theorem}
+これが示せれば，$\ZF$-論理式と$\simeq$が両立する事から$\ZF$における帰納法図式も成立する：
+\begin{corollary}\label{cor:ZF-ind-nat}
  任意の$\ZF$-論理式$\varphi[z, \vec{x}]$に対し，次が成立：
  \[
-  V^{(\mathcal{R})} \models \forall \vec{x}\: \forall n \in \NN \:(\forall y\: (\varphi[\vec{x}, y] \to \varphi[\vec{x}, s(y)]) \to \varphi[\vec{x}, 0] \to \varphi[\vec{x}, n]).
+  V^{\mathcal{R}} \models \forall \vec{x}\: \forall n \in \NN \:(\forall y\: (\varphi[\vec{x}, y] \to \varphi[\vec{x}, s(y)]) \to \varphi[\vec{x}, 0] \to \varphi[\vec{x}, n]).
  \]
- 特に$V^{(\mathcal{R})}$を$\ZF$のモデルとみたとき，$\NN$は自然数全体の集合と同型．
+ 特に$V^{\mathcal{R}}$を$\ZF$のモデルとみたとき，$\NN$は自然数全体の集合と同型．
 \end{corollary}
 \begin{proof}
- 上の補題~\ref{lem:ZFe-ind-nat}および，$\ZF$-論理式が$\simeq$と両立するという補題\ref{lem:ZF-conservative-lem}の\ref{item:ZF-fml-cong}より直ちに従う. \qed
+ 上の定理~\ref{thm:ZFe-ind-nat}および，$\ZF$-論理式が$\simeq$と両立するという補題\ref{lem:ZF-conservative-lem}の\ref{item:ZF-fml-cong}より直ちに従う. \qed
 \end{proof}
-あとは上の補題\ref{lem:ZFe-ind-nat}を示せばよい．
+あとは上の定理\ref{thm:ZFe-ind-nat}を示せばよい．
 それには次の補題を使う：
 \begin{lemma}\label{lem:ZFe-ind-nat-aux}
  $n, k < \omega$とし，$\xi \Vdash \forall y\: (\varphi(y) \to \varphi(s y))$, $\eta \Vdash \varphi(s^k 0)$および$\pi \in \|\varphi(s^k n)\|$とする．
@@ -138,7 +340,7 @@ $\NN$に関する量化子の虚偽値の計算を簡単にするため，次の
  このとき$(\xi\eta) \Vdash \varphi(s^{k+1} 0)$であり，$\pi \in \|\varphi(s^k(s n))\| = \|\varphi(s^{k+1} n)\|$となるから，帰納法の仮定より$\KVM{{{\num{n}}} \xi {(\xi \eta)} \pi} \in \pole$を得る． \qed
 \end{proof}
 
-\begin{proof}[Proof of Lemma \ref{lem:ZFe-ind-nat}]
+\begin{proof}[Proof of Theorem \ref{thm:ZFe-ind-nat}]
  簡単のため以下$\vec{x}$は省略する．
  $\varphi(n)$を$\ZF_{\varepsilon}$の論理式として次を示す：
   \[
@@ -155,21 +357,21 @@ $\NN$に関する量化子の虚偽値の計算を簡単にするため，次の
 また，$\NN$が外延的同値性と相性が良いことから，$\NN$上帰納的に定義された関数は$\ZF$のモデルの中でもちゃんと関数として振る舞うことがわかる：
 
 \begin{lemma}\label{lem:nat-func-strong}
- $\ZF_{\varepsilon}$のモデルにおいて，自然数上定義された関数は外延的にも関数となる．
+ $\ZF_{\varepsilon}$のモデルにおいて，自然数上定義された関数は外延的にも関数となる：
  \[
- V^{(\mathcal{R})} \models \forall x \: \forall f : \NN \to V^{(\mathcal{R})}\:
- \forall n, m \in \NN \: [n \simeq m \to f(n) = f(m)].
+ \ZFe \vdash \forall x \: \forall f : \N \to V^{\mathcal{R}}\:
+ \forall n, m \in \N \: [n \simeq m \to f(n) = f(m)].
  \]
 \end{lemma}
 \begin{proof}
- 補題\ref{lem:s-0-compat}より$n \in \NN$なら$n \simeq m \strin \NN$なる$m$は一つしか存在しないので． \qed
+ 帰納法図式を満たす集合と$\Set{ \emptyset, \set{\emptyset}, \set{\set{\emptyset}}, \dots}$の間には同型写像が存在し，後者の集合はこれまで見たように外延的なので． \qed
 \end{proof}
 
 また，今回はそんなに使わないが，部分再帰関数はちゃんと$\NN$上に拡張されて定義される：
 \begin{lemma}\label{lem:recursives-defined}
  \begin{enumerate}
   \item $F: \N^k \to \N$が部分再帰関数なら$V^{\R} \models F: \NN^k \to \NN$,
-  \item $F: \N^k \to 2$が部分再帰関数なら$V^{(\mathcal{R})} \models F: \NN^k \to \set{0, 1}$.
+  \item $F: \N^k \to 2$が部分再帰関数なら$V^{\mathcal{R}} \models F: \NN^k \to \set{0, 1}$.
  \end{enumerate}
 \end{lemma}
 
@@ -177,13 +379,13 @@ $\NN$に関する量化子の虚偽値の計算を簡単にするため，次の
 
 \begin{lemma}[$\NN$における自然な順序]\label{lem:nat-ord-in-NN}
  ${<}$を$V$における$\N$上の自然な順序とする．
- この時$V^{(\mathcal{R})}$において$x <^{\mathcal{R}} y \defs \braket{x < y} = \mathds{1}$で定義される二項関係$<^{\mathcal{R}}$は$V^{(\mathcal{R})}$で整列順序となり，特に$V^{(\mathcal{R})}$における$\NN$上の自然な順序に一致する.
+ この時$V^{\mathcal{R}}$において$x <^{\mathcal{R}} y \defs \braket{x < y} = \mathds{1}$で定義される二項関係$<^{\mathcal{R}}$は$V^{\mathcal{R}}$で整列順序となり，特に$V^{\mathcal{R}}$における$\NN$上の自然な順序に一致する.
 \end{lemma}
 \begin{proof}
  推移律や非反射律は明らかに$\I$が実現している．
  また，$<$は整列順序であるので，整礎関係の絶対性\ref{lem:wf-pres}より$<^\mathcal{R}$も整礎である．
 
- 自然数の順序のグラフは再帰的なので，上の補題から，$V^{(\mathcal{R})} \models \forall x\: \forall y\: \braket{x < y} = 0 \text{ or } 1$.
+ 自然数の順序のグラフは再帰的なので，上の補題から，$V^{\mathcal{R}} \models \forall x\: \forall y\: \braket{x < y} = 0 \text{ or } 1$.
  そこで次の式が実現される事を確かめればよいが，これはルーチンワーク：
  \[
   \forall x, y, z \strin \NN\: [x = y + z \hookrightarrow \braket{x < y} \neq 1],\quad
@@ -204,12 +406,12 @@ $\NN$に関する量化子の虚偽値の計算を簡単にするため，次の
  この時，次を満たす関数$f = f^{\mathcal{C}}_{\varphi}: V \times \kappa \to V$が定義可能：
  \begin{enumerate}
   \item \label{item:sk-hered}任意の$(a, \pi) \in \mathcal{C}$, $\vec{x} \in V$と$\xi \Vdash \varphi[\vec{x}, a]$に対し，$\alpha < \kappa$で$\xi \push \pi \in \|\varphi[\vec{x}, f(\vec{x}, \alpha)] \to f(\vec{x}, \alpha) \strnin \mathcal{C}\|$を満たすものが存在，
-  \item $\I \Vdash \forall \vec{x} \: \forall y \:\left[ \forall \alpha \strin \gimel \kappa\: (\varphi[\vec{x}, f(\vec{x}, \alpha)] \to f(\vec{x},\alpha) \strnin \mathcal{C}) \to \varphi[\vec{x}, y] \to y \strnin \mathcal{C} \right]$. 
+  \item $\I \Vdash \forall \vec{x} \: \forall y \:\left[ \forall \alpha \strin \hat{\kappa}\: (\varphi[\vec{x}, f(\vec{x}, \alpha)] \to f(\vec{x},\alpha) \strnin \mathcal{C}) \to \varphi[\vec{x}, y] \to y \strnin \mathcal{C} \right]$. 
  \end{enumerate}
  特に，集合を値域とする弱いSkolem関数が常に取れる：
  \[
- V^{(\mathcal{R})} \models \forall X\: \forall Y \: \exists f: \finseq{X} \times \gimel \kappa \strto Y\; \forall \vec{x} \in \finseq{X} \:\forall y \strin Y \: 
-  \left[\varphi[\vec{x}, y] \to \exists \alpha \strin \gimel \kappa \: \varphi[\vec{x}, f(\vec{x}, \alpha)]\right].
+ V^{\mathcal{R}} \models \forall X\: \forall Y \: \exists f: \finseq{X} \times \hat{\kappa} \strto Y\; \forall \vec{x} \in \finseq{X} \:\forall y \strin Y \: 
+  \left[\varphi[\vec{x}, y] \to \exists \alpha \strin \hat{\kappa} \: \varphi[\vec{x}, f(\vec{x}, \alpha)]\right].
  \]
 \end{lemma}
 \begin{proof}
@@ -223,7 +425,7 @@ $\NN$に関する量化子の虚偽値の計算を簡単にするため，次の
          \end{cases}
         \]
         実際，$(a, \pi) \in \mathcal{C}$かつ$\xi \Vdash \varphi[\vec{x}, a]$なら$\xi \Vdash \varphi[\vec{x}, f(\vec{x}, \alpha_{\xi,\pi})]$かつ$\pi \in \|f(\vec{x}, \alpha_{\xi,\pi}) \notin \mathcal{C}\|$となる．
-  \item 示すべきことは，任意に$\vec{x} \in V, (y, \pi) \in \mathcal{C}, \xi \Vdash \forall \alpha \strin \gimel \kappa \:(\varphi(\vec{x}, f(\vec{x}, \alpha)) \to f(\vec{x}, \alpha) \strnin \mathcal{C})$および$\eta \Vdash \varphi(\vec{x}, y)$を取って，
+  \item 示すべきことは，任意に$\vec{x} \in V, (y, \pi) \in \mathcal{C}, \xi \Vdash \forall \alpha \strin \hat{\kappa} \:(\varphi(\vec{x}, f(\vec{x}, \alpha)) \to f(\vec{x}, \alpha) \strnin \mathcal{C})$および$\eta \Vdash \varphi(\vec{x}, y)$を取って，
         \[
          \KVM{{\I}{\xi}{\eta}{\pi}} \redsto \KVM{{\xi}{\eta}{\pi}} \in \pole
         \]
@@ -241,8 +443,8 @@ $\NN$に関する量化子の虚偽値の計算を簡単にするため，次の
  \end{enumerate}
  特に，集合を値域とする弱いSkolem関数が常に取れる：
  \[
- V^{(\mathcal{R})} \models \forall X\: \forall Y \: \exists f: \finseq{X} \times \gimel \kappa \strto Y\; \forall \vec{x} \in \finseq{X} \:\forall y \strin Y \: 
-  \left[\varphi[\vec{x}, y] \to \exists \alpha \strin \gimel \kappa \: \varphi[\vec{x}, f(\vec{x}, \alpha)]\right].
+ V^{\mathcal{R}} \models \forall X\: \forall Y \: \exists f: \finseq{X} \times \hat{\kappa} \strto Y\; \forall \vec{x} \in \finseq{X} \:\forall y \strin Y \: 
+  \left[\varphi[\vec{x}, y] \to \exists \alpha \strin \hat{\kappa} \: \varphi[\vec{x}, f(\vec{x}, \alpha)]\right].
  \]
 \end{lemma}
 このSkolem関数は強い同値性に関する関数にはなっているが，外延的同値性と両立するとは限らない．
@@ -251,22 +453,22 @@ $\NN$に関する量化子の虚偽値の計算を簡単にするため，次の
 \begin{theorem}[Non-extensional Axiom of Choice, $\NEAC$]
  $\kappa \defeq |\mathcal{R}|$とする．この時：
  \[
-  V^{(\mathcal{R})} \models \gimel \kappa: \text{整列可能} \implies \uwave{\forall z \: \exists F : \text{写像} \: [ F \sqsubseteq z \land \forall x \: \forall y\: \exists y'\: [(x, y) \in z \to (x, y') \in F] ]}.
+  V^{\mathcal{R}} \models \hat{\kappa}: \text{整列可能} \implies \uwave{\forall z \: \exists F : \text{写像} \: [ F \sqsubseteq z \land \forall x \: \forall y\: \exists y'\: [(x, y) \in z \to (x, y') \in F] ]}.
  \]
  波下線部の命題を\emph{非外延的選択公理}（$\NEAC$）と呼ぶ．
- 特に，$\kappa = \aleph_0$なら無条件に$V^{(\mathcal{R})} \models \NEAC$.
+ 特に，$\kappa = \aleph_0$なら無条件に$V^{\mathcal{R}} \models \NEAC$.
 \end{theorem}
 \begin{proof}
- $V^{(\mathcal{R})}$をあたかもモデルであるかのように扱って示そう．
- そこで$<_{\gimel \kappa}$を$\gimel \kappa$上の整列順序とする．
- 集合$z \in V^{(\mathcal{R})}$を任意にとって，$\varphi(z, x, y) \deffml (x, y) \strin z$とおく．
- この時，上の補題~\ref{lem:weak-skolem-gen}の「特に」部分を$\varphi$と$X = \dom(z), Y = \ran(z)$に適用すれば，$f: \dom(z) \times \gimel \kappa \to \ran(z)$で，
+ $V^{\mathcal{R}}$をあたかもモデルであるかのように扱って示そう．
+ そこで$<_{\hat{\kappa}}$を$\hat{\kappa}$上の整列順序とする．
+ 集合$z \in V^{\mathcal{R}}$を任意にとって，$\varphi(z, x, y) \deffml (x, y) \strin z$とおく．
+ この時，上の補題~\ref{lem:weak-skolem-gen}の「特に」部分を$\varphi$と$X = \dom(z), Y = \ran(z)$に適用すれば，$f: \dom(z) \times \hat{\kappa} \to \ran(z)$で，
  \[
-  V^{(\mathcal{R})} \models \forall x \in \dom(z) \: \forall y \in \ran(z) \:[(x,y) \strin z \to \exists \alpha \in \gimel \kappa\:(x, f(x, \alpha)) \strin z]
+  V^{\mathcal{R}} \models \forall x \in \dom(z) \: \forall y \in \ran(z) \:[(x,y) \strin z \to \exists \alpha \in \hat{\kappa}\:(x, f(x, \alpha)) \strin z]
  \]
  を満たすものが取れる．そこで，
  \[
-  F \defeq \Set{ (x, f(x, \alpha)) | \alpha = \min\nolimits_{<_{\gimel \kappa}}\Set{ \alpha \strin \gimel \kappa | (x, f(x, \alpha)) \in z}}
+  F \defeq \Set{ (x, f(x, \alpha)) | \alpha = \min\nolimits_{<_{\hat{\kappa}}}\Set{ \alpha \strin \hat{\kappa} | (x, f(x, \alpha)) \in z}}
  \]
  により定めれば，これが求めるものである． \qed
 \end{proof}
@@ -283,8 +485,7 @@ $\NN$に関する量化子の虚偽値の計算を簡単にするため，次の
  \[
   f(0) \defeq x_0, \qquad f(n+1) \defeq g(f(n)).
  \]
- すると，任意の$n < \omega$に対して$(f(n), f(n+1)) \strin R$であり，特に$(f(n), f(n+1)) \in R$.
- $\omega$上の非外延的関数は外延的になるので，この$f$が求めるものである． \qed
+ すると，任意の$n < \omega$に対して$(f(n), f(n+1)) \strin R$であり，特に$(f(n), f(n+1)) \in R$． \qed
 \end{proof}
 \begin{corollary}\label{cor:DC-from-NEAC}
  $\ZF+\NEAC \vdash \DC$.
@@ -292,15 +493,14 @@ $\NN$に関する量化子の虚偽値の計算を簡単にするため，次の
 \begin{proof}
  $R$が$\ZF$の意味で極大元を持たない$X$上の二項関係だとする．
  $R^* \defeq \Set{ (x,y) \strin X \times X | (x, y) \in R}$により$R^*$を定めれば，$R^*$は$\ZFe$の意味で極大元を持たない$X$上の二項関係となる．
- そこで上の補題\ref{lem:NEDC-from-NEAC}を使えば，$f: \omega \strto X$で$(f(n), f(n+1)) \strin R^*$を満たすものが取れる．
- よって補題\ref{lem:nat-func-strong}の議論のように，${\strin}$の意味で$\omega$上の関数になっていれば，${\in}$に関する関数にもなっているとしてよい．
- すると$f: \NN \extto X$と見ることができ，$R^*$の定義より$(f(n), f(n+1)) \in R$が成り立つ． \qed
+ そこで上の補題\ref{lem:NEDC-from-NEAC}を使えば，$f: \NN \strto X$で$(f(n), f(n+1)) \strin R^*$を満たすものが取れる．
+ 補題\ref{lem:nat-func-strong}より$f: \NN \extto X$と見ることができ，$R^*$の定義より$(f(n), f(n+1)) \in R$が成り立つ． \qed
 \end{proof}
 
 \begin{corollary}\label{cor:dc-suff-cond}
  $\kappa = |\mathcal{R}|$とおけば，
- $V^{(\mathcal{R})} \models \quoted{\gimel\kappa : \text{整列可能} \implies \DC}$.
- 特に$|\mathcal{R}| = \aleph_0$なら$V^{(\mathcal{R})} \models \DC$.
+ $V^{\mathcal{R}} \models \quoted{\hat{\kappa} : \text{整列可能} \implies \DC}$.
+ 特に$|\mathcal{R}| = \aleph_0$なら$V^{\mathcal{R}} \models \DC$.
 \end{corollary}
 
 \subsection{非外延的選択公理の特徴付け}
@@ -331,7 +531,7 @@ $\ZF$での通常の議論と同様に，次の議論が成り立つ：
  通常，これは$x$に対する$\sim$-同値類を$[x]_{\sim}$と書くことにすれば，求める完全代表系$A^*$は$A_0 \defeq \Set{[x]_{\sim} | x \in A}$に対する選択関数の像を取ることで得られる．
  しかし，ここでは「完全性」に暗黙裡に集合の外延的同値性を使っている．
  即ち，$x \sim y$なら$[x] = [y]$となることがこの証明のキモだったが，$\ZFe$の公理系だけから内包公理の与える集合が外延性を満たすことは従わない．
- 実際，$V^{(\mathcal{R})}$における内包公理を実現する名称の構成法は同値関係についてこうした互換性が成り立たない．
+ 実際，$V^{\mathcal{R}}$における内包公理を実現する名称の構成法は同値関係についてこうした互換性が成り立たない．
 \end{remark}
 \end{document}
 
