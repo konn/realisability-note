@@ -33,7 +33,7 @@
 \begin{proof}
  任意の$\xi \in \PT$を取れば，$\xi = \theta_n$なる$n$があり，定義より$\theta \cons \pi_n \in \pole$となる． \qed
 \end{proof}
-スレッド代数の濃度は可算なので補題\ref{cor:dc-suff-cond}より従属選択公理が成り立つ：
+スレッド代数の濃度は可算なので\cref{cor:dc-suff-cond}より従属選択公理が成り立つ：
 \begin{lemma}
  $V^{(\mathcal{T})} \models \DC$.
 \end{lemma}
@@ -76,7 +76,7 @@ $\mathbf{n}$は，期待通り自然数の構造を反映した性質を持っ�
 \end{lemma}
 \begin{proof}
  \ref{item:lt-elem} $n, m \in \N$を任意にとれば$\|\braket{m < n} = 1\| = \|m \strin \gimel \mathbf{n}\|$.
- \ref{item:lt-str-subs} $<^{\mathcal{R}}$の推移性（補題\ref{lem:nat-ord-in-NN}）および\ref{item:lt-elem}より．
+ \ref{item:lt-str-subs} $<^{\mathcal{R}}$の推移性（\cref{lem:nat-ord-in-NN}）および\ref{item:lt-elem}より．
  \ref{item:lt-plus}も同様． \qed
 \end{proof}
 この$\gimel\mathbf{n}$たちが，実は上の命題の$\mathcal{X}_n$たちと同じ役割を果す．
@@ -146,7 +146,7 @@ $\mathbf{n}$は，期待通り自然数の構造を反映した性質を持っ�
 \end{proof}
 よって$\gimel 2$自体は$\ZF$のモデルとして見ると$\set{0, 1}$に縮退してしまうが，$\ZFe$における$\gimel 2$と同じ構造をした実数の集合が$\ZF$の側でも得られている．
 
-補題\ref{lem:char-ba-nontriv}で$\gimel2$が非自明になる条件を見たが，更に以下ではアトムを持たない十分条件を与える．
+\cref{lem:char-ba-nontriv}で$\gimel2$が非自明になる条件を見たが，更に以下ではアトムを持たない十分条件を与える．
 
 \begin{lemma}
  $\alpha_0, \alpha_1, \alpha_2 \in \PT$で任意の$\xi \in \Lambda, \pi \in \Pi$について$\conti_\pi \xi \alpha_0, \conti_\pi \xi \alpha_1$または$\conti_\pi \xi \alpha_2$のいずれかが$\perp$を実現するような物が存在するとする．
@@ -200,23 +200,23 @@ $\mathbf{n}$は，期待通り自然数の構造を反映した性質を持っ�
  $V^{(\mathcal{R})} \models \forall n \strin \NN \: \gimel(\mathbf{2^n}) \eembto \Pow(\R)$.
 \end{lemma}
 \begin{proof}
- まず補題\ref{lem:natural-bij-prod}を$n \strin \NN$についての帰納法で繰り返し適用すれば，$\gimel(\mathbf{2^n})$と$(\gimel \mathbf{2})^n$の間に自然な全単射が存在することがわかる．
+ まず\cref{lem:natural-bij-prod}を$n \strin \NN$についての帰納法で繰り返し適用すれば，$\gimel(\mathbf{2^n})$と$(\gimel \mathbf{2})^n$の間に自然な全単射が存在することがわかる．
  すると，$(\gimel\mathbf{2})^n \strni (b_1, \dots, b_n) \mapsto D_{b_1} \times \dots \times D_{b_n} \sqsubseteq \Pow(\NN^n)$.
- 補題\ref{lem:D-base-ext-inj}の議論より$D_{b_1} \times \dots \times D_{b_n} \simeq D_{b'_1} \times \dots \times D_{b'_n}$なら$b_1 = b'_1, \dots, b_n = b'_n$が言えるので，この対応による行き先は外延的に相異なる．
- $\NN^n$と$\NN$の間の再帰的な全単射は補題\ref{lem:recursives-defined}より自然に$V^{(\mathcal{R})}$の$\NN$にも持ち上がり，特にこれらは外延的全単射になっているので，補題\ref{lem:compos-ext-emb}より所望の結果が得られる． \qed
+ \cref{lem:D-base-ext-inj}の議論より$D_{b_1} \times \dots \times D_{b_n} \simeq D_{b'_1} \times \dots \times D_{b'_n}$なら$b_1 = b'_1, \dots, b_n = b'_n$が言えるので，この対応による行き先は外延的に相異なる．
+ $\NN^n$と$\NN$の間の再帰的な全単射は\cref{lem:recursives-defined}より自然に$V^{(\mathcal{R})}$の$\NN$にも持ち上がり，特にこれらは外延的全単射になっているので，\cref{lem:compos-ext-emb}より所望の結果が得られる． \qed
 \end{proof}
 
 \begin{corollary}\label{cor:gimels-ext-embeds}
  $V^{(\mathcal{R})} \models \forall n \strin \NN\: \gimel\mathbf{n} \eembto \Pow(\R)$.
 \end{corollary}
 \begin{proof}
- $n < 2^m$なる$m$を取れば，補題\ref{lem:gimel-n-props}の\ref{item:lt-str-subs}より$\gimel\mathbf{n} \sqsubseteq \gimel (\mathbf{2^m}) \eembto \Pow(\R)$.
+ $n < 2^m$なる$m$を取れば，\cref{lem:gimel-n-props}の\ref{item:lt-str-subs}より$\gimel\mathbf{n} \sqsubseteq \gimel (\mathbf{2^m}) \eembto \Pow(\R)$.
 \end{proof}
-さて，定理\ref{thm:patho-sets-of-reals}で求める集合族のうち$\Set{\mathcal{X}_n | n < \omega}$は$\Set{\gimel \mathbf{n} | n \strin \NN}$の$\Pow(\R)$における像である．
+さて，\cref{thm:patho-sets-of-reals}で求める集合族のうち$\Set{\mathcal{X}_n | n < \omega}$は$\Set{\gimel \mathbf{n} | n \strin \NN}$の$\Pow(\R)$における像である．
 更に，（非／外延的）従属選択公理が成り立つなら，$\gimel \mathbf{2}$の真の無限減少列$\Braket{b_n | n < \omega}$が取れる．
-実はこの$b_n$たちの定める切断が定理\ref{thm:patho-sets-of-reals}の$\Set{\mathcal{Y}_n | n < \omega}$に対応する．
+実はこの$b_n$たちの定める切断が\cref{thm:patho-sets-of-reals}の$\Set{\mathcal{Y}_n | n < \omega}$に対応する．
 
-これらが増加・減少列になっていることは明らかであり，それらは補題\ref{cor:gimels-ext-embeds}と系\ref{cor:ext-emb-morphs}から$\ZF$においても$\Pow(\R)$の増加・減少列を生み出す．
+これらが増加・減少列になっていることは明らかであり，それらは\cref{cor:gimels-ext-embeds}と\cref{cor:ext-emb-morphs}から$\ZF$においても$\Pow(\R)$の増加・減少列を生み出す．
 したがって，あとは$\gimel \mathbf{n}$達や$\downarrow b$達が真に単調であることがわかればよい．
 それには次の補題を使う：
 

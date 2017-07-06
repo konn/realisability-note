@@ -91,7 +91,7 @@ $\Phi$と$\Psi$は本質的には殆んど同じだが，定義域・値域が�
  特に任意の$\ZF$-閉論理式$\varphi$に対し$V^{(\mathcal{R})} \models \varphi \iff V^{\mathcal{R}} \models \varphi$.
 \end{theorem}
 \begin{proof}
- $\varphi$が原子論理式のときは補題\ref{lem:atomic-coinc}より$\theta_0 = \theta_1 = \I$とすれば良い．
+ $\varphi$が原子論理式のときは\cref{lem:atomic-coinc}より$\theta_0 = \theta_1 = \I$とすれば良い．
 
  $\varphi \to \psi$の形の時を考える．
  帰納法の仮定により$\theta^\varphi_i, \theta^\psi_i\;(i < 2)$を取れば，
@@ -100,13 +100,13 @@ $\Phi$と$\Psi$は本質的には殆んど同じだが，定義域・値域が�
  最後に$\forall x \: \varphi[x, y]$の形の論理式の場合を考える．
  帰納法の仮定により$\theta^\varphi_0, \theta^\varphi_1$を取っておく．
  以下$a,b \in V$，$\dot{a}, \dot{b} \in V^{\mathcal{R}}$とする．
- $\xi \Vdash \forall x \: \varphi[x, b]$の時は補題\ref{lem:phi-of-psi-inv}と帰納法の仮定から$\theta^\varphi_1 \xi \Vdash^* \forall x \: \varphi[x, \Phi(x)]$となる．
+ $\xi \Vdash \forall x \: \varphi[x, b]$の時は\cref{lem:phi-of-psi-inv}と帰納法の仮定から$\theta^\varphi_1 \xi \Vdash^* \forall x \: \varphi[x, \Phi(x)]$となる．
 
  最後に$\xi \Vdash^* \forall x \: \varphi[x, \dot{b}]$の場合を考えよう．
  すると定義と帰納法の仮定から，任意の$\dot{x} \in V^{\mathcal{R}}$に対し$\theta^\varphi_0 \xi \Vdash \varphi[\Psi(\dot{x}), \Psi(\dot{b})]$が成り立つ．
  この事をつかって，任意の$x \in V$に対し$\theta_0 \xi \Vdash \varphi[x, \Psi(\dot{b})]$となるような$\theta_0$を見付けたい．
- いま$\varphi$は$\ZF$-論理式で$V^{(\mathcal{R})} \models \ZFe$なので，補題\ref{lem:ZF-conservative-lem}の\ref{item:ZF-fml-cong}より$\tau \Vdash \forall x \: \forall x'\: \forall y \: [x \subseteq x' \to x' \subseteq x \to \varphi[x, y] \to \varphi[x', y]]$となるような$\tau \in \PT$が取れる．
- また系\ref{cor:psi-of-phi-ext-eq}より$\I \Vdash \Psi(\Phi(x)) \subseteq x, x \subseteq \Psi(\Phi(x))$である．
+ いま$\varphi$は$\ZF$-論理式で$V^{(\mathcal{R})} \models \ZFe$なので，\cref{lem:ZF-conservative-lem}の\ref{item:ZF-fml-cong}より$\tau \Vdash \forall x \: \forall x'\: \forall y \: [x \subseteq x' \to x' \subseteq x \to \varphi[x, y] \to \varphi[x', y]]$となるような$\tau \in \PT$が取れる．
+ また\cref{cor:psi-of-phi-ext-eq}より$\I \Vdash \Psi(\Phi(x)) \subseteq x, x \subseteq \Psi(\Phi(x))$である．
  そこで$\theta_0 \defeq \abs{x}{\tau\I\I(\theta^\varphi_0 x)}$と定める．
  ここで任意に$x \in V$を取れば$\theta_0 \xi \Vdash \varphi[x, \Psi(\dot{b})]$となる． \qed
 \end{proof}

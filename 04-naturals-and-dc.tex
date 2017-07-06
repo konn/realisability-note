@@ -314,9 +314,9 @@ $\NN$に関する量化子の虚偽値の計算を簡単にするため，次の
  特に$V^{\mathcal{R}}$を$\ZF$のモデルとみたとき，$\NN$は自然数全体の集合と同型．
 \end{corollary}
 \begin{proof}
- 上の定理~\ref{thm:ZFe-ind-nat}および，$\ZF$-論理式が$\simeq$と両立するという補題\ref{lem:ZF-conservative-lem}の\ref{item:ZF-fml-cong}より直ちに従う. \qed
+ 上の\cref{thm:ZFe-ind-nat}および，$\ZF$-論理式が$\simeq$と両立するという\cref{lem:ZF-conservative-lem}の\ref{item:ZF-fml-cong}より直ちに従う. \qed
 \end{proof}
-あとは上の定理\ref{thm:ZFe-ind-nat}を示せばよい．
+あとは上の\cref{thm:ZFe-ind-nat}を示せばよい．
 それには次の補題を使う：
 \begin{lemma}\label{lem:ZFe-ind-nat-aux}
  $n, k < \omega$とし，$\xi \Vdash \forall y\: (\varphi(y) \to \varphi(s y))$, $\eta \Vdash \varphi(s^k 0)$および$\pi \in \|\varphi(s^k n)\|$とする．
@@ -351,7 +351,7 @@ $\NN$に関する量化子の虚偽値の計算を簡単にするため，次の
   \KVM{{\I}{{\num{n}}} \xi\eta {\pi}} \redsto
   \KVM{{{\num{n}}} \xi \eta \pi} \in \pole.
  \]
- しかし，これは補題\ref{lem:ZFe-ind-nat-aux}で$k = 0$と置けば得られることである． \qed
+ しかし，これは\cref{lem:ZFe-ind-nat-aux}で$k = 0$と置けば得られることである． \qed
 \end{proof}
 
 また，$\NN$が外延的同値性と相性が良いことから，$\NN$上帰納的に定義された関数は$\ZF$のモデルの中でもちゃんと関数として振る舞うことがわかる：
@@ -383,7 +383,7 @@ $\NN$に関する量化子の虚偽値の計算を簡単にするため，次の
 \end{lemma}
 \begin{proof}
  推移律や非反射律は明らかに$\I$が実現している．
- また，$<$は整列順序であるので，整礎関係の絶対性\ref{lem:wf-pres}より$<^\mathcal{R}$も整礎である．
+ また，$<$は整列順序であるので，整礎関係の絶対性（\cref{lem:wf-pres}）より$<^\mathcal{R}$も整礎である．
 
  自然数の順序のグラフは再帰的なので，上の補題から，$V^{\mathcal{R}} \models \forall x\: \forall y\: \braket{x < y} = 0 \text{ or } 1$.
  そこで次の式が実現される事を確かめればよいが，これはルーチンワーク：
@@ -462,7 +462,7 @@ $\NN$に関する量化子の虚偽値の計算を簡単にするため，次の
  $V^{\mathcal{R}}$をあたかもモデルであるかのように扱って示そう．
  そこで$<_{\hat{\kappa}}$を$\hat{\kappa}$上の整列順序とする．
  集合$z \in V^{\mathcal{R}}$を任意にとって，$\varphi(z, x, y) \deffml (x, y) \strin z$とおく．
- この時，上の補題~\ref{lem:weak-skolem-gen}の「特に」部分を$\varphi$と$X = \dom(z), Y = \ran(z)$に適用すれば，$f: \dom(z) \times \hat{\kappa} \to \ran(z)$で，
+ この時，上の\cref{lem:weak-skolem-gen}の「特に」部分を$\varphi$と$X = \dom(z), Y = \ran(z)$に適用すれば，$f: \dom(z) \times \hat{\kappa} \to \ran(z)$で，
  \[
   V^{\mathcal{R}} \models \forall x \in \dom(z) \: \forall y \in \ran(z) \:[(x,y) \strin z \to \exists \alpha \in \hat{\kappa}\:(x, f(x, \alpha)) \strin z]
  \]
@@ -493,8 +493,8 @@ $\NN$に関する量化子の虚偽値の計算を簡単にするため，次の
 \begin{proof}
  $R$が$\ZF$の意味で極大元を持たない$X$上の二項関係だとする．
  $R^* \defeq \Set{ (x,y) \strin X \times X | (x, y) \in R}$により$R^*$を定めれば，$R^*$は$\ZFe$の意味で極大元を持たない$X$上の二項関係となる．
- そこで上の補題\ref{lem:NEDC-from-NEAC}を使えば，$f: \NN \strto X$で$(f(n), f(n+1)) \strin R^*$を満たすものが取れる．
- 補題\ref{lem:nat-func-strong}より$f: \NN \extto X$と見ることができ，$R^*$の定義より$(f(n), f(n+1)) \in R$が成り立つ． \qed
+ そこで上の\cref{lem:NEDC-from-NEAC}を使えば，$f: \NN \strto X$で$(f(n), f(n+1)) \strin R^*$を満たすものが取れる．
+ \cref{lem:nat-func-strong}より$f: \NN \extto X$と見ることができ，$R^*$の定義より$(f(n), f(n+1)) \in R$が成り立つ． \qed
 \end{proof}
 
 \begin{corollary}\label{cor:dc-suff-cond}
