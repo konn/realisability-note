@@ -370,28 +370,13 @@ $\NN$に関する量化子の虚偽値の計算を簡単にするため，次の
 また，今回はそんなに使わないが，部分再帰関数はちゃんと$\NN$上に拡張されて定義される：
 \begin{lemma}\label{lem:recursives-defined}
  \begin{enumerate}
-  \item $F: \N^k \to \N$が部分再帰関数なら$V^{\R} \models F: \NN^k \to \NN$,
-  \item $F: \N^k \to 2$が部分再帰関数なら$V^{\mathcal{R}} \models F: \NN^k \to \set{0, 1}$.
+  \item $F: \N^k \to \N$が部分再帰関数なら$V^{\R} \models \hat{F}: \NN^k \to \NN$,
+  \item $F: \N^k \to 2$が部分再帰関数なら$V^{\mathcal{R}} \models \hat{F}: \NN^k \to \set{0, 1}$.
  \end{enumerate}
 \end{lemma}
 
-特に，通常の$\N$上の整列順序がそのまま$\NN$上に持ち上がることを見ておこう：
-
-\begin{lemma}[$\NN$における自然な順序]\label{lem:nat-ord-in-NN}
- ${<}$を$V$における$\N$上の自然な順序とする．
- この時$V^{\mathcal{R}}$において$x <^{\mathcal{R}} y \defs \braket{x < y} = \mathds{1}$で定義される二項関係$<^{\mathcal{R}}$は$V^{\mathcal{R}}$で整礎な部分順序となり，特に$V^{\mathcal{R}}$における$\NN$上の自然な順序に一致する.
-\end{lemma}
-\begin{proof}
- 推移律や非反射律は明らかに$\I$が実現している．
- また，$<$は整列順序であるので，整礎関係の絶対性（\cref{lem:wf-pres}）より$<^\mathcal{R}$も整礎である．
-
- 自然数の順序のグラフは再帰的なので，上の補題から，$V^{\mathcal{R}} \models \forall x\: \forall y\: \braket{x < y} = 0 \text{ or } 1$.
- そこで次の式が実現される事を確かめればよいが，これはルーチンワーク：
- \[
-  \forall x, y, z \strin \NN\: [x = y + z \hookrightarrow \braket{x < y} \neq 1],\quad
-  \forall x, y, z \strin \NN\: [y = x + z + 1 \hookrightarrow \braket{x < y} = 1].
- \]
-\end{proof}
+以上を踏まえて，$V$における$\N$上の再帰的な関数$f$$と，$V^{\mathcal{R}}$における$\hat{V}$上への拡張$\hat{f}$を同一視してしまい，しばしば$\hat{\;}$などは省略してしまう．
+たとえば$V^{\mathcal{R}}$において$x \mathbin{\hat{+}} y$と書く代わりに単に$x + y$と書いたりする．
 
 \subsection{従属選択公理および非外延的選択公理}
 濃度に関する条件を課せば，実現可能性モデル内部では従属選択公理が実現されていることを見る．
