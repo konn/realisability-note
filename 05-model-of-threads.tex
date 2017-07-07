@@ -61,7 +61,7 @@
 
 $\gimel$は$V^{(\mathcal{R})}$における$\hat{x}$に対応するものだったが、今考えている$V^{\mathcal{R}}$では使わないので、お行儀が悪いがこの記号を再利用する。
 \begin{notation}
- $V$において$\mathbf{n} \defeq \set{0, s0, \dots, s^{n-1} 0}$として，$\gimel : \Set{ s^n 0 | n < \omega } \to \hat{V}$を次で定める：
+ $V$において$\mathbf{n} \defeq \set{0, 1, \dots, n}$として，$\gimel : \Set{ s^n 0 | n < \omega } \to \hat{V}$を次で定める：
  \[
   \gimel(s^n 0) \defeq \Set{ (s^k 0, \pi) | k < n, \pi \in \Pi } = \hat{\mathbf{n}}.
  \]
@@ -71,36 +71,36 @@ $\gimel n$は，期待通り自然数の構造を反映した性質を持って�
 \begin{lemma}\label{lem:gimel-n-props}
  次の論理式が$V^{\mathcal{R}}$で成立：
  \begin{enumerate}
-  \item \label{item:lt-elem}$\forall m \strin \hat{\N}\: \forall n \strin \hat{\N}\: \left[ \braket{m < n} = 1 \iff m \strin \gimel n\right]$,
-  \item \label{item:lt-str-subs}$\forall m \strin \hat{\N}\: \forall n \strin \hat{\N}\: \left[ \braket{m < n} = 1 \to \gimel m \sqsubseteq \gimel n\right]$,
-  \item \label{item:lt-plus}$\forall m \strin \hat{\N}\: \forall n \strin \hat{\N}\: \left[ \braket{m < n} = 1 \iff \exists y \strin \hat{\N}\: n = m + y + 1\right]$.
+  \item \label{item:lt-elem}$\forall m \strin \hat{\N}\: \forall n \strin \hat{\N}\: \left[ \truth{m < n} = 1 \iff m \strin \gimel n\right]$,
+  \item \label{item:lt-str-subs}$\forall m \strin \hat{\N}\: \forall n \strin \hat{\N}\: \left[ \truth{m < n} = 1 \to \gimel m \sqsubseteq \gimel n\right]$,
+  \item \label{item:lt-plus}$\forall m \strin \hat{\N}\: \forall n \strin \hat{\N}\: \left[ \truth{m < n} = 1 \iff \exists y \strin \hat{\N}\: n = m + y + 1\right]$.
  \end{enumerate}
- よって特に$\gimel n \simeq \Set{x \strin \hat{\N} | \braket{x < n} = 1}$.
+ よって特に$\gimel n \simeq \Set{x \strin \hat{\N} | \truth{x < n} = 1}$.
 \end{lemma}
 \begin{proof}
- \ref{item:lt-elem} $n, m \in \N$を任意にとれば$\|\braket{\hat{m} < \hat{n}} = 1\| = \|\hat{m} \strin \gimel n\|$.
+ \ref{item:lt-elem} $n, m \in \N$を任意にとれば$\|\truth{\hat{m} < \hat{n}} = 1\| = \|\hat{m} \strin \gimel n\|$.
  \ref{item:lt-str-subs} $<^{\mathcal{R}}$の推移性（\cref{lem:nat-ord-in-NN}）および\ref{item:lt-elem}より．
  \ref{item:lt-plus}も同様． \qed
 \end{proof}
 この$\gimel n$たちが，実は上の命題の$\mathcal{X}_n$たちと同じ役割を果す．
 \begin{lemma}\label{lem:natural-bij-prod}
- $V^{\mathcal{R}}$において，写像$(x, y) \mapsto my + x$は$\gimel m \times \gimel n \to \gimel(\mathbf{mn})$への全単射となっている．
+ $V^{\mathcal{R}}$において，写像$(x, y) \mapsto my + x$は$\gimel m \times \gimel n \to \gimel(mn)$への全単射となっている．
  特に，次の論理式が$\I$で実現されている：
  \begin{enumerate}
   \item $\forall m, n \strin \hat{\N}\: \forall x \strin \gimel m\: \forall y \strin \gimel n\: (my + x) \strin \gimel mn$,
   \item $\forall m, n \strin \hat{\N}\:
          \forall x, x' \strin \gimel m \: \forall y, y' \strin \gimel n\:
          \left[ my + x = m'y + x' \hookrightarrow x = x'\land y = y' \right]$,
-  \item $\forall m,n \strin \hat{\N}\:\forall z \strin \gimel(\mathbf{mn}) \:
+  \item $\forall m,n \strin \hat{\N}\:\forall z \strin \gimel(mn) \:
          \exists x \strin \gimel m \: \exists y \strin \gimel n\:
          z = my + x$.
  \end{enumerate}
 \end{lemma}
 
 \begin{definition}[可算実現可能性代数の特性関数]
- $V$において$\Delta: \NN \to 2$を次で定める：
+ $V$において$\Delta: \Set{ \hat{n} | n \in \N } \to 2$を次で定める：
  \[
-  \Delta(n) \defeq
+  \Delta(\hat{n}) \defeq
   \begin{cases}
    0 & \text{if } \xi_n \Vdash \bot\\
    1 & \ow
@@ -135,10 +135,10 @@ $\gimel n$は，期待通り自然数の構造を反映した性質を持って�
  よって示せた． \qed
 \end{proof}
 
-これを使うと，$\gimel 2$から$\Pow(\NN)$への$\ZF$の意味での単射が得られていることがわかる：
+これを使うと，$\gimel 2$から$\Pow(\R)$への外延的埋め込みが得られることがわかる：
 
 \begin{lemma}\label{lem:D-base-ext-inj}
- $V^{\mathcal{R}}$において対応$\gimel 2 \strni x \mapsto D_x \defeq \Set{n \in \NN | 0 \neq \Delta(n) \leq x}$は$\gimel2$から$\Pow(\R)$への外延的埋め込みを与える．
+ $V^{\mathcal{R}}$において対応$\gimel 2 \strni x \mapsto D_x \defeq \Set{n \strin \NN | 0 \neq \Delta(n) \leq x}$は$\gimel2$から$\Pow(\R)$への外延的埋め込みを与える．
 \end{lemma}
 \begin{proof}
  相異なる$x, y \strin \gimel 2$を取る．
@@ -198,12 +198,12 @@ $\gimel n$は，期待通り自然数の構造を反映した性質を持って�
  また，等式に関する初等性より$\gimel 2$の各元は$\gimel n$の中で冪等元になっているので，各$a \strin \gimel 2$に対し$x \mapsto a x$により自然に写像$\gimel n \to a \gimel n$が引き起こされる．
 \end{definition}
 
-まず，$\gimel 2^n$は$\Pow(\NN)$に外延的な意味でも単射で埋め込むことが出来る：
+まず，$\gimel 2^n$は$\Pow(\R)$に外延的に埋め込むことが出来る：
 \begin{lemma}
- $V^{\mathcal{R}} \models \forall n \strin \NN \: \gimel(\mathbf{2^n}) \eembto \Pow(\R)$.
+ $V^{\mathcal{R}} \models \forall n \strin \NN \: \gimel(2^n) \eembto \Pow(\R)$.
 \end{lemma}
 \begin{proof}
- まず\cref{lem:natural-bij-prod}を$n \strin \NN$についての帰納法で繰り返し適用すれば，$\gimel(\mathbf{2^n})$と$(\gimel 2)^n$の間に自然な全単射が存在することがわかる．
+ まず\cref{lem:natural-bij-prod}を$n \strin \NN$についての帰納法で繰り返し適用すれば，$\gimel(2^n)$と$(\gimel 2)^n$の間に自然な全単射が存在することがわかる．
  すると，$(\gimel 2)^n \strni (b_1, \dots, b_n) \mapsto D_{b_1} \times \dots \times D_{b_n} \sqsubseteq \Pow(\NN^n)$.
  \cref{lem:D-base-ext-inj}の議論より$D_{b_1} \times \dots \times D_{b_n} \simeq D_{b'_1} \times \dots \times D_{b'_n}$なら$b_1 = b'_1, \dots, b_n = b'_n$が言えるので，この対応による行き先は外延的に相異なる．
  $\NN^n$と$\NN$の間の再帰的な全単射は\cref{lem:recursives-defined}より自然に$V^{\mathcal{R}}$の$\NN$にも持ち上がり，特にこれらは外延的全単射になっているので，\cref{lem:compos-ext-emb}より所望の結果が得られる． \qed
@@ -213,7 +213,7 @@ $\gimel n$は，期待通り自然数の構造を反映した性質を持って�
  $V^{\mathcal{R}} \models \forall n \strin \NN\: \gimel n \eembto \Pow(\R)$.
 \end{corollary}
 \begin{proof}
- $n < 2^m$なる$m$を取れば，\cref{lem:gimel-n-props}の\ref{item:lt-str-subs}より$\gimel n \sqsubseteq \gimel (\mathbf{2^m}) \eembto \Pow(\R)$.
+ $n < 2^m$なる$m$を取れば，\cref{lem:gimel-n-props}の\ref{item:lt-str-subs}より$\gimel n \sqsubseteq \gimel (2^m) \eembto \Pow(\R)$.
 \end{proof}
 さて，\cref{thm:patho-sets-of-reals}で求める集合族のうち$\Set{\mathcal{X}_n | n < \omega}$は$\Set{\gimel n | n \strin \NN}$の$\Pow(\R)$における像である．
 更に，（非／外延的）従属選択公理が成り立つなら，$\gimel 2$の真の無限減少列$\Braket{b_n | n < \omega}$が取れる．
