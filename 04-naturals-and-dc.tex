@@ -210,10 +210,10 @@
 実現可能性モデルでは，扱い易いようvon Neumann順序数とは異なる自然数のコードを採用する：
 
 \begin{definition}
- 写像$s$を$s(\dot{x}) \defeq \Set{ (\dot{x}, \pi) | \pi \in \Pi}$により定める．
- $0 \defeq \emptyset = \hat{\emptyset}$とし，自然数$n$と$s^n 0$を同一視して，基礎モデルで$\mathbb{N} \defeq \Set{ s^n 0 | n < \omega}$と置く．
+ $V$においては自然数$n$を$\mathopen{\underbrace{\{\dots\{}_{n}}\  0\ \mathclose{\underbrace{\}\dots\}}_{n}}$と同一視し，その全体を$\N$で表す．
+ 写像$s$を$s(\dot{x}) \defeq \Set{ (\dot{x}, \pi) | \pi \in \Pi}$により定めれば，$s^n 0 = \widehat{n}$となる事は簡単な帰納法で示せる． 
 
- この時，集合$\NN$を次で定める：
+ そこで，集合の$\mathcal{R}$-名称$\NN \in V^{\mathcal{R}}$を次で定める：
  \[
   \NN \defeq \Set{ (s^n 0, \num{n} \push \pi) | n < \omega, \pi \in \Pi}.
  \]
@@ -379,7 +379,7 @@ $\NN$に関する量化子の虚偽値の計算を簡単にするため，次の
 
 \begin{lemma}[$\NN$における自然な順序]\label{lem:nat-ord-in-NN}
  ${<}$を$V$における$\N$上の自然な順序とする．
- この時$V^{\mathcal{R}}$において$x <^{\mathcal{R}} y \defs \braket{x < y} = \mathds{1}$で定義される二項関係$<^{\mathcal{R}}$は$V^{\mathcal{R}}$で整列順序となり，特に$V^{\mathcal{R}}$における$\NN$上の自然な順序に一致する.
+ この時$V^{\mathcal{R}}$において$x <^{\mathcal{R}} y \defs \braket{x < y} = \mathds{1}$で定義される二項関係$<^{\mathcal{R}}$は$V^{\mathcal{R}}$で整礎な部分順序となり，特に$V^{\mathcal{R}}$における$\NN$上の自然な順序に一致する.
 \end{lemma}
 \begin{proof}
  推移律や非反射律は明らかに$\I$が実現している．
