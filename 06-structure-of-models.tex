@@ -1,42 +1,42 @@
-%#!luajitlatex -src-specials 07-structure-of-models.tex
+%#!luajitlatex -src-specials 06-structure-of-models.tex
 
-\documentclass[07-structure-of-models.tex]{subfiles}
+\documentclass[realisability.tex]{subfiles}
 
 \begin{document}
 \section{$V^{\mathcal{R}}$の構造}
 本節ではKrivine~\cite{Krivine:2014yu}の内容を再整理しつつ，実現可能性モデル$V^{\mathcal{R}}$の構造について細かく分析していく．
 
 \subsection{$V$を初等拡大する$\hat{2}$-値構造}
-$\hat{2}$は関数$\braket{ \varphi[-] }$によって$V$の情報をコードしている．
+$\hat{2}$は関数$\truth{ \varphi[-] }$によって$V$の情報をコードしている．
 実際，$V^{(\mathcal{R})}$の場合は$V^{(\mathcal{R})}$上に$\gimel 2$-値構造が入り，これがあたかも$V$の初等拡大のように振る舞う．
 この状況は$V^{(\mathcal{R})}$という同じドメイン上に異なる構造が載っており，直観が掴みづらい．
 我々の$V^{\mathcal{R}}$では，上で定義した$V^{\mathcal{R}}$の部分クラス$\hat{V} \subsetneq V^{\mathcal{R}}$が$V$の初等拡大のように振る舞うので，随分と見通しがよくなる．
 
-まず，$\Braket{ - }$の値が自然な形で計算できる事を見る：
+まず，$\truth{ - }$の値が自然な形で計算できる事を見る：
 \begin{lemma}\label{lem:char-homo}
- $\Braket{ - }: \hat{V}^n \to \hat{2}$は論理式の関数として見た時，Boole代数の準同型のように振る舞う．即ち：
+ $\truth{ - }: \hat{V}^n \to \hat{2}$は論理式の関数として見た時，Boole代数の準同型のように振る舞う．即ち：
  \begin{gather*}
-  V^{\mathcal{R}} \models \braket{\bot} = 0, \quad \forall \vec{x} \strin \hat{V}\: \braket{\varphi[\vec{x}] \to \psi[\vec{x}]} = - \braket{\varphi[\vec{x}]} + \braket{\psi[\vec{x}]},\\
-  V^{\mathcal{R}} \models \forall \vec{y} \strin \hat{V} \: \braket{\forall x \: \varphi[x, \vec{y}]} = \prod_{x \in \hat{V}} \braket{\varphi[x, \vec{y}]}.
+  V^{\mathcal{R}} \models \truth{\bot} = 0, \quad \forall \vec{x} \strin \hat{V}\: \truth{\varphi[\vec{x}] \to \psi[\vec{x}]} = - \truth{\varphi[\vec{x}]} + \truth{\psi[\vec{x}]},\\
+  V^{\mathcal{R}} \models \forall \vec{y} \strin \hat{V} \: \truth{\forall x \: \varphi[x, \vec{y}]} = \prod_{x \in \hat{V}} \truth{\varphi[x, \vec{y}]}.
  \end{gather*}
 \end{lemma}
 \begin{proof}
  論理式の構成に関する帰納法で示す．
- $\braket{\bot} = 0$は明らか．
+ $\truth{\bot} = 0$は明らか．
 
- また，基礎モデルにおいては$\Braket{ \varphi[x] \to \psi[x] } = -\Braket{\varphi[x]} + \braket{\psi[x]}$はどんな$x$についても成り立つから，等式に関する絶対性より
+ また，基礎モデルにおいては$\truth{ \varphi[x] \to \psi[x] } = -\truth{\varphi[x]} + \truth{\psi[x]}$はどんな$x$についても成り立つから，等式に関する絶対性より
  \[
-  V^{(\mathcal{R})} \models \forall x \strin \hat{V} \: \Braket{ \varphi[x] \to \psi[x] } = -\Braket{\varphi[x]} + \braket{\psi[x]}
+  V^{(\mathcal{R})} \models \forall x \strin \hat{V} \: \truth{ \varphi[x] \to \psi[x] } = -\truth{\varphi[x]} + \truth{\psi[x]}
  \]
  は常に成立する．
 
  最後に全称量化の場合を考える．
  次の二つがそれぞれ実現されていることを見ればよい：
  \begin{enumerate}
-  \item $\forall x, z \strin \hat{V} \: \Braket{\forall y \: \varphi(x, y) } \leq \Braket{\varphi(x, z)}$,
+  \item $\forall x, z \strin \hat{V} \: \truth{\forall y \: \varphi(x, y) } \leq \truth{\varphi(x, z)}$,
   \item $\forall x \strin \hat{V} \: \forall \alpha \strin \gimel 2\:
-          \left[\forall z \strin \hat{V} \: \alpha \leq \Braket{\varphi(x, z)}
-            \implies \alpha \leq \Braket{\forall y \: \varphi(x,y)}
+          \left[\forall z \strin \hat{V} \: \alpha \leq \truth{\varphi(x, z)}
+            \implies \alpha \leq \truth{\forall y \: \varphi(x,y)}
           \right]$.
  \end{enumerate}
  一つ目の条件，下界である事については$\comb{I}$が実現することがすぐにわかる．
@@ -45,33 +45,33 @@ $\hat{2}$は関数$\braket{ \varphi[-] }$によって$V$の情報をコードし
 
  $\alpha = 0$の時は，
  \[
-  \|\forall z \strin \hat{V} \: 0 \leq \Braket{\varphi(\hat{x}, z)}
- \to 0 \leq \Braket{\forall y \: \varphi(\hat{x},y)}\| = \|(\bot \to \bot) \to (\bot \to \bot)\|
+  \|\forall z \strin \hat{V} \: 0 \leq \truth{\varphi(\hat{x}, z)}
+ \to 0 \leq \truth{\forall y \: \varphi(\hat{x},y)}\| = \|(\bot \to \bot) \to (\bot \to \bot)\|
  \]
  なので，$\comb{I} \Vdash (\bot \to \bot) \to (\bot \to \bot)$よりOK．
 
  最後に$\alpha = 1$の時を考える．
  \[
-  \|\forall z \strin \hat{V} \: 1 \leq \Braket{\varphi(\hat{x}, z)}
- \to 1 \leq \Braket{\forall y \: \varphi(x,y)}\| =
- \|\forall z \strin \hat{V} \:[\Braket{\varphi(\hat{x}, z)} = 1]
- \to \Braket{\forall y \: \varphi(\hat{x},y)} = 1\|
+  \|\forall z \strin \hat{V} \: 1 \leq \truth{\varphi(\hat{x}, z)}
+ \to 1 \leq \truth{\forall y \: \varphi(x,y)}\| =
+ \|\forall z \strin \hat{V} \:[\truth{\varphi(\hat{x}, z)} = 1]
+ \to \truth{\forall y \: \varphi(\hat{x},y)} = 1\|
  \]
- よって，$\xi \Vdash \forall z \strin \hat{V} \: \Braket{\varphi(\hat{x},z)} = 1$と$\pi \in \|\Braket{\forall y \: \varphi(\hat{x},y)} = 1\|$を任意に取って$\comb{I} \cons \xi \push \pi \in \pole$を示す．
+ よって，$\xi \Vdash \forall z \strin \hat{V} \: \truth{\varphi(\hat{x},z)} = 1$と$\pi \in \|\truth{\forall y \: \varphi(\hat{x},y)} = 1\|$を任意に取って$\comb{I} \cons \xi \push \pi \in \pole$を示す．
  ここで$V \models \forall y \: \varphi(x,y)$か否かで場合分けする．
 
- $V \models \forall x \: \varphi(x, y)$の時は，$\Braket{x, z} = 1$が任意の$z \in V$について成立しているから，
+ $V \models \forall x \: \varphi(x, y)$の時は，$\truth{x, z} = 1$が任意の$z \in V$について成立しているから，
  \[
- \left|\forall z \strin \hat{V} \: \Braket{\varphi(x,z)} = 1\right| = \bigcap_{z \in V} \left|\Braket{\varphi(\hat{x}, \hat{z})} = 1\right| = | \bot \to \bot |.
+ \left|\forall z \strin \hat{V} \: \truth{\varphi(x,z)} = 1\right| = \bigcap_{z \in V} \left|\truth{\varphi(\hat{x}, \hat{z})} = 1\right| = | \bot \to \bot |.
  \]
- 一方で仮定より$\pi \in\|\braket{\forall y \: \varphi(x, y)} = 1\| = \| \bot \to \bot \|$なので$\comb{I} \cons \xi \push \pi \reds \xi \cons \pi \in \pole$となる．
+ 一方で仮定より$\pi \in\|\truth{\forall y \: \varphi(x, y)} = 1\| = \| \bot \to \bot \|$なので$\comb{I} \cons \xi \push \pi \reds \xi \cons \pi \in \pole$となる．
 
  $V \not\models \forall x \: \varphi(x)$の時を考える．
- この時$V \models \neg \varphi(y_0)$なる$y_0$を取っておけば，$\braket{\varphi(x, y_0)} = 0$であり，
+ この時$V \models \neg \varphi(y_0)$なる$y_0$を取っておけば，$\truth{\varphi(x, y_0)} = 0$であり，
  \[
- \left|\forall z \strin \hat{V} \: \Braket{\varphi(\hat{x},\hat{z})} = 1\right| = \bigcap_{z \in V} \left|\Braket{\varphi(\hat{x}, z)} = 1\right| \subseteq |\Braket{\varphi(\hat{x}, \hat{y}_0)} = 1| = | \top \to \bot |.
+ \left|\forall z \strin \hat{V} \: \truth{\varphi(\hat{x},\hat{z})} = 1\right| = \bigcap_{z \in V} \left|\truth{\varphi(\hat{x}, z)} = 1\right| \subseteq |\truth{\varphi(\hat{x}, \hat{y}_0)} = 1| = | \top \to \bot |.
  \]
- また仮定より$\|\Braket{\forall y\: \varphi(x, y)} = 1\| = \|\top \to \bot\|$.
+ また仮定より$\|\truth{\forall y\: \varphi(x, y)} = 1\| = \|\top \to \bot\|$.
  よってこの場合も$\comb{I}$が実現してくれる事がわかる． \qed
 \end{proof}
 また，定義に戻って展開すれば直ちにつぎがわかる：
@@ -93,11 +93,11 @@ $\hat{2}$は関数$\braket{ \varphi[-] }$によって$V$の情報をコードし
 \end{remark}
 以上を踏まえると，$V$から$\hat{V}$への「初等埋め込み」は次の形で定式化出来る：
 \begin{corollary}
- $V^{\mathcal{R}} \models \quoted{(\hat{V}, \braket{{\cdot} \in {\cdot}}, \braket{{\cdot} = {\cdot}}): \ZF\text{ の }\hat{2}\text{-値モデル}}$.
+ $V^{\mathcal{R}} \models \quoted{(\hat{V}, \truth{{\cdot} \in {\cdot}}, \truth{{\cdot} = {\cdot}}): \ZF\text{ の }\hat{2}\text{-値モデル}}$.
 
  また$\varphi[x_1, \dots x_n]$を$\ZF$-論理式，$a_i \in V$とすると
  \[
-  V \models \varphi[a_1, \dots, a_n] \iff V^{\mathcal{R}} \models \quoted{(\hat{V}, \braket{{\cdot} \in {\cdot}}, \braket{{\cdot} = {\cdot}}) \models \varphi[\hat{a}_1, \dots \hat{a}_n]}.
+  V \models \varphi[a_1, \dots, a_n] \iff V^{\mathcal{R}} \models \quoted{(\hat{V}, \truth{{\cdot} \in {\cdot}}, \truth{{\cdot} = {\cdot}}) \models \varphi[\hat{a}_1, \dots \hat{a}_n]}.
  \]
 \end{corollary}
 \begin{proof}
