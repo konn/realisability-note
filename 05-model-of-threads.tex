@@ -7,6 +7,7 @@
 以下では，まず標準的な実現可能性モデルについて考える：
 \begin{definition}
  $\mathcal{A}$が$\Pi_0$をスタック定数，$\Lambda_0 (\supseteq \set{\B, \C, \K, \W, \I, \cc})$を原子項とする\emph{標準実現可能性代数}$\defs$ $\Lambda$は$\Set{\conti_\pi | \pi \in \Pi} \cup \Lambda_0$の元を原子コンビネータとする$\CL$-項の全体，$\Pi$の元は$\xi_i \in \Lambda\;(i < n)$と$\pi_0 \in \Pi_0$により$\xi_0 \push \dots \push \xi_{n-1} \push \pi_0$の形のみであり，$\redsto$はKrivine機械の簡約規則に対応し，$\Lambda \cons \Pi = \Lambda \times \Pi$, $\PT \defeq \Set{ \theta \in \Lambda | \theta \text{ に } \conti_\pi \text{ の形の項が現れない}}$．
+ また$\rhd$の表示は関数的．
 \end{definition}
 
 \emph{スレッドモデル}(\emph{model of threads})はKrivine~\cite{Krivine:2012hl}が定義した一番簡単な斉一的な実現可能性代数である：
@@ -59,7 +60,7 @@
 以下では，von Neumann順序数もどきの表現を使って分析をする．
 特に，$k < n$なる$s^k 0$の形の数項全体に太字の表記を用いる．
 
-$\gimel$は$V^{(\mathcal{R})}$における$\hat{x}$に対応するものだったが、今考えている$V^{\mathcal{R}}$では使わないので、お行儀が悪いがこの記号を再利用する。
+$\gimel$は$V^{(\mathcal{R})}$における$\hat{x}$に対応するものだったが，今考えている$V^{\mathcal{R}}$では使わないので，お行儀が悪いがこの記号を再利用する．
 \begin{notation}
  $V$において$\mathbf{n} \defeq \set{0, 1, \dots, n}$として，$\gimel : \Set{ s^n 0 | n < \omega } \to \hat{V}$を次で定める：
  \[
@@ -73,7 +74,7 @@ $\gimel n$は，期待通り自然数の構造を反映した性質を持って�
  \begin{enumerate}
   \item \label{item:lt-elem}$\forall m \strin \hat{\N}\: \forall n \strin \hat{\N}\: \left[ \truth{m < n} = 1 \iff m \strin \gimel n\right]$,
   \item \label{item:lt-str-subs}$\forall m \strin \hat{\N}\: \forall n \strin \hat{\N}\: \left[ \truth{m < n} = 1 \to \gimel m \sqsubseteq \gimel n\right]$,
-  \item \label{item:lt-plus}$\forall m \strin \hat{\N}\: \forall n \strin \hat{\N}\: \left[ \truth{m < n} = 1 \iff \exists y \strin \hat{\N}\: n = m + y + 1\right]$.
+  \item \label{item:lt-plus}$\forall m \strin \hat{\N}\: \forall n \strin \hat{\N}\: \left[ \truth{m < n} = 1 \iff \exists y \strin \hat{\N}\: n = m \mathbin{\hat{+}} y \mathbin{\hat{+}} 1\right]$.
  \end{enumerate}
  よって特に$\gimel n \simeq \Set{x \strin \hat{\N} | \truth{x < n} = 1}$.
 \end{lemma}
@@ -87,13 +88,13 @@ $\gimel n$は，期待通り自然数の構造を反映した性質を持って�
  $V^{\mathcal{R}}$において，写像$(x, y) \mapsto my + x$は$\gimel m \times \gimel n \to \gimel(mn)$への全単射となっている．
  特に，次の論理式が$\I$で実現されている：
  \begin{enumerate}
-  \item $\forall m, n \strin \hat{\N}\: \forall x \strin \gimel m\: \forall y \strin \gimel n\: (my + x) \strin \gimel mn$,
+  \item $\forall m, n \strin \hat{\N}\: \forall x \strin \gimel m\: \forall y \strin \gimel n\: (my \mathbin{\hat{+}} x) \strin \gimel mn$,
   \item $\forall m, n \strin \hat{\N}\:
          \forall x, x' \strin \gimel m \: \forall y, y' \strin \gimel n\:
-         \left[ my + x = m'y + x' \hookrightarrow x = x'\land y = y' \right]$,
+         \left[ my \mathbin{\hat{+}} x = m'y \mathbin{\hat{+}} x' \hookrightarrow x = x'\land y = y' \right]$,
   \item $\forall m,n \strin \hat{\N}\:\forall z \strin \gimel(mn) \:
          \exists x \strin \gimel m \: \exists y \strin \gimel n\:
-         z = my + x$.
+         z = my \mathbin{\hat{+}} x$.
  \end{enumerate}
 \end{lemma}
 
@@ -149,9 +150,33 @@ $\gimel n$は，期待通り自然数の構造を反映した性質を持って�
 \end{proof}
 よって$\gimel 2$自体は$\ZF$のモデルとして見ると$\set{0, 1}$に縮退してしまうが，$\ZFe$における$\gimel 2$と同じ構造をした実数の集合が$\ZF$の側でも得られている．
 
-\cref{lem:char-ba-nontriv}で$\gimel2$が非自明になる条件を見たが，更に以下ではアトムを持たない十分条件を与える．
+ではどのような時に$\gimel 2$が非自明になるのか？という十分条件が次である：
+\begin{lemma}\label{lem:gimel2-nontriv}
+ 証明的項$\omega_0$および$\omega_1$で次を満たすものがあるとする：
+ \[
+  \forall \pi \in \Pi \: \omega_0 \conti_\pi \Vdash \bot \text{ or } \omega_1 \conti_\pi \Vdash \bot.
+ \]
+ この時，$\gimel 2$は$V^{(\mathcal{R})}$で非自明となっている．
+ 特に，$\theta \defeq \abs{f}{\cc (\abs{k}{f(\omega_1 \conti)(\omega_0 \conti)})}$とおけば，
+ \[
+  \theta \Vdash \neg \forall x \: (x \neq 0 \to x \neq 1 \to x \strnin \gimel 2).
+ \]
+\end{lemma}
+\begin{proof}
+ $\xi \Vdash \forall x \: (x \neq 0 \to x \neq 1 \to x \strnin \gimel 2)$および$\pi \in \Pi$を任意にとって，$\theta \cons \xi \push \pi\in \pole$を示す．
+ この時，
+ \[
+  {\theta \cons \xi \push \pi}
+  \reds {\xi \cons {\omega_1 \conti_{\pi}} \push {\omega_0 \conti_{\pi}} \push \pi}.
+ \]
+ $\xi$に関する仮定から，任意の$x < 2$について$\xi \Vdash x \neq 0 \to x \neq 1 \to x \strnin \gimel 2$.
+ よって特に$\xi \Vdash \bot \to \top \to \bot$かつ$\xi \Vdash \top \to \bot \to \bot$が成り立つ．
+ $\|\top\| = \Lambda$に注意すれば，$\omega_0 \conti_\pi \Vdash \bot$でも$\omega_1 \conti_\pi \Vdash \bot$でも上の式は$\pole$に属することがわかる． \qed
+\end{proof}
 
-\begin{lemma}
+更にアトムを持たない十分条件が以下である：
+
+\begin{lemma}\label{lem:gimel2-atomless}
  $\alpha_0, \alpha_1, \alpha_2 \in \PT$で任意の$\xi \in \Lambda, \pi \in \Pi$について$\conti_\pi \xi \alpha_0, \conti_\pi \xi \alpha_1$または$\conti_\pi \xi \alpha_2$のいずれかが$\perp$を実現するような物が存在するとする．
  このとき$\gimel2$はアトムを持たない．
  特に$\theta \defeq \abs{xy}{\cc (\abs{k}{x (k y \alpha_0)(x (k y \alpha_1)(k y \alpha_2))})}$とおけば，
@@ -191,7 +216,7 @@ $\gimel n$は，期待通り自然数の構造を反映した性質を持って�
 \begin{definition}
  任意の$a \in \gimel 2$, $n \in \NN$に対し，$\gimel n$上のイデアル$a\gimel n$を次で定める：
  \[
-  x \strin a \gimel n \defs x \cdot a = x.
+  x \strin a \gimel n \defs x \mathbin{\hat{\cdot}} a = x.
  \]
  特に$n = 2$の場合，これは$a$による切断$\downarrow a = \Set{x \strin \gimel 2| x \leq a}$と一致する．
 
@@ -223,7 +248,7 @@ $\gimel n$は，期待通り自然数の構造を反映した性質を持って�
 したがって，あとは$\gimel n$達や$\downarrow b$達が真に単調であることがわかればよい．
 それには次の補題を使う：
 
-\begin{lemma}
+\begin{lemma}\label{lem:gimel-n-incr}
  証明的項$\omega \in \PT$で任意の$\xi, \xi' \in \Lambda$, $\xi \neq \xi'$および$\pi \in \Pi$に対し$\omega \conti_\pi \xi \Vdash \perp$または$\omega\conti_\pi \xi' \Vdash \perp$が成り立つものが取れたとする．
  この時$\theta \defeq \abs{x x'}{\cc (\abs{\conti}{\conti (x'(\abs{z}{xzz(\omega \conti z)}))})}$とおけば，任意の論理式$\varphi[x,y,z]$に対し，
  \[
@@ -236,6 +261,35 @@ $\gimel n$は，期待通り自然数の構造を反映した性質を持って�
  \]
  特に$\varphi[x, y, z] \equiv (x, y) \in z$とおけば，$V^{\mathcal{R}}$において$m < n$なら$\gimel m$から$\gimel n$への全射は存在しない．
 \end{lemma}
+\begin{proof}
+ 背理法により示す．
+ 特に，$\theta$が上を実現しないということは，$m < n \in \N$と$c \in V$および
+ \begin{itemize}
+  \item $\xi \Vdash \forall x, y, y' \:[\varphi(x, y, c) \to \varphi(x, y', c) \to y \neq y \to \perp]$,
+  \item $\xi' \Vdash \forall y \strin \gimel n \: \neg \forall x \strin \gimel m \: \neg \varphi(x, y, c)$,
+  \item $\pi \in \Pi$
+ \end{itemize}
+ で$\KVM{\theta \xi {\xi'} \pi} \notin \pole$を満たすものが取れるという事である．
+ $\pole$は上に閉じているから，$\Lambda \setminus \pole$ は下に閉じているので，結局$\KVM{{\xi'} {{(\abs{z}{\xi z z (\omega \conti_\pi z)})}} \pi } \notin \pole$となる．
+ そこで$\eta \defeq \abs{z}{\xi z z (\omega \conti_\pi z)}$とおけば，$\xi'$の仮定より任意の$i < n$に対して$\eta \nVdash \forall x \strnin \gimel m\:\neg \varphi(x, i, c)$（さもなければ$\xi' \cons \eta \push \pi \in \pole$となり仮定に反する）．
+ そこで$\Vdash \forall$の定義により，各$i < n$に対して$m_i < m$で$\eta \nVdash  \neg \varphi(m_i, i, c)$を満たすものを固定しておく．
+ すると，$\xi_i \Vdash \varphi(m_i, i, c)$と$\pi_i \in \Pi$で$\KVM{\eta {{\xi_i}} {{\pi_i}}} \notin \pole$を満たすものが取れる．
+ 評価を進めれば，これは$\KVM{{\xi} {{\xi_i}} {{\xi_i}} {{\omega \conti_\pi \xi_i}} {{\pi_i}}} \notin \pole$ということである．
+ $\omega \conti_\pi \xi_i \Vdash i \neq i$とすると$\xi$の定義より$\eta \cons \xi_i \push \pi_i \in \pole$となってしまうので，$\omega \conti_\pi \xi_i \nVdash i \neq i$となる．
+ すると$\|i \neq i\| = \|\bot\|$より任意の$i < n$について$\omega \conti_\pi \xi_i \nVdash \pole$が成り立つ．
+ もし$\xi_i \neq \xi_j$なる$i < j$があれば$\omega$に関する仮定より$\omega \conti_\pi \xi_i$か$\omega \conti_\pi \xi_j$の少なくとも一つは$\perp$を実現しなくてはならないので，これは全ての$i < j < n$に対し$\xi_i = \xi_j = \xi^*$となることを意味する．
+ 一方，$m_i < m < n\;(i < n)$より鳩ノ巣原理から$i < j$で$m_i = m_j = m^*$となるものが少なくとも一組存在する．
+ すると$\xi^* \Vdash \varphi(m^*, i, c)$かつ$\xi^* \Vdash \varphi(m^*, j, c)$．
+ また$i < j$より$|i \neq j| = |\top| = \Lambda$に気を付ければ，$\omega \conti_\pi \xi^* \Vdash i \neq j$.
+ すると$\KVM{\eta {{\xi^*}} {{\pi_i}}} \reds \KVM{\xi {{\xi_i}} {{\xi_i}} {{\omega \conti_\pi \xi_i}}{{\pi_i}}} \in \pole$となるが，これは$\xi_i, \pi_i$の取り方に反する． \qed
+\end{proof}
+
+\begin{corollary}
+ \cref{lem:gimel-n-incr}の条件下で，$V^{\mathcal{R}}$において次を満たす実数の部分集合族$\Set{\mathcal{X}_n | n \in \NN}$が存在する：
+ \[
+  \aleph_0 < |\mathcal{X}_n| < |\mathcal{X}_{n+1}|, |\mathcal{X}_n \times \mathcal{X}_m| = |\mathcal{X}_{n m}|.
+ \]
+\end{corollary}
 
 \begin{lemma}
  上と同じ仮定の下で，$\theta \defeq \abs{x x'}{\cc(\abs{\conti}{x(\abs{n}{\cc(\abs{\mathsf{h}}{x'\mathsf{h}\mathsf{h}(\omega \conti)(\abs{f}{f\mathsf{h}n})})})})}$とおくと，
@@ -244,10 +298,66 @@ $\gimel n$は，期待通り自然数の構造を反映した性質を持って�
  \]
  特に$V^{\mathcal{R}}$において$\NN$から$\gimel 2$への全射は存在しない．
 \end{lemma}
+\begin{proof}
+ 上と同じように$\theta$が実現しなかったとしてひたすら矛盾に向かって邁進すればいい．
+ やるだけだしちょっと疲れるんで勘弁してください． \qed
+\end{proof}
 
 
 \subsection{スレッドモデルにおける議論}
+よって，スレッドモデル$V^{\mathcal{T}}$において目標の補題を示すには，不思議な$\omega$たちの存在を証明出来ればよい．
+
+まず，$\mathcal{T}$の構成から次が成り立つことに注意する：
+\begin{lemma}\label{lem:uniq-thread}
+ $\xi \in \lambda \setminus \PT$と$\pi \in \Pi$に対し，$\xi \cons \pi \notin \pole$なら$\xi \cons \pi$は一意なスレッドに現れる．
+ 即ち：$\exists! n \: \theta_n \cons \pi_n \reds \xi \cons \pi$.
+ 特に$n$は$\xi$および$\pi$に現れる一意なスタック定数$\pi_n$の番号と一致する．
+
+ よって，$\xi \nVdash \perp$なら$\xi$はある一意なスレッドの先頭項に現れる．
+\end{lemma}
+\begin{proof}
+ $\xi \cons \pi \notin \pole$の定義は$\xi \cons \pi$があるスレッドの実行過程に現れることだった．
+ 特に，$\theta_n \cons \pi_n$にはスタック定数は$\pi_n$しか現れず，簡約の過程で余分なスタック定数が追加されないので，途中に現れるプロセスは$\pi_n$以外のスタック定数を持たない． \qed
+\end{proof}
+また，$\mathcal{T}$は次を満たす：
+\begin{theorem}[非常に強い形のChurch--Rosser性]\label{thm:strong-cr}
+ $\mathcal{R}$が標準実現可能性代数で，$\xi \cons \pi \reds \xi_0 \cons \pi_0$かつ$\xi \cons \pi \reds \xi_1 \cons \pi_1$なら，$\xi_0 \cons \pi_0 \reds \xi_1 \cons \pi_1$か$\xi_1 \cons \pi_1 \reds \xi_0 \cons \pi_0$の少なくとも一方が成立する．
+\end{theorem}
+\begin{proof}
+ $\rhd$の表示が関数的なので，簡約列は一意に定まるからあたりまえ． \qed
+\end{proof}
+これを踏まえると，少なくとも$V^{\mathcal{T}}$が$\gimel 2$が非自明で$\mathcal{X}_n$達が存在するようなモデルになっていることがわかる：
+\begin{lemma}
+ スレッド代数$\mathcal{T}$は\cref{lem:gimel2-nontriv}および\cref{lem:gimel-n-incr}の前提を満たす$\omega, \omega_0, \omega_1 \in \PT$を持つ．
+\end{lemma}
+\begin{proof}
+ 次のように置けばよい：
+ \[
+  \omega \defeq (\abs{x}{xx})(\abs{x}{xx}), \quad
+  \omega_0 \defeq \omega \num{0}, \quad
+  \omega_1 \defeq \omega \num{1}.
+ \]
+ まず$\omega$が期待通りであることを見る．
+ $\xi, \xi' \in \Lambda$と$\pi \in \Pi$を取り$\omega \conti_\pi \xi, \omega \conti_\pi \xi' \nVdash \bot$なら$\xi = \xi'$となることを見ればよい．
+ この時定義より$n, n'$および$\varpi, \varpi'$で$\theta_n \cons \pi_n \reds \omega \conti_\pi \xi' \cons \varpi$かつ$\theta_{n'} \cons \pi_{n'} \reds \omega \conti_\pi \xi' \cons \varpi'$を満たすものが取れる．
+ しかし，\cref{lem:uniq-thread}より$\pi$に現れるスタック定数$\pi_n$は一意に定まるので，$n = n'$でなくてはならず，$\theta_n \cons \pi_n \reds \omega \conti_\pi \xi \cons \varpi, \omega \conti_\pi \xi' \cons \varpi'$を得る．
+ すると\cref{thm:strong-cr}より$\omega \conti_\pi \xi \cons \varpi \reds \omega \conti_\pi \xi' \cons \varpi'$として一般性を失わない．
+ しかし，
+ \begin{align*}
+   \KVM{{{\omega \conti_\pi \xi}} \varpi}
+  \reds
+  \KVM{{{\omega \conti_\pi}} \xi \varpi}
+  \reds
+  \KVM{{{\omega}} {{\conti_\pi}} \xi \varpi}
+ \end{align*} 
+ より候補は$\KVM{{{\omega \conti_\pi \xi}}{\varpi}} = \KVM{{{\omega \conti_\pi \xi'}}{\varpi'}}$の場合しか有り得ず，特に$\xi = \xi'$となる．
+
+ $\omega_0, \omega_1$が所定の性質を満たすことも同様に示せる． \qed
+\end{proof}
 \end{document}
+
+\subsection{次回予告}
+$\gimel 2$がアトムを持たない場合の条件も満たされていることも示し，この場合$\gimel 2$の無限下降列が実数の集合の基数の無限下降列を産むことを見る．
 
 % Local Variables:
 % mode: yatex

@@ -631,33 +631,6 @@ Boole代数$\gimel 2$は実現可能性モデルにおいて重要な役割を�
  \end{itemize}
  特に任意の$x \in E$に対して$V^{(\mathcal{R})} \models \forall \alpha \strin \gimel 2 \: \alpha \cdot x \in \gimel E$.
 \end{lemma}
-
-ではどんな時に$\gimel 2$が非自明になるのか？
-その十分条件を与えてくれるのが次の補題である：
-
-\begin{lemma}\label{lem:char-ba-nontriv}
- 証明的項$\omega_0$および$\omega_1$で次を満たすものがあるとする：
- \[
-  \forall \pi \in \Pi \: \omega_0 \conti_\pi \Vdash \bot \text{ or } \omega_1 \conti_\pi \Vdash \bot.
- \]
- この時，$\gimel 2$は$V^{(\mathcal{R})}$で非自明となっている．
- 特に，$\theta \defeq \abs{f}{\cc (\abs{k}{f(\omega_1 \conti)(\omega_0 \conti)})}$とおけば，
- \[
-  \theta \Vdash \neg \forall x \: (x \neq 0 \to x \neq 1 \to x \strnin \gimel 2).
- \]
-\end{lemma}
-\begin{proof}
- $\xi \Vdash \forall x \: (x \neq 0 \to x \neq 1 \to x \strnin \gimel 2)$および$\pi \in \Pi$を任意にとって，$\theta \cons \xi \push \pi\in \pole$を示す．
- この時，
- \[
-  {\theta \cons \xi \push \pi}
-  \reds {\xi \cons {\omega_1 \conti_{\pi}} \push {\omega_0 \conti_{\pi}} \push \pi}.
- \]
- $\xi$に関する仮定から，任意の$x < 2$について$\xi \Vdash x \neq 0 \to x \neq 1 \to x \strnin \gimel 2$.
- よって特に$\xi \Vdash \bot \to \top \to \bot$かつ$\xi \Vdash \top \to \bot \to \bot$が成り立つ．
- $\|\top\| = \Lambda$に注意すれば，$\omega_0 \conti_\pi \Vdash \bot$でも$\omega_1 \conti_\pi \Vdash \bot$でも上の式は$\pole$に属することがわかる． \qed
-\end{proof}
-後ほど具体例を見る時に，実際にこのような$\omega_0, \omega_1$を持つ実現可能性代数の例を与える．
 \end{document}
 
 % Local Variables:

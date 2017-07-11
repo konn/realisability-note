@@ -17,6 +17,7 @@
 ("app")
 ))
 (setq tmp-section-table '(
+("num")
 ("KVM")
 ("comb")
 ("numeral")
