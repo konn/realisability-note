@@ -48,7 +48,6 @@
 % \usepackage{txfonts}
 \newcommand{\abs}[3][]{\lambda^{\mathsf{#1}}#2.\;#3}
 \newcommand{\comb}[1]{\mathsf{\mathbf{#1}}}
-\renewcommand{\emph}[1]{\textsf{\textgt{#1}}}
 \newcommand{\eembto}{\hookrightarrow_{\mathrm{e}}}
 \newcommand{\Perp}{\tikz[baseline] %
     {\path[draw,semithick] (-.375em,0) -- (.375em,0)%
@@ -130,47 +129,47 @@
 \crefname{theorem}{定理}{定理}
 \theoremprework{\begin{mystdthmbox}{}}
 \theorempostwork{\end{mystdthmbox}}
-\newtheorem{example}{例}[section]
+\newtheorem{example}[theorem]{例}
 \crefname{example}{例}{例}
 \theoremprework{\begin{mystdthmbox}{}}
 \theorempostwork{\end{mystdthmbox}}
-\newtheorem{definition}{Def.}[section]
+\newtheorem{definition}[theorem]{Def.}
 \crefname{definition}{定義}{定義}
 \theoremprework{\begin{mystdthmbox}{}}
 \theorempostwork{\end{mystdthmbox}}
-\newtheorem{prop}{命題}[section]
+\newtheorem{prop}[theorem]{命題}
 \crefname{prop}{命題}{命題}
 \theoremprework{\begin{mystdthmbox}{}}
 \theorempostwork{\end{mystdthmbox}}
-\newtheorem{corollary}{系}[section]
+\newtheorem{corollary}[theorem]{系}
 \crefname{corollary}{系}{系}
 \theoremprework{\begin{mystdthmbox}{}}
 \theorempostwork{\end{mystdthmbox}}
-\newtheorem{question}{問}[section]
+\newtheorem{question}[theorem]{問}
 \crefname{question}{問}{問}
 \theoremprework{\begin{mystdthmbox}{}}
 \theorempostwork{\end{mystdthmbox}}
-\newtheorem{problem}{問題}[section]
+\newtheorem{problem}[theorem]{問題}
 \crefname{problem}{問題}{問題}
 \theoremprework{\begin{mystdthmbox}{}}
 \theorempostwork{\end{mystdthmbox}}
-\newtheorem{lemma}{補題}[section]
+\newtheorem{lemma}[theorem]{補題}
 \crefname{lemma}{補題}{補題}
 \theoremprework{\begin{mystdthmbox}{}}
 \theorempostwork{\end{mystdthmbox}}
-\newtheorem{remark}{注意}[section]
+\newtheorem{remark}[theorem]{注意}
 \crefname{remark}{注意}{注意}
 \theoremprework{\begin{mystdthmbox}{}}
 \theorempostwork{\end{mystdthmbox}}
-\newtheorem{fact}{Fact}[section]
+\newtheorem{fact}[theorem]{Fact}
 \crefname{fact}{事実}{事実}
 \theoremprework{\begin{mystdthmbox}{}}
 \theorempostwork{\end{mystdthmbox}}
-\newtheorem{claim}{Claim}[section]
+\newtheorem{claim}[theorem]{Claim}
 \crefname{claim}{主張}{主張}
 \theoremprework{\begin{mystdthmbox}{}}
 \theorempostwork{\end{mystdthmbox}}
-\newtheorem{subclaim}{Subclaim}[claim]
+\newtheorem{subclaim}{Subclaim}[theorem]
 
 \theoremstyle{nonumberplain}
 \theoremprework{\begin{mystdthmbox}{}}
@@ -206,6 +205,7 @@
 \fi
 }
 \makeatother
+\renewcommand{\emph}[1]{\textsf{\textgt{#1}}}
 
 \title{実現可能性モデルノート}
 \author{石井大海}
