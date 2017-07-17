@@ -31,6 +31,7 @@
 *.fdb_latexmk
 *.synctex
 *.synctex.gz
+*.synctex.gz\(busy\)
 *.synctex.gz(busy)
 *.pdfsync
 
