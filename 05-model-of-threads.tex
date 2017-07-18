@@ -1,4 +1,4 @@
-%#!luajitlatex -src-specials 05-model-of-threads.tex
+%#!luajitlatex -src-specials realisability.tex
 
 \documentclass[realisability.tex]{subfiles}
 
@@ -62,9 +62,9 @@
 
 $\gimel$は$V^{(\mathcal{R})}$における$\hat{x}$に対応するものだったが，今考えている$V^{\mathcal{R}}$では使わないので，お行儀が悪いがこの記号を再利用する．
 \begin{notation}
- $V$において$\mathbf{n} \defeq \set{0, 1, \dots, n}$として，$\gimel : \Set{ s^n 0 | n < \omega } \to \hat{V}$を次で定める：
+ $V$において$\mathbf{n} \defeq \set{0, 1, \dots, n}$として，$\gimel : \Set{ \hat{n} | n < \omega } \to \hat{V}$を次で定める：
  \[
-  \gimel(s^n 0) \defeq \Set{ (s^k 0, \pi) | k < n, \pi \in \Pi } = \hat{\mathbf{n}}.
+  \gimel(\hat{n}) \defeq \Set{ (\hat{k}, \pi) | k < n, \pi \in \Pi } = \hat{\mathbf{n}}.
  \]
 \end{notation}
 
@@ -148,6 +148,13 @@ $\gimel n$は，期待通り自然数の構造を反映した性質を持って�
  よって$n \in D_x \symdiff_{\text{ext}} D_y$となるので，$D_x \not\simeq D_y$.
  また，$x \cdot y > 0$の時は$x' = x \cdot (- y), y' y \cdot (- x)$とおいて$0 < \Delta(n) \leq x' + y'$となるものを取れば同様の事が成り立つ． \qed
 \end{proof}
+\begin{corollary}\label{cor:nonstd-natural}
+ $\gimel 2$が非自明なら$V^{\mathcal{R}}$は非標準自然数を持つ．
+\end{corollary}
+\begin{proof}
+ $0 < a < 1$なる$a \strin \gimel 2$を取れば，$0 < \Delta(n) \leq a < 1$なる$n \strin \NN$が取れる．
+ いま，任意の$k \in \N$に対して$\Delta(\hat{k}) = 0$または$1$となるから，$n$は何如なる標準自然数とも異なる． \qed
+\end{proof}
 よって$\gimel 2$自体は$\ZF$のモデルとして見ると$\set{0, 1}$に縮退してしまうが，$\ZFe$における$\gimel 2$と同じ構造をした実数の集合が$\ZF$の側でも得られている．
 
 ではどのような時に$\gimel 2$が非自明になるのか？という十分条件が次である：
@@ -208,20 +215,6 @@ $\gimel n$は，期待通り自然数の構造を反映した性質を持って�
         しかし仮定より$\conti_\pi \eta \alpha_1$または$\conti_\pi \eta \alpha_2$の少なくとも一方は$\perp$を実現するから，仮定より明らかに成り立つ． \qed
  \end{enumerate}
 \end{proof}
-
-いま我々は$\gimel 2$にはBoole代数の構造を入れて考えているが，$n > 2$の場合の$\gimel n$にはBooleではないにせよ環の構造を持つことがわかる．
-特に，Boole代数には通常下限を積として自然に環構造が定まる．
-そこで以下の定義をする：
-
-\begin{definition}
- 任意の$a \in \gimel 2$, $n \in \NN$に対し，$\gimel n$上のイデアル$a\gimel n$を次で定める：
- \[
-  x \strin a \gimel n \defs x \mathbin{\hat{\cdot}} a = x.
- \]
- 特に$n = 2$の場合，これは$a$による切断$\downarrow a = \Set{x \strin \gimel 2| x \leq a}$と一致する．
-
- また，等式に関する初等性より$\gimel 2$の各元は$\gimel n$の中で冪等元になっているので，各$a \strin \gimel 2$に対し$x \mapsto a x$により自然に写像$\gimel n \to a \gimel n$が引き起こされる．
-\end{definition}
 
 まず，$\gimel 2^n$は$\Pow(\R)$に外延的に埋め込むことが出来る：
 \begin{lemma}
@@ -284,28 +277,118 @@ $\gimel n$は，期待通り自然数の構造を反映した性質を持って�
  すると$\KVM{\eta {{\xi^*}} {{\pi_i}}} \reds \KVM{\xi {{\xi_i}} {{\xi_i}} {{\omega \conti_\pi \xi_i}}{{\pi_i}}} \in \pole$となるが，これは$\xi_i, \pi_i$の取り方に反する． \qed
 \end{proof}
 
-\begin{corollary}
- \cref{lem:gimel-n-incr}の条件下で，$V^{\mathcal{R}}$において次を満たす実数の部分集合族$\Set{\mathcal{X}_n | n \in \NN}$が存在する：
- \[
-  \aleph_0 < |\mathcal{X}_n| < |\mathcal{X}_{n+1}|, |\mathcal{X}_n \times \mathcal{X}_m| = |\mathcal{X}_{n m}|.
- \]
-\end{corollary}
-
 \begin{lemma}
- 上と同じ仮定の下で，$\theta \defeq \abs{x x'}{\cc(\abs{\conti}{x(\abs{n}{\cc(\abs{\mathsf{h}}{x'\mathsf{h}\mathsf{h}(\omega \conti)(\abs{f}{f\mathsf{h}n})})})})}$とおくと，
+ 上の仮定に加え$\mathcal{R}$は標準代数とする．
+ $\theta \defeq \abs{x x'}{\cc(\abs{\conti}{x(\abs{n}{\cc(\abs{\mathsf{h}}{x'\mathsf{h}\mathsf{h}(\omega \conti (\abs{f}{f\mathsf{h}n}))})})})}$とおくと，
  \[
  \theta \Vdash \forall z \left[ \forall x \strin \gimel 2 \: \exists n \strin \NN \: ( \varphi[n, x, z]) \to \exists n\: \exists x\: \exists y\: \left(\varphi[n, x, z] \land  \varphi[n, y, z] \land x \neq y\right)  \right].
  \]
  特に$V^{\mathcal{R}}$において$\NN$から$\gimel 2$への全射は存在しない．
 \end{lemma}
 \begin{proof}
- 上と同じように$\theta$が実現しなかったとしてひたすら矛盾に向かって邁進すればいい．
- やるだけだしちょっと疲れるんで勘弁してください． \qed
+ 上と同じように$\theta$が実現しなかったとして背理法．
+ $i = 0, 1$の反例となる$\pi_i, n_i$を取ると，結局各$\abs{f}{f \conti_{\pi_i} \num{n}_i}$が一致することが言え，$\mathcal{R}$が標準的であることからこれは文字列として一致するので，$\pi_0 = \pi_1$, $n_0 = n_1$となり矛盾が出る． \qed
 \end{proof}
 
+これまでで$\Set{\mathcal{X}_n}_n$の存在は言えた：
+\begin{corollary}
+ \cref{lem:gimel-n-incr}の条件下で，$V^{\mathcal{R}}$において次を満たす実数の部分集合族$\Set{\mathcal{X}_n | n \in \NN}$が存在する：
+ \[
+  \aleph_0 < |\mathcal{X}_n| < |\mathcal{X}_{n+1}|, |\mathcal{X}_n \times \mathcal{X}_m| = |\mathcal{X}_{n m}|.
+ \]
+ 特に，これらは外延的埋め込みを証拠として取れ，$\ZF$モデルとしても同様の事が成り立つ：
+ \[
+  V^{\mathcal{R}}_{\ZF} \models \exists \Set{ \mathcal{X}_n \subseteq \R | n < \omega} \: \forall n, m < \omega \: \left[ \left|\mathcal{X}_{n}\right| < \left|\mathcal{X}_{n+1}\right|, \left|\mathcal{X}_{n} \times \mathcal{X}_m\right| = \left|\mathcal{X}_n\right| \cdot \left|\mathcal{X}_m\right| \right].
+ \]
+\end{corollary}
+
+続いて基数の無限下降列$\Set{\mathcal{Y}_n | n < \omega}$が取れることを見る．
+これには，各$\gimel n$の環構造に注目し，$\gimel 2$の元が誘導するイデアルを考えることになる：
+\begin{definition}
+ 任意の$a \in \gimel 2$, $n \in \NN$に対し，$\gimel n$上のイデアル$a\gimel n$を次で定める：
+ \[
+  x \strin a \gimel n \defs x \mathbin{\hat{\cdot}} a = x.
+ \]
+ 特に$n = 2$の場合，これは$a$による切断$\downarrow a = \Set{x \strin \gimel 2| x \leq a}$と一致する．
+
+ また，等式に関する初等性より$\gimel 2$の各元は$\gimel n$の中で冪等元になっているので，各$a \strin \gimel 2$に対し$x \mapsto a x$により自然に全射$\gimel n \twoheadrightarrow a \gimel n$が引き起こされる．
+\end{definition}
+
+これまでの結果を使って$V^{\mathcal{R}}$の中で計算すれば，次は直ちにわかる：
+
+\begin{lemma}\label{lem:ideal-factors}
+ $V^{\mathcal{R}}$で次が成り立つ：
+ \begin{enumerate}
+  \item 任意の$n \strin \hat{\N}$と$a \strin \gimel2$に対し，写像$x \mapsto (ax, (1-a)x)$は$\gimel n$から$a\gimel n \times (1 - a) \gimel n$への全単射を与える，
+  \item 任意の$m, n \strin \hat{\N}$と$a \strin \gimel 2$に対して，$(x, y) \mapsto my+x$は全単射$a \gimel m \times a \gimel n \to a \gimel (mn)$を与える．
+ \end{enumerate}
+\end{lemma}
+
+これまでで一番強い仮定を置くと，次の結果が得られる：
+\begin{lemma}\label{lem:2m<n=>m-/>>an}
+ 任意の$\alpha \Lambda$および$\pi \in \Pi$に対し，$\conti_\pi \alpha \zeta \nVdash \perp$となる$\zeta \in \Lambda$が高々二つしかないとする．
+
+ この時$V^{\mathcal{R}}$で次が成立：
+ \[
+  \forall a \strin \gimel 2 \: \forall n, m \strin \hat{\N}\:
+ [a > 0, \truth{2m < n} \hookrightarrow \nexists f: \gimel m \twoheadrightarrow a \gimel n].
+ \]
+ より詳しく，
+ \[
+  \theta \defeq \abs{axy}{\cc(\abs{\conti}{y (\abs{z}{xzz(\conti a z)})})}.
+ \]
+ とおけば，$\theta $任意の$\ZFe$-論理式$\varphi[x, y, z]$に対して
+ \[
+  \theta \Vdash \forall z \: \forall m, n \strin \hat{\N}\: \forall a \strin \gimel2\:
+ \left[
+ \begin{aligned}
+  &&&\truth{2m < n} = 1 \hookrightarrow a \neq 0\\
+  &\to&&
+  \quoted{\varphi[x,y,z] \text{ defines a strong function}}\\
+  &\to &&\quoted{ \varphi[x,y,z] \text{ is not surjective}}
+ \end{aligned}
+\right].
+ \]
+\end{lemma}
+\begin{proof}
+ これも背理法で頑張るだけ．
+ $n < 2m$の仮定は，$\nVdash \perp$となるようなものを三つ見付けて上の仮定を使うため． \qed
+\end{proof}
+
+\begin{corollary}\label{cor:no-surjections-on-ideals}
+ 上と同じ仮定の下で次が成立：
+ \begin{enumerate}
+  \item \label{item:n-/>>an+1} $\forall n \strin \hat{\N}\: \forall a \strin \gimel 2\: (a > 0 \to \nexists h: \gimel n \twoheadrightarrow a \gimel (n+1))$,
+  \item $\forall n \strin \hat{\N}\: \forall a, b \strin \gimel 2\: (a \cdot b = 0, b > 0 \to \nexists h: a \gimel n \twoheadrightarrow b\gimel 2)$,
+  \item $\forall n \strin \hat{\N}\: \forall a, b \strin \gimel 2\: (a < b \to \nexists h: a \gimel n \twoheadrightarrow b\gimel 2)$.
+ \end{enumerate}
+\end{corollary}
+\begin{proof}
+ \begin{enumerate}
+  \item $h: \gimel n \twoheadrightarrow a \gimel (n+1)$となるものが取れたとすると，帰納法により$h$は$(\gimel n)^k$から$(a(\gimel (n+1)))^{k}$への全射に拡張できる．
+        また，同じく帰納法により\cref{lem:ideal-factors}を繰り返し使えば$(a(\gimel(n+1)))^k$と$a(\gimel((n+1)^k))$の間に全単射が取れる．
+        これらを纏めれば，$\gimel (n^k)$から$a \gimel ((n+1)^k)$への全単射が得られるが，$k > n$なら$(n+1)^k > 2n^k$とるので上の\cref{lem:2m<n=>m-/>>an}に反する．
+  \item そんな全単射が取れたとする．
+        $a \cdot b = 0$なら$(a + b)\gimel n \simeq a \gimel n \times b \times n$となることに注意すれば，
+        \[
+         \gimel n \sqsupseteq (a+b) \gimel n \simeq a \gimel n \times b \gimel n \twoheadrightarrow b \gimel 2 \times b \gimel n \simeq b \gimel (2n)
+        \]
+        となり，上の\ref{item:n-/>>an+1}に反する．
+  \item $a \gimel n \twoheadrightarrow b \gimel n \sqsupseteq (b \cdot (- a)\gimel n)$. \qed
+ \end{enumerate}
+\end{proof}
+
+よって次が得られた：
+
+\begin{corollary}
+ \cref{lem:2m<n=>m-/>>an}の仮定の下で，次が成立：
+ \[
+  V^{\mathcal{R}}_{\ZF} \models \exists \Set{Y_n \subseteq \R | n < \omega} \: \forall n < \omega \: \left|\mathcal{Y}_{n+1}\right| < \left|\mathcal{Y}_{n}\right|.
+ \]
+\end{corollary}
 
 \subsection{スレッドモデルにおける議論}
-よって，スレッドモデル$V^{\mathcal{T}}$において目標の補題を示すには，不思議な$\omega$たちの存在を証明出来ればよい．
+あとはスレッドモデル$V^{\mathcal{T}}$において目標の補題を示すには，不思議な$\omega$たちの存在を証明出来ればよい．
 
 まず，$\mathcal{T}$の構成から次が成り立つことに注意する：
 \begin{lemma}\label{lem:uniq-thread}
@@ -326,7 +409,7 @@ $\gimel n$は，期待通り自然数の構造を反映した性質を持って�
 \begin{proof}
  $\rhd$の表示が関数的なので，簡約列は一意に定まるからあたりまえ． \qed
 \end{proof}
-これを踏まえると，少なくとも$V^{\mathcal{T}}$が$\gimel 2$が非自明で$\mathcal{X}_n$達が存在するようなモデルになっていることがわかる：
+これを踏まえると，$V^{\mathcal{T}}$が$\gimel 2$が非自明で$\mathcal{X}_n$達が存在するようなモデルになっていることがわかる：
 \begin{lemma}
  スレッド代数$\mathcal{T}$は\cref{lem:gimel2-nontriv}および\cref{lem:gimel-n-incr}の前提を満たす$\omega, \omega_0, \omega_1 \in \PT$を持つ．
 \end{lemma}
@@ -354,10 +437,41 @@ $\gimel n$は，期待通り自然数の構造を反映した性質を持って�
 
  $\omega_0, \omega_1$が所定の性質を満たすことも同様に示せる． \qed
 \end{proof}
-\end{document}
+あとは\cref{lem:gimel2-atomless}および\cref{lem:2m<n=>m-/>>an}の前提を$\mathcal{T}$が満たすことさえ示せればよい．
+特に，\cref{lem:gimel2-atomless}の仮定は明らかに\cref{lem:2m<n=>m-/>>an}より弱いので，次で十分である：
+\begin{lemma}
+ $\mathcal{T}$は\cref{lem:2m<n=>m-/>>an}の前提を満たす．即ち：
+ \[
+  \forall \alpha, \zeta_0, \zeta_1, \zeta_2 \in \Lambda\:
+  \forall \pi \in \Pi\:
+ \left[ \bigwedge_{i < 3} \left(\conti_\pi \alpha \zeta_i \nVdash \bot\right) \to \zeta_2 = \zeta_1 \vee \zeta_2 = \zeta_0 \right].
+ \]
+\end{lemma}
+\begin{proof}
+ 任意の$\alpha, \pi$に対し，$\conti_\pi \alpha \zeta \nVdash \bot$となる$\zeta$は高々二つしかない事を示す．
+ 適当に$\zeta \in \Lambda$を取り，$\conti_\pi \alpha \zeta \nVdash \bot$とする．
+ この時，定義より$\theta_n \cons \pi_n \reds \conti_\pi \alpha \zeta \cons \rho$となるような$\rho \in \Pi$と$n < \omega$が取れる．
+ そこで，$n$-番目のスレッドに$\conti_\pi \alpha \zeta' \cons \rho'$の形で現れるプロセスの最初二つの$(\zeta', \rho')$を順に$(\zeta_0, \rho_0), (\zeta_1, \rho_1)$とおく．
+ このとき，
+\begin{align*}
+ \theta_n \cons \pi_n
+ &\mathrel{\underbrace{\ \reds \cdots \reds\ }_{\substack{\text{no process}\\\text{of form}\\\conti_\pi \alpha \zeta' \cons \rho'}}}
+ \conti_\pi \alpha \zeta_0 \cons \rho_0
+ \reds
+ \KVM{{{\conti_\pi}} \alpha {{\zeta_0}} {{\rho_0}}}
+ \reds
+ \alpha \cons \pi\\[-.25em]
+ &\mathrel{\overbrace{\ \reds \cdots \reds\ }}
+ \conti_\pi \alpha \zeta_1 \cons \rho_1
+ \reds \KVM{{{\conti_\pi}} \alpha {{\zeta_1}} {{\rho_1}}}
+ \reds
+ \alpha \cons \pi.
+\end{align*}
+ この計算から，$\conti_\pi \alpha \zeta_1$が頭部に出現して以降は，$\conti_\pi \alpha \zeta'$の形の項は$\zeta_1$しか現れない事がわかる．
+ よって，$\zeta$は$\zeta_0$か$\zeta_1$の少なくともいずれか一方と等しくなくてはならない． \qed
+\end{proof}
 
-\subsection{次回予告}
-$\gimel 2$がアトムを持たない場合の条件も満たされていることも示し，この場合$\gimel 2$の無限下降列が実数の集合の基数の無限下降列を産むことを見る．
+\end{document}
 
 % Local Variables:
 % mode: yatex
