@@ -2,7 +2,7 @@
 
 \documentclass[realisability.tex]{subfiles}
 \begin{document}
-\section{$V^{\mathcal{R}}$における自然数と従属選択公理}
+\section{外延的埋め込み，$V^{\mathcal{R}}$における自然数と従属選択公理}
 本節では，$V^{\mathcal{R}}$における自然数の性質と，従属選択公理が成り立つ十分条件について基本的な考察を行う．
 
 \subsection{外延性と関数・関係に関する注意}
@@ -221,8 +221,8 @@
  この時$\underline{n} \cons \xi \push \pi \reds \xi^n \eta \cons \pi$となる．
 \end{definition}
 \begin{remark}
- $\|\hat{a} \strnin s(\hat{b})\| = \|\hat{b} \neq \hat{a}\|$かつ$\|a \strin s(b)\| = \|a = b\|$.
- とくに$\|\hat{x} \strnin s(\hat{x})\| = \Pi$であり，等号公理から$V^{\mathcal{R}} \models \forall a, x, y \strin \hat{V} \: [x \strin s(a) \to y \strin s(a) \to x = y]$.
+ $\|\dot{a} \strnin s(\dot{b})\| = \|\dot{b} \neq \dot{a}\|$かつ$\|\dot{a} \strin s(\dot{b})\| = \|\dot{a} = \dot{b}\|$.
+ とくに$\|\dot{x} \strnin s(\dot{x})\| = \Pi$であり，等号公理から$V^{\mathcal{R}} \models \forall x, y \: [x \strin s(y) \to x = y]$.
 \end{remark}
 
 この集合が$V^{\mathcal{R}}$で見ると$\in$の意味でも$\strin$の意味でも自然数全体となっていることを以下では見ていく．
@@ -237,7 +237,6 @@
   \item \label{item:s-compat-ext}$V^{\mathcal{R}} \models \forall x\: \forall y \: [x \simeq y \leftrightarrow s(x) \simeq s(y)]$,
   \item \label{item:N-weak-close-s} $\abs{g x}{g(\sigma x)} \Vdash \forall y \: (s(y) \strnin \NN \to y \strnin \NN) $,
   \item \label{item:N-strong-close-s}$V^{\mathcal{R}} \models \forall x \: (s(x) \notin \NN \to x \notin \NN)$.
-  \item \label{item:nat-ext-to-int}$V^{\mathcal{R}} \models \forall n, m \strin \NN\:[n \simeq m \to n = m]$.
  \end{enumerate}
 \end{lemma}
 \begin{proof}
@@ -316,6 +315,10 @@ $\NN$に関する量化子の虚偽値の計算を簡単にするため，次の
 \begin{proof}
  上の\cref{thm:ZFe-ind-nat}および，$\ZF$-論理式が$\simeq$と両立するという\cref{lem:ZF-conservative-lem}の\ref{item:ZF-fml-cong}より直ちに従う. \qed
 \end{proof}
+\begin{corollary}\label{cor:nat-ext-to-int}
+ $V^{\mathcal{R}} \models \forall n, m \strin \NN\:[n \simeq m \to n = m]$.
+\end{corollary}
+
 あとは上の\cref{thm:ZFe-ind-nat}を示せばよい．
 それには次の補題を使う：
 \begin{lemma}\label{lem:ZFe-ind-nat-aux}
